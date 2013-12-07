@@ -1,0 +1,12 @@
+.panel
+  Your location:
+  .current-location
+    Seattle, WA
+    %span.latlng (47.603569, -122.329453)
+    = link_to 'Change', '#', class: 'change-location', 'data-reveal-id' => 'change-location-modal'
+
+#change-location-modal.reveal-modal{'data-reveal' => true}
+  %h2 Change Location
+  %p.lead Here are the cities we&rsquo;ve got data on.
+  .panel Here we will show a list of locations with data, plus a way to go type in a specific location.
+  %a.close-reveal-modal &#215;

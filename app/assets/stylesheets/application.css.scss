@@ -1,0 +1,30 @@
+/*
+ *= require_self
+ *= require mapbox
+ *= require_tree .
+ */
+
+@import "foundation_and_overrides";
+
+body, html, .fill-height {
+  height: 100%;
+}
+
+#sidebar {
+  @extend .large-4;
+  @extend .columns;
+  @extend .fill-height;
+
+  .current-location {
+  }
+}
+
+#map {
+  @extend .large-8;
+  @extend .columns;
+  @extend .fill-height;
+}
+
+#state-nav {
+  @extend .inline-list;
+}
