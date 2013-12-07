@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '~> 4.0.2'
 gem 'pg'
 gem 'puma'
+gem 'active_model_serializers'
 
 # front-end gems
 gem 'haml'
