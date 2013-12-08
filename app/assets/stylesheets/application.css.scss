@@ -16,13 +16,9 @@ body, html, .fill-height {
   @extend .columns;
   @extend .fill-height;
 
-  .current-location {
-  }
-
   .add-location {
     @extend .button;
     @extend .radius;
-    @extend .success;
 
     width: 100%;
 
@@ -37,6 +33,11 @@ body, html, .fill-height {
       line-height: 30px;
     }
   }
+
+  #business-listing {
+    @extend .large-12;
+    @extend .columns;
+  }
 }
 
 #map {
@@ -45,20 +46,22 @@ body, html, .fill-height {
   @extend .fill-height;
 }
 
-#state-nav {
-  @extend .inline-list;
-}
 .login-required {
   @extend .alert-box;
   @extend .info;
 
   font-size: 1.2em;
 }
+
 .sign-in-form {
   @extend .large-4;
   @extend .columns;
 
   padding: 0;
+
+  .forgot-password {
+    margin-left: 20px;
+  }
 }
 
 .sign-in-or {

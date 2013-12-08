@@ -1,9 +1,18 @@
-= render 'current_location_control'
+%h3
+  Seattle Businesses
+  %small
+    %a.change-location{ 'data-reveal-id' => 'change-location-modal' } change location
 
-%h3 Seattle Businesses
+#change-location-modal.reveal-modal{'data-reveal' => true}
+  %h2 Change Location
+  %p.lead Here are the cities we&rsquo;ve got data on.
+  .panel Here we will show a list of locations with data, plus a way to go type in a specific location.
+  %a.close-reveal-modal &#215;
 
-%ul#business-listing
-  %li Loading...
-
-.panel Eventually add tags to businesses for filtering (restaurant, bar, etc)
+%table#business-listing
+  %tbody
+    %tr
+      %td
+        .spinner
+        Loading...
 

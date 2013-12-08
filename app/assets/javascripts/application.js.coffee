@@ -8,7 +8,7 @@ $ ->
   $(document).foundation()
 
   map = new Map('map')
-  business_store = new BusinessStore($('#business-listing'), map)
+  business_store = new BusinessStore($('#business-listing tbody'), map)
 
   $.get '/api/businesses', (data) ->
     business_store.clear_all()
@@ -29,7 +29,7 @@ class BusinessStore
     # TODO: clean this up, use a framework with data binding (ember most likely, since we're already going jquery)
     @businesses.push(business)
 
-    $link = $("<li><a data-business-id='#{business.id}'>#{business.name}</a></li>")
+    $link = $("<tr><td><a data-business-id='#{business.id}'>#{business.name}</a></td></tr>")
     # this is getting gross
     map = @map
     $link.find('a').on 'click', ->

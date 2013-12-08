@@ -11,12 +11,15 @@
     #sidebar
       %h1 Without Glass
       %p.lead Cataloguing businesses that value your privacy.
-      = yield
 
       = link_to '#', class: 'add-location', 'data-reveal-id' => 'add-location-modal' do
         %i.fi-share
         %span Share Your Local Glass-Free Businesses
 
+      = yield
+
     = render 'map/login_or_sign_up'
+
     #map
+
     = javascript_include_tag 'application'
