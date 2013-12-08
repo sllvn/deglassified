@@ -10,10 +10,10 @@ $ ->
   map = new Map('map')
   $.get '/api/businesses', (data) ->
     $.each data.businesses, (index, business) ->
-      add_map_to_list(business)
+      add_business_to_list(business)
 
   # TODO: figure out where to put this
-  add_map_to_list = (business) ->
+  add_business_to_list = (business) ->
     console.log "adding business #{business.name}"
     map.add_business business
 
@@ -21,7 +21,6 @@ $ ->
 class Map
   constructor: (map) ->
     @map = L.mapbox.map(map, 'licyeus.gg3718oi').setView([47.603569, -122.329453], 12)
-    
     
   add_business: (business) ->
     @markerLayer = L.mapbox.markerLayer({

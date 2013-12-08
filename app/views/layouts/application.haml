@@ -10,16 +10,13 @@
   %body
     #sidebar
       %h1 Without Glass
-      %p.lead Cataloguing the businesses that value your privacy.
+      %p.lead Cataloguing businesses that value your privacy.
       = yield
-      .panel
-        %p Know something we don&rsquo;t?
-        %p
-          %a(href='#') 
-          = link_to 'Share your local Glass-free businesses.', '#', class: 'add-location', 'data-reveal-id' => 'add-location-modal'
-          #add-location-modal.reveal-modal{'data-reveal' => true}
-            %h2 Add Location
-            .panel Let users login with site-specific login or OAuth (for maximum irony, use Google as OAuth provider).
-            %a.close-reveal-modal &#215;
+
+      = link_to '#', class: 'add-location', 'data-reveal-id' => 'add-location-modal' do
+        %i.fi-share
+        %span Share Your Local Glass-Free Businesses
+
+    = render 'map/login_or_sign_up'
     #map
     = javascript_include_tag 'application'

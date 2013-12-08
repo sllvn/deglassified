@@ -18,6 +18,25 @@ body, html, .fill-height {
 
   .current-location {
   }
+
+  .add-location {
+    @extend .button;
+    @extend .radius;
+    @extend .success;
+
+    width: 100%;
+
+    i {
+      font-size: 30px;
+      line-height: 30px;
+      float: left;
+    }
+
+    span {
+      display: block;
+      line-height: 30px;
+    }
+  }
 }
 
 #map {
@@ -28,4 +47,30 @@ body, html, .fill-height {
 
 #state-nav {
   @extend .inline-list;
+}
+.login-required {
+  @extend .alert-box;
+  @extend .info;
+
+  font-size: 1.2em;
+}
+.sign-in-form {
+  @extend .large-4;
+  @extend .columns;
+
+  padding: 0;
+}
+
+.sign-in-or {
+  @extend .large-1;
+  @extend .columns;
+
+  padding-top: 2em;
+}
+
+.create-account-form {
+  @extend .large-7;
+  @extend .columns;
+
+  padding: 0;
 }

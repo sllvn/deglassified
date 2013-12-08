@@ -1,0 +1,27 @@
+#add-location-modal.reveal-modal{'data-reveal' => true}
+  %p.login-required To add your local Glass-free businesses (and to reduce spam), you&rsquo;ll need to sign in first.
+  .sign-in-form
+    %form
+      %fieldset
+        %legend Sign In
+        %label(for='email') Email
+        %input(type='text' id='email' name='email' placeholder='you@example.com')
+        %label(for='password') Password
+        %input(type='password' id='password' name='password')
+        %button.button.medium(type='submit') Sign In
+  .sign-in-or
+    %h4.text-center or
+  .create-account-form
+    %form
+      %fieldset
+        %legend Don't Have An Account? Create One!
+        %p We&rsquo;ll never share your information and we promise not to send you spam.
+        %label(for='email') Email
+        %input(type='text' id='email' name='email' placeholder='you@example.com')
+        %label(for='password') Password
+        %input(type='password' id='password' name='password')
+        %label(for='verify_password') Verify Password
+        %input(type='password' id='verify_password' name='verify_password')
+        %button.button.medium.success(type='submit') Create Your Account
+  %a.close-reveal-modal &#215;
+
