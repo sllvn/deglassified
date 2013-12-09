@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-WithoutGlass::Application.load_tasks
+Deglassified::Application.load_tasks

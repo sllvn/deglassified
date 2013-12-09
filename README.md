@@ -1,4 +1,4 @@
-# Without Glass
+# Deglassified
 
-## Cataloguing businesses with policies against Google Glass.
+Cataloguing businesses with policies against Google Glass.
 

@@ -1,4 +1,4 @@
-WithoutGlass::Application.routes.draw do
+Deglassified::Application.routes.draw do
   scope :api do
     resources :businesses, only: [:index, :show]
 
