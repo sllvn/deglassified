@@ -77,4 +77,7 @@ WithoutGlass::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # fix for font assets in production
+  config.assets.precompile << /\.(?:svg|eot|woff|ttf)\Z/
 end
