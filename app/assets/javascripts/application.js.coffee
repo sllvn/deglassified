@@ -53,6 +53,7 @@ class LocationStore
     for location in @locations
       current_location = location if Number(location.id) == Number(location_id)
     @map.pan_to(current_location.coordinates) if current_location.coordinates
+    $('#current-city').html(current_location.city)
     $.get '/api/businesses', { location_id: location_id }, (data) =>
       @business_store.clear_all()
       $.each data.businesses, (index, business) =>
