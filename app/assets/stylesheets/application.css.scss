@@ -77,3 +77,29 @@ body, html, .fill-height {
 
   padding: 0;
 }
+
+.contact {
+  padding-top: 3em;
+  display: block;
+  text-align: center;
+
+  a {
+    color: #222;
+
+    i {
+      font-size: 2em;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      color: #008cba;
+    }
+  }
+}
+
+.legal {
+  margin-top: 1em;
+  text-align: center;
+  font-size: 0.8em;
+  color: #999;
+}
