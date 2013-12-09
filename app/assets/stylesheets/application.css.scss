@@ -103,3 +103,7 @@ body, html, .fill-height {
   font-size: 0.8em;
   color: #999;
 }
+
+#location-listing {
+  @extend .inline-list;
+}

@@ -9,16 +9,58 @@ $ ->
 
   map = new Map('map')
   business_store = new BusinessStore($('#business-listing tbody'), map)
+  location_store = new LocationStore($('#location-listing'), business_store, map)
 
-  $.get '/api/businesses', (data) ->
-    business_store.clear_all()
-    $.each data.businesses, (index, business) ->
-      business_store.add_business(business)
+  location_store.load_location(1)
+
+  $(document).on 'open', '[data-reveal]', ->
+    if $(this).attr('id') == 'change-location-modal' and location_store.locations.length == 0
+      location_store.load_locations()
+
+class LocationStore
+  constructor: (@listing, @business_store, @map) ->
+    @locations = []
+
+  clear_locations: ->
+    @locations = []
+    @listing.empty()
+
+  load_locations: ->
+    $.get '/api/locations', (data) =>
+      @clear_locations()
+      $.each data.locations, (index, location) =>
+        @add_location(location)
+
+  add_location: (location) ->
+    @locations.push(location)
+    $location = $("<li><a data-location-id='#{location.id}'>#{location.city}, #{location.state}</a></li>")
+    $location.find('a').on 'click', =>
+      $link = $location.find('a')
+
+      location_id = $link.attr('data-location-id')
+        
+      @business_store.clear_all()
+      @load_location(location_id)
+      # TODO: close modal
+      $location.closest('.open').find('.close-reveal-modal').click()
+
+    @listing.append($location)
+
+  load_location: (location_id) ->
+    # TODO: get city name
+    #$.get '/api/locations', { location_id: location_id }
+    current_location = {}
+    for location in @locations
+      current_location = location if Number(location.id) == Number(location_id)
+    @map.pan_to(current_location.coordinates) if current_location.coordinates
+    $.get '/api/businesses', { location_id: location_id }, (data) =>
+      @business_store.clear_all()
+      $.each data.businesses, (index, business) =>
+        @business_store.add_business(business)
 
 class BusinessStore
   # TODO: fix all this
   constructor: (@listing, @map) ->
-    @clear_all()
 
   clear_all: ->
     @businesses = []
@@ -42,12 +84,21 @@ class BusinessStore
 class Map
   constructor: (map) ->
     @map = L.mapbox.map(map, 'licyeus.gg3718oi').setView([47.603569, -122.329453], 12)
+    @geoJSON = {
+      type: 'FeatureCollection',
+      features: []
+    }
+    @markerLayer = L.mapbox.markerLayer()
 
   clear_markers: ->
-    # TODO: remove markers from map
+    @markerLayer.clearLayers()
+    @geoJSON.features = []
     
+  pan_to: (coordinates) ->
+    @map.panTo([coordinates.lat, coordinates.lng])
+
   add_business: (business) ->
-    @markerLayer = L.mapbox.markerLayer({
+    @geoJSON.features.push({
       type: 'Feature'
       geometry: {
         type: 'Point'
@@ -56,7 +107,9 @@ class Map
       properties: {
         business: business
       }
-    }).addTo(@map)
+    })
+    @markerLayer.setGeoJSON(@geoJSON)
+    @markerLayer.addTo(@map)
 
     @markerLayer.eachLayer (layer) ->
       business = layer.feature.properties.business
@@ -76,5 +129,7 @@ class Map
       layer.bindPopup(content)
 
   open_popup_for_id: (business_id) ->
-    @markerLayer.eachLayer (marker) ->
-      marker.openPopup() if Number(marker.feature.properties.business.id) == Number(business_id)
+    @markerLayer.eachLayer (marker) =>
+      if Number(marker.feature.properties.business.id) == Number(business_id)
+        marker.openPopup()
+        @pan_to(marker.getLatLng())

@@ -6,7 +6,10 @@
 #change-location-modal.reveal-modal{'data-reveal' => true}
   %h2 Change Location
   %p.lead Here are the cities we&rsquo;ve got data on.
-  .panel Here we will show a list of locations with data, plus a way to go type in a specific location.
+  %ul#location-listing
+    %li
+      .spinner
+      Loading...
   %a.close-reveal-modal &#215;
 
 %table#business-listing
