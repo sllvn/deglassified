@@ -2,85 +2,14 @@
 #= require jquery_ujs
 #= require foundation
 #= require mapbox.js
+#= require angular
+#= require underscore
+#= require restangular.min
 #= require_tree .
 
 $ ->
   $(document).foundation()
-
-  map = new Map('map')
-  business_store = new BusinessStore($('#business-listing tbody'), map)
-  location_store = new LocationStore($('#location-listing'), business_store, map)
-
-  location_store.load_location(1)
-
-  $(document).on 'open', '[data-reveal]', ->
-    if $(this).attr('id') == 'change-location-modal' and location_store.locations.length == 0
-      location_store.load_locations()
-
-class LocationStore
-  constructor: (@listing, @business_store, @map) ->
-    @locations = []
-
-  clear_locations: ->
-    @locations = []
-    @listing.empty()
-
-  load_locations: ->
-    $.get '/api/locations', (data) =>
-      @clear_locations()
-      $.each data.locations, (index, location) =>
-        @add_location(location)
-
-  add_location: (location) ->
-    @locations.push(location)
-    $location = $("<li><a data-location-id='#{location.id}'>#{location.city}, #{location.state}</a></li>")
-    $location.find('a').on 'click', =>
-      $link = $location.find('a')
-
-      location_id = $link.attr('data-location-id')
-        
-      @business_store.clear_all()
-      @load_location(location_id)
-      # TODO: close modal
-      $location.closest('.open').find('.close-reveal-modal').click()
-
-    @listing.append($location)
-
-  load_location: (location_id) ->
-    # TODO: get city name
-    #$.get '/api/locations', { location_id: location_id }
-    current_location = {}
-    for location in @locations
-      current_location = location if Number(location.id) == Number(location_id)
-    @map.pan_to(current_location.coordinates) if current_location.coordinates
-    $('#current-city').html(current_location.city)
-    $.get '/api/businesses', { location_id: location_id }, (data) =>
-      @business_store.clear_all()
-      $.each data.businesses, (index, business) =>
-        @business_store.add_business(business)
-
-class BusinessStore
-  # TODO: fix all this
-  constructor: (@listing, @map) ->
-
-  clear_all: ->
-    @businesses = []
-    @listing.empty()
-    @map.clear_markers()
-
-  add_business: (business) ->
-    # TODO: clean this up, use a framework with data binding (ember most likely, since we're already going jquery)
-    @businesses.push(business)
-
-    $link = $("<tr><td><a data-business-id='#{business.id}'>#{business.name}</a></td></tr>")
-    # this is getting gross
-    map = @map
-    $link.find('a').on 'click', ->
-      business_id = $(this).attr('data-business-id')
-      map.open_popup_for_id(business_id)
-    @listing.append($link)
-
-    @map.add_business(business)
+  window.map = new Map('map')
 
 class Map
   constructor: (map) ->
@@ -134,3 +63,39 @@ class Map
       if Number(marker.feature.properties.business.id) == Number(business_id)
         marker.openPopup()
         @pan_to(marker.getLatLng())
+
+# begin angular
+
+deglassified = angular.module 'deglassified', ['restangular']
+deglassified.config (RestangularProvider) -> RestangularProvider.setBaseUrl('/api')
+
+class DeglassifiedCtrl
+  constructor: (@$scope, @Restangular) ->
+    # TODO: move map out of global and into service
+    # TODO: move resources into services
+    @Restangular.all('locations').getList().then (data) =>
+      @$scope.locations = data.locations
+      @$scope.current_location = @$scope.locations[0]
+      @$scope.current_city = @$scope.current_location.city
+      @load_businesses(@$scope.locations[0])
+
+  load_businesses: (location) ->
+    @Restangular.one('locations', location.id).all('businesses').getList().then (data) =>
+      @$scope.businesses = data.businesses
+      angular.forEach @$scope.businesses, (business) ->
+        window.map.add_business(business)
+
+  load_location: (location) ->
+    window.map.pan_to(location.coordinates) if location.coordinates
+    window.map.clear_markers()
+    $('.open').find('.close-reveal-modal').click()
+    @$scope.current_location = location
+    @load_businesses(location)
+
+  show_business: (business) ->
+    window.map.open_popup_for_id(business.id)
+
+deglassified.controller 'DeglassifiedCtrl', ['$scope', 'Restangular', DeglassifiedCtrl]
+
+root = exports ? this
+root.deglassified = deglassified

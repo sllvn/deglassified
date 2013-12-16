@@ -1,5 +1,5 @@
 %h3
-  %span#current-city Seattle
+  %span#current-city {{current_city}}
   Businesses
   %small
     %a.change-location{ 'data-reveal-id' => 'change-location-modal' } change location
@@ -7,16 +7,14 @@
 #change-location-modal.reveal-modal{'data-reveal' => true}
   %h2 Change Location
   %p.lead Here are the cities we&rsquo;ve got data on.
-  %ul#location-listing
+  %ul{'ng-repeat' => 'location in locations'}
     %li
-      .spinner
-      Loading...
+      %a{'ng-click' => 'deglassified.load_location(location)'} {{location.city}}, {{location.state}}
   %a.close-reveal-modal &#215;
 
 %table#business-listing
   %tbody
-    %tr
+    %tr{'ng-repeat' => 'business in businesses'}
       %td
-        .spinner
-        Loading...
+        %a{'ng-click' => 'deglassified.show_business(business)'} {{business.name}}
 
