@@ -1,6 +1,7 @@
-angular.module('encode-url-service', [])
+angular.module('service.encode-url', [])
 
 .service('encodeUrlService', function() {
+    console.log('loaded');
     return function encodeUrl(string) {
         var urlSlug = string.toLowerCase();
 

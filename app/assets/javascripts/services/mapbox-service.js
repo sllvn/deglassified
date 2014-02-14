@@ -1,6 +1,6 @@
 //= require mapbox.js
 
-angular.module('mapbox-service', ['encode-url-service'])
+angular.module('service.mapbox', ['service.encode-url'])
 
 .service('mapboxService', function($rootScope) {
     var mapName = 'map',
@@ -39,7 +39,7 @@ angular.module('mapbox-service', ['encode-url-service'])
         markerLayer.eachLayer(function(layer) {
             business = layer.feature.properties.business;
             // Need to find the correct path for the compiled .html file
-            var content = "<div ng-include='/business-popup.html'></div>";
+            var content = "<div ng-include='/partials/test.html'></div>";
             layer.bindPopup(content);
         });
     }

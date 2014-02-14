@@ -1,5 +1,5 @@
 class LocationSerializer < ActiveModel::Serializer
-  attributes :id, :city, :state, :coordinates
+  attributes :id, :city, :state, :coordinates, :url_slug
 
   def coordinates
     {

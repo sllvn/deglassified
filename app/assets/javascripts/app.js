@@ -9,11 +9,13 @@
 
 angular.module('deglassified', [
     // Libs
-    'ui.router',
     'restangular',
     // Services
-    'mapbox-service'
+    'service.mapbox',
     // States
+    'state.home',
+    // Location has a wildcard route, so it must be loaded after all states with an explicit route
+    'state.location'
 ])
 
 .config(function($locationProvider, RestangularProvider) {
@@ -21,10 +23,7 @@ angular.module('deglassified', [
     RestangularProvider.setBaseUrl('/api');
 })
 
-.run(function($rootScope, Restangular, mapboxService) {
-    // Default page title
-    $rootScope.pageTitle = 'Home';
-
+.run(function($rootScope, $state, Restangular, mapboxService) {
     Restangular.all('locations')
         .getList()
         .then(function(data) {
@@ -47,14 +46,16 @@ angular.module('deglassified', [
     }
 
     $rootScope.loadLocation = function(location) {
-        $rootScope.pageTitle = location.city;
-        if (location.coordinates) {
-            mapboxService.panTo(location.coordinates);
-        }
-        mapboxService.clearMarkers();
-        $('.open').find('.close-reveal-model').click();
-        $rootScope.current_location = location;
-        loadBusinesses(location);
+        console.log(location);
+        // Oh god, make this less confusing
+        $state.go('location', { location: location.url_slug });
+//        if (location.coordinates) {
+//            mapboxService.panTo(location.coordinates);
+//        }
+//        mapboxService.clearMarkers();
+//        $('.open').find('.close-reveal-model').click();
+//        $rootScope.current_location = location;
+//        loadBusinesses(location);
     };
 
     $rootScope.showBusiness = function(business) {
