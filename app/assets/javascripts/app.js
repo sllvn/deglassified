@@ -30,20 +30,8 @@ angular.module('deglassified', [
             $rootScope.locations = data.locations;
             $rootScope.currentLocation = $rootScope.locations[0];
             $rootScope.currentCity = $rootScope.currentLocation.city;
-            loadBusinesses($rootScope.locations[0]);
+            mapboxService.loadBusinesses($rootScope.locations[0]);
     });
-
-    function loadBusinesses(location) {
-        Restangular.one('locations', location.id)
-            .all('businesses')
-            .getList()
-            .then(function(data) {
-                $rootScope.businesses = data.businesses;
-                angular.forEach($rootScope.businesses, function(business) {
-                    mapboxService.addBusiness(business);
-                });
-            })
-    }
 
     $rootScope.loadLocation = function(location) {
         $state.go('location', { location: location.url_slug });

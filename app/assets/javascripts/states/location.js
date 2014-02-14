@@ -8,7 +8,6 @@ angular.module('state.location', ['service.mapbox', 'restangular'])
 })
 
 .controller('locationCtrl', function($rootScope, $stateParams, mapboxService, Restangular) {
-    var locationIndex;
 
     // Setting a delay so that the Restangular call in the main app module can finish binding all locations to
     // $rootScope.  Could make a way to invoke this from main app module, but may complicate things
@@ -20,7 +19,7 @@ angular.module('state.location', ['service.mapbox', 'restangular'])
             locationIndex = $rootScope.locations.filter(function(location) {
                 return location.url_slug === $stateParams.location;
             });
-            locationIndex[0] && loadLocation(locationIndex[0]);
+            locationIndex[0] && mapboxService.loadLocation(locationIndex[0]);
         }
     }, 100);
 
@@ -31,30 +30,6 @@ angular.module('state.location', ['service.mapbox', 'restangular'])
 //        .then(function(data) {
 //            loadLocation(data.location)
 //        });
-
-    function loadLocation(location) {
-        $rootScope.pageTitle = location.city;
-        if (location.coordinates) {
-            mapboxService.panTo(location.coordinates);
-        }
-        mapboxService.clearMarkers();
-        $('.open').find('.close-reveal-modal').click();
-        $rootScope.current_location = location;
-        loadBusinesses(location);
-
-        function loadBusinesses(location) {
-            Restangular.one('locations', location.id)
-                .all('businesses')
-                .getList()
-                .then(function(data) {
-                    $rootScope.businesses = data.businesses;
-                    angular.forEach($rootScope.businesses, function(business) {
-                        mapboxService.addBusiness(business);
-                    });
-                })
-        }
-
-    }
 
 })
 

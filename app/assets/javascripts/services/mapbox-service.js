@@ -1,8 +1,8 @@
 //= require mapbox.js
 
-angular.module('service.mapbox', ['service.encode-url'])
+angular.module('service.mapbox', ['restangular'])
 
-.service('mapboxService', function($rootScope) {
+.service('mapboxService', function($rootScope, Restangular) {
     var mapName = 'map',
         map = L.mapbox.map(mapName, 'licyeus.gg3718oi').setView([47.603569, -122.329453], 12);
 
@@ -13,13 +13,27 @@ angular.module('service.mapbox', ['service.encode-url'])
 
     var markerLayer = L.mapbox.markerLayer();
 
-    function clearMarkers() {
-        markerLayer.clearLayers();
-        geoJSON.features.length = 0;
+    function loadLocation(location) {
+        $rootScope.pageTitle = location.city;
+        if (location.coordinates) {
+           panTo(location.coordinates);
+        }
+        clearMarkers();
+        $('.open').find('.close-reveal-modal').click();
+        $rootScope.current_location = location;
+        loadBusinesses(location);
     }
 
-    function panTo(coordinates) {
-        map.panTo([coordinates.lat, coordinates.lng]);
+    function loadBusinesses(location) {
+        Restangular.one('locations', location.id)
+            .all('businesses')
+            .getList()
+            .then(function(data) {
+                $rootScope.businesses = data.businesses;
+                angular.forEach($rootScope.businesses, function(business) {
+                    addBusiness(business);
+                });
+            })
     }
 
     function addBusiness(business) {
@@ -39,7 +53,20 @@ angular.module('service.mapbox', ['service.encode-url'])
         markerLayer.eachLayer(function(layer) {
             business = layer.feature.properties.business;
             // Need to find the correct path for the compiled .html file
-            var content = "<div ng-include='/partials/test.html'></div>";
+//            var content = "<div ng-include='/partials/test.html'></div>";
+            var content  = "<h4>" + business.name + "</h4>" +
+                "<p>" + business.address + "</p>";
+            if (business.links)
+                content += '<p>'
+            if (business.links.website)
+                content += "<a href='" + business.links.website + "' target='_blank'><i class='fi-link'></i> website</a><br>";
+            if (business.links.facebook)
+                content += "<a href='" + business.links.facebook + "' target='_blank'><i class='fi-social-facebook'></i> facebook</a><br>";
+            if (business.links.twitter)
+                content += "<a href='" + business.links.twitter + "' target='_blank'><i class='fi-social-twitter'></i> twitter</a><br>";
+            if (business.links.yelp)
+                content += "<a href='" + business.links.yelp + "' target='_blank'><i class='fi-social-yelp'></i> yelp</a><br>";
+            content += '</p>';
             layer.bindPopup(content);
         });
     }
@@ -53,9 +80,19 @@ angular.module('service.mapbox', ['service.encode-url'])
         })
     }
 
+    function clearMarkers() {
+        markerLayer.clearLayers();
+        geoJSON.features.length = 0;
+    }
+
+    function panTo(coordinates) {
+        map.panTo([coordinates.lat, coordinates.lng]);
+    }
+
+
     return {
-        clearMarkers: clearMarkers,
-        panTo: panTo,
+        loadLocation: loadLocation,
+        loadBusinesses: loadBusinesses,
         addBusiness: addBusiness,
         openPopupForId: openPopupForId
     };
