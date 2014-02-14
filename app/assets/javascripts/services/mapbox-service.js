@@ -1,8 +1,8 @@
 //= require mapbox.js
 
-angular.module('service.mapbox', ['restangular'])
+angular.module('service.mapbox', ['restangular', 'ui.router'])
 
-.service('mapboxService', function($rootScope, Restangular) {
+.service('mapboxService', function($rootScope, $state, Restangular) {
     var mapName = 'map',
         map = L.mapbox.map(mapName, 'licyeus.gg3718oi').setView([47.603569, -122.329453], 12);
 
@@ -48,6 +48,12 @@ angular.module('service.mapbox', ['restangular'])
         });
         markerLayer.setGeoJSON(geoJSON);
         markerLayer.addTo(map);
+
+        markerLayer.on('click', function(business) {
+            return function() {
+                $state.go('location.business', { business: business.url_slug });
+            };
+        }(business));
 
         markerLayer.eachLayer(function(layer) {
             business = layer.feature.properties.business;

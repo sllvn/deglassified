@@ -1,4 +1,9 @@
-angular.module('state.location', ['service.mapbox', 'restangular', 'state.business'])
+angular.module('state.location', [
+    'service.mapbox',
+    'restangular',
+    'ui.router',
+    'state.business'
+])
 
 .config(function($stateProvider) {
     $stateProvider.state('location', {

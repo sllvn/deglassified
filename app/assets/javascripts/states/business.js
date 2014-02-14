@@ -8,6 +8,8 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
 })
 
 .controller('businessCtrl', function($rootScope, $stateParams, mapboxService) {
+        // Sort of race condition going on here with the timers, need to find a cleaner way
+        // Maybe move the variables from rootScope to private variables inside mapboxService
     var checkForLocationsLoaded = setInterval(function() {
         if ($rootScope.businesses) {
             clearInterval(checkForLocationsLoaded);
