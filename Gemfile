@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 gem 'rails', '~> 4.0.2'
+gem 'rails-api'
 gem 'pg'
 gem 'puma'
 gem 'active_model_serializers'
@@ -21,13 +22,11 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-group :development do
-end
-
-group :test do
+group :development, :test do
   gem 'rspec-rails'
-  gem 'pry'
+  gem 'pry-rails'
   gem 'pry-rescue'
+  gem 'pry-stack_explorer'
 end
 
 group :production do
