@@ -2,16 +2,19 @@
 //= require jquery_ujs
 //= require foundation
 //= require angular
+//= require angular-ui-router.min
 //= require underscore
 //= require restangular.min
 //= require_tree .
 
 angular.module('deglassified', [
+    'ui.router',
     'restangular',
     'mapbox-service'
 ])
 
-.config(function(RestangularProvider) {
+.config(function($locationProvider, RestangularProvider) {
+    $locationProvider.html5Mode(true);
     RestangularProvider.setBaseUrl('/api');
 })
 
@@ -22,10 +25,10 @@ angular.module('deglassified', [
     Restangular.all('locations')
         .getList()
         .then(function(data) {
-            var locations = data.locations;
-            $rootScope.currentLocation = locations[0];
+            $rootScope.locations = data.locations;
+            $rootScope.currentLocation = $rootScope.locations[0];
             $rootScope.currentCity = $rootScope.currentLocation.city;
-            loadBusinesses(locations[0]);
+            loadBusinesses($rootScope.locations[0]);
     });
 
     function loadBusinesses(location) {
@@ -33,14 +36,14 @@ angular.module('deglassified', [
             .all('businesses')
             .getList()
             .then(function(data) {
-                var businesses = data.businesses;
-                angular.forEach(businesses, function(business) {
+                $rootScope.businesses = data.businesses;
+                angular.forEach($rootScope.businesses, function(business) {
                     mapboxService.addBusiness(business);
                 });
             })
     }
 
-    function loadLocation(location) {
+    $rootScope.loadLocation = function(location) {
         if (location.coordinates) {
             mapboxService.panTo(location.coordinates);
         }
@@ -48,11 +51,11 @@ angular.module('deglassified', [
         $('.open').find('.close-reveal-model').click();
         $rootScope.current_location = location;
         loadBusinesses(location);
-    }
+    };
 
-    function showBusiness(business) {
+    $rootScope.showBusiness = function(business) {
         mapboxService.openPopupForId(business.id);
-    }
+    };
 })
 
 ;

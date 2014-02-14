@@ -51,7 +51,7 @@ angular.module('mapbox-service', ['encode-url-service'])
 
     function openPopupForId(businessId) {
         markerLayer.eachLayer(function(marker) {
-            if (Number(marker.feature.properties.business.id) == Number(business_id)) {
+            if (Number(marker.feature.properties.business.id) == Number(businessId)) {
                 marker.openPopup();
                 panTo(marker.getLatLng());
             }

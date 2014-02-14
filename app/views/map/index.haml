@@ -9,12 +9,12 @@
   %p.lead Here are the cities we&rsquo;ve got data on.
   %ul{'ng-repeat' => 'location in locations'}
     %li
-      %a{'ng-click' => 'deglassified.load_location(location)'} {{location.city}}, {{location.state}}
+      %a{'ng-click' => 'loadLocation(location)'} {{location.city}}, {{location.state}}
   %a.close-reveal-modal &#215;
 
 %table#business-listing
   %tbody
     %tr{'ng-repeat' => 'business in businesses'}
       %td
-        %a{'ng-click' => 'deglassified.show_business(business)'} {{business.name}}
+        %a{'ng-click' => 'showBusiness(business)'} {{business.name}}
 
