@@ -11,15 +11,21 @@ angular.module('state.location', ['service.mapbox', 'restangular'])
     var locationIndex;
 
     // Setting a delay so that the Restangular call in the main app module can finish binding all locations to
-    // $rootScope
-    setTimeout(function() {
-        locationIndex = $rootScope.locations.filter(function(location) {
-            return location.url_slug === $stateParams.location;
-        });
-        loadLocation(locationIndex[0]);
+    // $rootScope.  Could make a way to invoke this from main app module, but may complicate things
+    var checkForLocationsLoaded = setInterval(function() {
+        if ($rootScope.locations) {
+            clearInterval(checkForLocationsLoaded);
+            // May become unmanage.  A subset of data just containing existing url_slugs and their index
+            // relative to the locations db may be better.  If this was a JSON db, could just store city names as keys
+            locationIndex = $rootScope.locations.filter(function(location) {
+                return location.url_slug === $stateParams.location;
+            });
+            locationIndex[0] && loadLocation(locationIndex[0]);
+        }
     }, 100);
 
-// Alternatively, make a way to find the locationIndex without waiting for the main Restangular location getList()
+// If we knew which url slugs corresponded to which index to which row in the locations, we wouldn't need to wait
+// for the main Restangular getList(), and could just use one()
 //    Restangular.one('locations', locationIndex)
 //        .get()
 //        .then(function(data) {
@@ -32,7 +38,7 @@ angular.module('state.location', ['service.mapbox', 'restangular'])
             mapboxService.panTo(location.coordinates);
         }
         mapboxService.clearMarkers();
-        $('.open').find('.close-reveal-model').click();
+        $('.open').find('.close-reveal-modal').click();
         $rootScope.current_location = location;
         loadBusinesses(location);
 

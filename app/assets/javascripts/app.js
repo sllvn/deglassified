@@ -46,16 +46,7 @@ angular.module('deglassified', [
     }
 
     $rootScope.loadLocation = function(location) {
-        console.log(location);
-        // Oh god, make this less confusing
         $state.go('location', { location: location.url_slug });
-//        if (location.coordinates) {
-//            mapboxService.panTo(location.coordinates);
-//        }
-//        mapboxService.clearMarkers();
-//        $('.open').find('.close-reveal-model').click();
-//        $rootScope.current_location = location;
-//        loadBusinesses(location);
     };
 
     $rootScope.showBusiness = function(business) {
