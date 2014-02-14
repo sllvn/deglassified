@@ -8,9 +8,12 @@
 //= require_tree .
 
 angular.module('deglassified', [
+    // Libs
     'ui.router',
     'restangular',
+    // Services
     'mapbox-service'
+    // States
 ])
 
 .config(function($locationProvider, RestangularProvider) {
@@ -44,6 +47,7 @@ angular.module('deglassified', [
     }
 
     $rootScope.loadLocation = function(location) {
+        $rootScope.pageTitle = location.city;
         if (location.coordinates) {
             mapboxService.panTo(location.coordinates);
         }
@@ -54,6 +58,7 @@ angular.module('deglassified', [
     };
 
     $rootScope.showBusiness = function(business) {
+        $rootScope.pageTitle = business.name;
         mapboxService.openPopupForId(business.id);
     };
 })

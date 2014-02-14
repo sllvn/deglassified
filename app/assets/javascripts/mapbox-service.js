@@ -2,7 +2,7 @@
 
 angular.module('mapbox-service', ['encode-url-service'])
 
-.service('mapboxService', function($rootScope, encodeUrlService) {
+.service('mapboxService', function($rootScope) {
     var mapName = 'map',
         map = L.mapbox.map(mapName, 'licyeus.gg3718oi').setView([47.603569, -122.329453], 12);
 
@@ -38,14 +38,9 @@ angular.module('mapbox-service', ['encode-url-service'])
 
         markerLayer.eachLayer(function(layer) {
             business = layer.feature.properties.business;
-            var content = '<h4>' + business.name + '</h4>';
+            // Need to find the correct path for the compiled .html file
+            var content = "<div ng-include='/business-popup.html'></div>";
             layer.bindPopup(content);
-            layer.on('click', function(businessClosure) {
-                return function() {
-//                    document.location.href = '/' + encodeUrlService(businessClosure.name);
-                    $rootScope.pageTitle = businessClosure.name;
-                };
-            }(business));
         });
     }
 

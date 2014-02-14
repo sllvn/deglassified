@@ -1,0 +1,13 @@
+%p(ng-if='business.links')
+  %a(ng-if='business.links.website' href='business.links.website')
+    %i.fi-link
+    website
+  %a(ng-if='business.links.facebook' href='business.links.facebook')
+    %i.fi-link
+    facebook
+  %a(ng-if='business.links.twitter' href='business.links.twitter')
+    %i.fi-social-twitter
+    twitter
+  %a(ng-if='business.links.yelp' href='business.links.yelp')
+    %i.fi-social-yelp
+    yelp
