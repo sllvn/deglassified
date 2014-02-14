@@ -10,6 +10,7 @@
 angular.module('deglassified', [
     // Libs
     'restangular',
+    'ui.router',
     // Services
     'service.mapbox',
     // States
@@ -38,8 +39,7 @@ angular.module('deglassified', [
     };
 
     $rootScope.showBusiness = function(business) {
-        $rootScope.pageTitle = business.name;
-        mapboxService.openPopupForId(business.id);
+        $state.go('location.business', { business: business.url_slug });
     };
 })
 

@@ -1,25 +1,37 @@
-angular.module('state.location', ['service.mapbox', 'restangular'])
+angular.module('state.location', ['service.mapbox', 'restangular', 'state.business'])
 
 .config(function($stateProvider) {
     $stateProvider.state('location', {
         url: '/:location',
         controller: 'locationCtrl'
     });
+
+
+//    $stateProvider.state('location.root', {
+//        url: '',
+//        controller: 'locationRootCtrl'
+//    })
 })
 
+// Need to run this controller ONLY if it is the root of the location state
 .controller('locationCtrl', function($rootScope, $stateParams, mapboxService, Restangular) {
-
     // Setting a delay so that the Restangular call in the main app module can finish binding all locations to
     // $rootScope.  Could make a way to invoke this from main app module, but may complicate things
     var checkForLocationsLoaded = setInterval(function() {
         if ($rootScope.locations) {
             clearInterval(checkForLocationsLoaded);
-            // May become unmanage.  A subset of data just containing existing url_slugs and their index
+            // May become unmanagable.  A subset of data just containing existing url_slugs and their index
             // relative to the locations db may be better.  If this was a JSON db, could just store city names as keys
-            locationIndex = $rootScope.locations.filter(function(location) {
+            var locationIndex = $rootScope.locations.filter(function(location) {
                 return location.url_slug === $stateParams.location;
             });
-            locationIndex[0] && mapboxService.loadLocation(locationIndex[0]);
+            if (locationIndex[0]) {
+                $rootScope.pageTitle = locationIndex[0].city;
+                mapboxService.loadLocation(locationIndex[0]);
+            } else {
+//                'state.go 404 page'
+            }
+
         }
     }, 100);
 

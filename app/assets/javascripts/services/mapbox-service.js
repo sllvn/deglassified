@@ -14,7 +14,6 @@ angular.module('service.mapbox', ['restangular'])
     var markerLayer = L.mapbox.markerLayer();
 
     function loadLocation(location) {
-        $rootScope.pageTitle = location.city;
         if (location.coordinates) {
            panTo(location.coordinates);
         }
