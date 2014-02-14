@@ -16,6 +16,9 @@ angular.module('deglassified', [
 })
 
 .run(function($rootScope, Restangular, mapboxService) {
+    // Default page title
+    $rootScope.pageTitle = 'Home';
+
     Restangular.all('locations')
         .getList()
         .then(function(data) {
@@ -30,8 +33,10 @@ angular.module('deglassified', [
             .all('businesses')
             .getList()
             .then(function(data) {
-                $rootScope.businesses = data.business;
-                angular.forEach()
+                var businesses = data.businesses;
+                angular.forEach(businesses, function(business) {
+                    mapboxService.addBusiness(business);
+                });
             })
     }
 

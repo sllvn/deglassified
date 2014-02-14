@@ -1,8 +1,8 @@
 //= require mapbox.js
 
-angular.module('mapbox-service', [])
+angular.module('mapbox-service', ['encode-url-service'])
 
-.service('mapboxService', function() {
+.service('mapboxService', function($rootScope, encodeUrlService) {
     var mapName = 'map',
         map = L.mapbox.map(mapName, 'licyeus.gg3718oi').setView([47.603569, -122.329453], 12);
 
@@ -36,11 +36,16 @@ angular.module('mapbox-service', [])
         markerLayer.setGeoJSON(geoJSON);
         markerLayer.addTo(map);
 
-
         markerLayer.eachLayer(function(layer) {
             business = layer.feature.properties.business;
             var content = '<h4>' + business.name + '</h4>';
             layer.bindPopup(content);
+            layer.on('click', function(businessClosure) {
+                return function() {
+//                    document.location.href = '/' + encodeUrlService(businessClosure.name);
+                    $rootScope.pageTitle = businessClosure.name;
+                };
+            }(business));
         });
     }
 
