@@ -20,20 +20,16 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
         clearMarkers();
         $('.open').find('.close-reveal-modal').click();
         $rootScope.current_location = location;
-        loadBusinesses(location);
+//        loadBusinesses(location);
     }
 
-    function loadBusinesses(location) {
-        Restangular.one('locations', location.id)
-            .all('businesses')
-            .getList()
-            .then(function(data) {
-                $rootScope.businesses = data.businesses;
-                angular.forEach($rootScope.businesses, function(business) {
-                    addBusiness(business);
-                });
-            })
-    }
+
+    $rootScope.$on('businessesLoaded', function() {
+        angular.forEach($rootScope.businesses, function(business) {
+            addBusiness(business);
+        });
+        $rootScope.$emit('businessesDone');
+    });
 
     function addBusiness(business) {
         geoJSON.features.push({
@@ -48,12 +44,6 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
         });
         markerLayer.setGeoJSON(geoJSON);
         markerLayer.addTo(map);
-
-        markerLayer.on('click', function(business) {
-            return function() {
-                $state.go('location.business', { business: business.url_slug });
-            };
-        }(business));
 
         markerLayer.eachLayer(function(layer) {
             business = layer.feature.properties.business;
@@ -73,6 +63,12 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
                 content += "<a href='" + business.links.yelp + "' target='_blank'><i class='fi-social-yelp'></i> yelp</a><br>";
             content += '</p>';
             layer.bindPopup(content);
+
+            layer.on('popupopen', function(business) {
+                return function() {
+                    $state.go('location.business', { business: business.url_slug });
+                };
+            }(business));
         });
     }
 
@@ -97,7 +93,6 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
 
     return {
         loadLocation: loadLocation,
-        loadBusinesses: loadBusinesses,
         addBusiness: addBusiness,
         openPopupForId: openPopupForId
     };

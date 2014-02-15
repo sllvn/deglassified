@@ -13,6 +13,7 @@ angular.module('deglassified', [
     'ui.router',
     // Services
     'service.mapbox',
+    'service.data-loader',
     // States
     'state.home',
     // Location has a wildcard route, so it must be loaded after all states with an explicit route
@@ -24,15 +25,7 @@ angular.module('deglassified', [
     RestangularProvider.setBaseUrl('/api');
 })
 
-.run(function($rootScope, $state, Restangular, mapboxService) {
-    Restangular.all('locations')
-        .getList()
-        .then(function(data) {
-            $rootScope.locations = data.locations;
-            $rootScope.currentLocation = $rootScope.locations[0];
-            $rootScope.currentCity = $rootScope.currentLocation.city;
-            mapboxService.loadBusinesses($rootScope.locations[0]);
-    });
+.run(function($rootScope, $state, mapboxService, dataLoader) {
 
     $rootScope.loadLocation = function(location) {
         $state.go('location', { location: location.url_slug });

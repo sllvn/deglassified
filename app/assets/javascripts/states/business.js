@@ -8,20 +8,20 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
 })
 
 .controller('businessCtrl', function($rootScope, $stateParams, mapboxService) {
-        // Sort of race condition going on here with the timers, need to find a cleaner way
-        // Maybe move the variables from rootScope to private variables inside mapboxService
-    var checkForLocationsLoaded = setInterval(function() {
-        if ($rootScope.businesses) {
-            clearInterval(checkForLocationsLoaded);
-            var businessIndex = $rootScope.businesses.filter(function(business) {
-                return business.url_slug === $stateParams.business;
-            });
-            if (businessIndex[0]) {
-                $rootScope.pageTitle = businessIndex[0].name;
-                mapboxService.openPopupForId(businessIndex[0].id);
+    $rootScope.$on('businessesDone', function() {
+        console.log('test');
+        var businessIndex;
+        for(var i = 0; i < $rootScope.businesses.length; i++) {
+            if ($rootScope.businesses[i].url_slug === $stateParams.business) {
+                businessIndex = $rootScope.businesses[i];
+                break;
             }
         }
-    }, 10);
+        if (businessIndex) {
+            $rootScope.pageTitle = businessIndex.name;
+            mapboxService.openPopupForId(businessIndex.id);
+        }
+    });
 
 })
 
