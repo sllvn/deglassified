@@ -61,10 +61,26 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
             business = layer.feature.properties.business;
 
             // TODO: fix the compiling of the ng-include
-            var content = "<div id='business-data' ng-include='/partials/test.html'></div>";
-            layer.bindPopup(content);
-            $compile(angular.element('#business-data'));
+//            var content = "<div id='business-data' ng-include='/partials/test.html'></div>";
 
+            var content  = "<h4>" + business.name + "</h4>" +
+                "<p>" + business.address + "</p>";
+            if (business.links)
+                content += '<p>';
+            if (business.links.website)
+                content += "<a href='" + business.links.website + "' target='_blank'><i class='fi-link'></i> website</a><br>";
+            if (business.links.facebook)
+                content += "<a href='" + business.links.facebook + "' target='_blank'><i class='fi-social-facebook'></i> facebook</a><br>";
+            if (business.links.twitter)
+                content += "<a href='" + business.links.twitter + "' target='_blank'><i class='fi-social-twitter'></i> twitter</a><br>";
+            if (business.links.yelp)
+                content += "<a href='" + business.links.yelp + "' target='_blank'><i class='fi-social-yelp'></i> yelp</a><br>";
+            content += '</p>';
+
+            layer.bindPopup(content);
+
+
+//            $compile(angular.element('#business-data'));
 //            if (!$scope.$$phase) {
 ////                $digest;
 //            }

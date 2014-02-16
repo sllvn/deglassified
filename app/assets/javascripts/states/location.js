@@ -12,6 +12,7 @@ angular.module('state.location', [
         template: '<div ui-view></div>',
         controller: 'locationCtrl'
     });
+
 })
 
 .controller('locationCtrl', function($rootScope, $state, $stateParams) {

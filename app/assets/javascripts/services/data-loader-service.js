@@ -48,7 +48,6 @@ angular.module('service.data-loader', ['restangular'])
     });
 
     function emitLocationEvents(location) {
-
         $rootScope.$emit('locationDataRetrieved', location);
         // Now set the businesses for the location
         $rootScope.businesses = location.businesses;
