@@ -32,7 +32,8 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
 
     $rootScope.$on('setBusinessesInMapbox', function(event, businesses) {
         addBusinessesToMapbox(businesses);
-        $rootScope.$emit('businessesLoadedInMapbox');
+        // Changin this broadcast to emit to nested scopes
+        $rootScope.$broadcast('businessesLoadedInMapbox');
         // Need to set this flag so that we know it is safe to open a business's popup
         $rootScope.businessesLoadedInMapbox = true;
     });
@@ -94,8 +95,8 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
     }
 
 
-    $rootScope.$on('openPopupForBusiness', function(event, business) {
-        openPopupForId(business);
+    $rootScope.$on('openPopupForBusiness', function(event, businessId) {
+        openPopupForId(businessId);
     });
 
     function openPopupForId(businessId) {

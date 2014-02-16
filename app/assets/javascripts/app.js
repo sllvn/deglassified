@@ -28,13 +28,13 @@ angular.module('deglassified', [
 .run(function($rootScope, $state, mapboxService, dataLoader) {
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-        console.log('$stateChangeStart:', arguments);
+//        console.log('$stateChangeStart:', arguments);
     });
 
     $rootScope.loadLocation = function(location) {
         // Need to clear any existing business parameters when swapping locations.
         // Code below not working
-        $state.go('location', { location: location.slug, business: '' } );
+        $state.go('location', { location: location.slug } );
     };
 
     $rootScope.showBusiness = function(business) {
