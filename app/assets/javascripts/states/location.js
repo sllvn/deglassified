@@ -1,8 +1,7 @@
 angular.module('state.location', [
-    'service.mapbox',
-    'restangular',
     'ui.router',
-    'state.business'
+    'state.business',
+    'service.load-location-data'
 ])
 
 .config(function($stateProvider) {
@@ -15,7 +14,7 @@ angular.module('state.location', [
 
 })
 
-.controller('locationCtrl', function($rootScope, $state, $stateParams) {
+.controller('locationCtrl', function($rootScope, $state, $stateParams, loadLocationData) {
     $rootScope.$emit('getLocationData', $stateParams.location);
 
     // This watcher will only be triggered once, which is after the initial DB load of all locations.

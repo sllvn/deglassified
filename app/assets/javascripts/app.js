@@ -12,8 +12,8 @@ angular.module('deglassified', [
     'restangular',
     'ui.router',
     // Services
+    'service.load-location-data',
     'service.mapbox',
-    'service.data-loader',
     // States
     'state.home',
     // Location has a wildcard route, so it must be loaded after all states with an explicit route
@@ -25,11 +25,7 @@ angular.module('deglassified', [
     RestangularProvider.setBaseUrl('/api');
 })
 
-.run(function($rootScope, $state, mapboxService, dataLoader) {
-
-    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-//        console.log('$stateChangeStart:', arguments);
-    });
+.run(function($rootScope, $state, mapboxService, loadLocationData) {
 
     $rootScope.loadLocation = function(location) {
         // Need to clear any existing business parameters when swapping locations.
