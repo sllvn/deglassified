@@ -13,19 +13,14 @@ angular.module('state.location', [
 })
 
 .controller('locationCtrl', function($rootScope, $state, $stateParams, mapboxService, Restangular) {
-    $rootScope.$on('locationDatabaseLoaded', function(event, data) {
-        $rootScope.locations = data.locations;
-        console.log($rootScope.locations);
-//        $rootScope.currentLocation = $rootScope.locations[0];
-        loadLocation();
+    // This watcher will only be triggered once, which is after the initial DB load of all locations.
+    $rootScope.$on('allLocationsLoaded', function(event, data) {
+//        loadLocation();
     });
 
     if ($rootScope.locations) {
         loadLocation();
-
     }
-
-
 
     function loadLocation() {
         var currentLocation = findLocationByUrlslug();
@@ -35,7 +30,7 @@ angular.module('state.location', [
             $rootScope.currentLocation = currentLocation;
             $rootScope.currentCity = $rootScope.currentLocation.city;
             mapboxService.loadLocation(currentLocation);
-            $rootScope.$emit('loadBusinessesForLocation', currentLocation);
+            $rootScope.$emit('getBusinessesForLocation', currentLocation);
         } else {
             // Add a 404 state and redirect to instead
             alert('404: Location not found!');

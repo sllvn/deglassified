@@ -2,7 +2,11 @@ angular.module('service.data-loader', ['restangular'])
 
 // Find a way to run this without having to inject service in a controller
 .service('dataLoader', function($rootScope, $q, Restangular) {
-    var retrieveLocations = function() {
+
+
+
+    // Retrieve the list of all locations.  Used for the 'change location' modal
+    var getAllLocations = function() {
         var deferred = $q.defer();
         Restangular.all('locations')
             .getList()
@@ -12,17 +16,17 @@ angular.module('service.data-loader', ['restangular'])
         return deferred.promise;
     };
 
-    retrieveLocations()
+    getAllLocations()
         .then(
         function(data) {
-            // Instead of passing the data in $emit's arguments, set the data to $rootScope, as it will be used in the
-            // DOM bindings
-            $rootScope.$emit('locationDatabaseLoaded', data);
+            $rootScope.locations = data.locations;
+            $rootScope.$emit('allLocationsLoaded', data);
         }
     );
 
-    $rootScope.$on('loadBusinessesForLocation', function(currentLocation) {
-        retrieveBusinesses(currentLocation).then(
+
+    $rootScope.$on('getBusinessesForLocation', function(location) {
+        retrieveBusinessesForLocation(location).then(
             function(data) {
                 $rootScope.businesses = data.businesses;
                 $rootScope.$emit('businessesLoaded');
@@ -30,9 +34,9 @@ angular.module('service.data-loader', ['restangular'])
         );
     });
 
-    var retrieveBusinesses = function(currentLocation) {
+    var retrieveBusinessesForLocation = function(location) {
         var deferred = $q.defer();
-            Restangular.one('locations', currentLocation.id)
+        Restangular.one('locations', location.id)
             .all('businesses')
             .getList()
             .then(function(data) {
