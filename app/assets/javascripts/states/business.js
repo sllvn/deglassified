@@ -8,10 +8,11 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
 })
 
 .controller('businessCtrl', function($rootScope, $stateParams, mapboxService) {
+    console.log('business');
     // Will only be triggered on the page load, when it must first wait for $rootScope.businesses to be set
     $rootScope.$on('businessesLoadedInMapbox', loadBusiness);
 
-    if ($rootScope.businesses) {
+    if ($rootScope.businessesLoadedInMapbox) {
         loadBusiness();
     }
 

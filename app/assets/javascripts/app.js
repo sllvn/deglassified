@@ -27,12 +27,23 @@ angular.module('deglassified', [
 
 .run(function($rootScope, $state, mapboxService, dataLoader) {
 
+    $rootScope.locations = [
+        {
+            city: 'Seattle',
+            slug: 'seattle'
+        },
+        {
+            city: 'Las Vegas',
+            slug: 'las-vegas'
+        }
+    ];
+
     $rootScope.loadLocation = function(location) {
-        $state.go('location', { location: location.slug });
+        $state.go('location', { location: location.slug } );
     };
 
     $rootScope.showBusiness = function(business) {
-        $state.go('location.business', { location: $rootScope.currentLocation.slug, business: business.slug });
+        $state.go('location.business', {  business: business.slug });
     };
 })
 

@@ -25,8 +25,10 @@ angular.module('service.data-loader', ['restangular'])
                     cachedLocations[location.slug] = location;
                     $rootScope.$emit('locationDataRetrieved', location);
 
+
                     // Now set the businesses for the location
                     $rootScope.businesses = location.businesses;
+//                    console.log(JSON.stringify($rootScope.businesses));
                     $rootScope.$emit('setBusinessesInMapbox', location.businesses);
                 }
             );
