@@ -27,19 +27,9 @@ angular.module('deglassified', [
 
 .run(function($rootScope, $state, mapboxService, dataLoader) {
 
-    $rootScope.locations = [
-        {
-            city: 'Seattle',
-            slug: 'seattle'
-        },
-        {
-            city: 'Las Vegas',
-            slug: 'las-vegas'
-        }
-    ];
-
     $rootScope.loadLocation = function(location) {
-        $state.go('location', { location: location.slug } );
+        // Clear any existing business parameters when swapping locations
+        $state.go('location', { location: location.slug, business: '' } );
     };
 
     $rootScope.showBusiness = function(business) {

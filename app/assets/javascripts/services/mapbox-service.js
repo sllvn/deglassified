@@ -27,10 +27,12 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
     }
 
 
-    // Only used for initial page load
+
     $rootScope.$on('setBusinessesInMapbox', function(event, businesses) {
         addBusinessesToMapbox(businesses);
         $rootScope.$emit('businessesLoadedInMapbox');
+        // Need to set this flag so that we know it is safe to open a business's popup
+        $rootScope.businessesLoadedInMapbox = true;
     });
 
     function addBusinessesToMapbox() {
@@ -72,6 +74,10 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
         });
     }
 
+
+    $rootScope.$on('openPopupForBusiness', function(business) {
+        openPopupForId(business);
+    });
     function openPopupForId(businessId) {
         markerLayer.eachLayer(function(marker) {
             if (Number(marker.feature.properties.business.id) == Number(businessId)) {
@@ -90,10 +96,6 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
         map.panTo([coordinates.lat, coordinates.lng]);
     }
 
-
-    return {
-        openPopupForId: openPopupForId
-    };
 })
 
 ;
