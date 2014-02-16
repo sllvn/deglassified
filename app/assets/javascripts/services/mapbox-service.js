@@ -4,7 +4,9 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
 
 .service('mapboxService', function($rootScope, $state, $compile) {
     var mapName = 'map',
-        map = L.mapbox.map(mapName, 'licyeus.gg3718oi').setView([47.603569, -122.329453], 12);
+        defaultView = [47.603569, -122.329453],
+        defaultZoom = 12,
+        map = L.mapbox.map(mapName, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
 
     var geoJSON = {
         type: 'FeatureCollection',
@@ -57,6 +59,8 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
 
         markerLayer.eachLayer(function(layer) {
             business = layer.feature.properties.business;
+
+            // TODO: fix the compiling of the ng-include
             var content = "<div id='business-data' ng-include='/partials/test.html'></div>";
             layer.bindPopup(content);
             $compile(angular.element('#business-data'));
@@ -75,9 +79,10 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
     }
 
 
-    $rootScope.$on('openPopupForBusiness', function(business) {
+    $rootScope.$on('openPopupForBusiness', function(event, business) {
         openPopupForId(business);
     });
+
     function openPopupForId(businessId) {
         markerLayer.eachLayer(function(marker) {
             if (Number(marker.feature.properties.business.id) == Number(businessId)) {
