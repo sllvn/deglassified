@@ -32,7 +32,15 @@ angular.module('deglassified', [
     };
 
     $rootScope.showBusiness = function(business) {
-        $state.go('location.business', { business: business.url_slug });
+        $state.go('location.business',
+            {
+                location: $rootScope.currentLocation.url_slug,
+                business: business.url_slug
+            },
+            {
+                reload: true
+            }
+        );
     };
 })
 

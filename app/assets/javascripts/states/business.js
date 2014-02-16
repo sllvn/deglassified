@@ -8,20 +8,27 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
 })
 
 .controller('businessCtrl', function($rootScope, $stateParams, mapboxService) {
-    $rootScope.$on('businessesDone', function() {
-        console.log('test');
-        var businessIndex;
+    // Will only be triggered on the page load, when it must first wait for $rootScope.businesses to be set
+    $rootScope.$on('businessesDone', loadBusiness);
+    if ($rootScope.businesses) {
+        loadBusiness();
+    }
+
+    function loadBusiness() {
+        var business;
         for(var i = 0; i < $rootScope.businesses.length; i++) {
             if ($rootScope.businesses[i].url_slug === $stateParams.business) {
-                businessIndex = $rootScope.businesses[i];
+                business = $rootScope.businesses[i];
                 break;
             }
         }
-        if (businessIndex) {
-            $rootScope.pageTitle = businessIndex.name;
-            mapboxService.openPopupForId(businessIndex.id);
+        if (business) {
+            console.log(business.id);
+            $rootScope.pageTitle = business.name;
+            mapboxService.openPopupForId(business.id);
         }
-    });
+    }
+
 
 })
 

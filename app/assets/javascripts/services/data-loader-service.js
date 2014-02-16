@@ -1,5 +1,6 @@
 angular.module('service.data-loader', ['restangular'])
 
+// Find a way to run this without having to inject service in a controller
 .service('dataLoader', function($rootScope, $q, Restangular) {
     var retrieveLocations = function() {
         var deferred = $q.defer();
@@ -11,37 +12,27 @@ angular.module('service.data-loader', ['restangular'])
         return deferred.promise;
     };
 
-    var promiseLocations = retrieveLocations();
-    promiseLocations.then(
+    retrieveLocations()
+        .then(
         function(data) {
-            setRootScopeData(data);
             // Instead of passing the data in $emit's arguments, set the data to $rootScope, as it will be used in the
             // DOM bindings
-            $rootScope.$emit('locationsLoaded');
-            // Now that locations are loaded, set the promise for loading businesses
-            var promiseBusinesses = retrieveBusinesses();
-            promiseBusinesses.then(
-                function(data) {
-                    $rootScope.businesses = data.businesses;
-                    $rootScope.$emit('businessesLoaded');
-                }
-            );
-        },
-        function(error) {
-            console.log(error);
+            $rootScope.$emit('locationDatabaseLoaded', data);
         }
     );
 
-    function setRootScopeData(data) {
-        $rootScope.locations = data.locations;
-        $rootScope.currentLocation = $rootScope.locations[0];
-        $rootScope.currentCity = $rootScope.currentLocation.city;
-        console.log('set');
-    }
+    $rootScope.$on('loadBusinessesForLocation', function(currentLocation) {
+        retrieveBusinesses(currentLocation).then(
+            function(data) {
+                $rootScope.businesses = data.businesses;
+                $rootScope.$emit('businessesLoaded');
+            }
+        );
+    });
 
-    var retrieveBusinesses = function() {
+    var retrieveBusinesses = function(currentLocation) {
         var deferred = $q.defer();
-        Restangular.one('locations', $rootScope.currentLocation.id)
+            Restangular.one('locations', currentLocation.id)
             .all('businesses')
             .getList()
             .then(function(data) {
