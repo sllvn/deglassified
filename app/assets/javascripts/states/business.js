@@ -8,7 +8,6 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
 })
 
 .controller('businessCtrl', function($rootScope, $scope, $state, $stateParams, mapboxService) {
-
     // If the business param is empty (ie. '/seattle/') redirect to the location, WITHOUT a trailing
     // slash (ie. '/seattle').  Important to cease code to not trigger a 404 page.
     if ($stateParams.business === '') {
@@ -28,7 +27,6 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
     }
 
     function loadBusiness() {
-//        console.log(arguments.callee.caller.toString());
         var business = findBusinessByStateParams($stateParams.business);
         if (business) {
             $rootScope.pageTitle = business.name;

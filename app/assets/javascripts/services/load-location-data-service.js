@@ -25,7 +25,7 @@ angular.module('service.load-location-data', ['restangular'])
             Restangular.one('locations', locationSlug)
                 .get()
                 .then(function(data) {
-                    location = data.location;
+                    var location = data.location;
                     cachedLocations[location.slug] = location;
                     emitLocationEvents(location);
                 });
@@ -41,7 +41,6 @@ angular.module('service.load-location-data', ['restangular'])
         $rootScope.businesses = location.businesses;
         $rootScope.$emit('setBusinessesInMapbox', location.businesses);
     }
-
 
 })
 

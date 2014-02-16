@@ -28,8 +28,6 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
         $('.open').find('.close-reveal-modal').click();
     }
 
-
-
     $rootScope.$on('setBusinessesInMapbox', function(event, businesses) {
         addBusinessesToMapbox(businesses);
         // Changin this broadcast to emit to nested scopes
@@ -91,6 +89,13 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
                     $state.go('location.business', { business: business.slug });
                 };
             }(business));
+
+            layer.on('popupclose', function(locationSlug) {
+                return function() {
+                    // Since we are loading the same location state and params, need to force a reload of the controller
+                    $state.go('location', { location: locationSlug }, { reload: true });
+                }
+            }($rootScope.currentLocation.slug));
         });
     }
 
