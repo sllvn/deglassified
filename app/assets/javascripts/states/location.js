@@ -16,6 +16,7 @@ angular.module('state.location', [
 })
 
 .controller('locationCtrl', function($rootScope, $state, $stateParams) {
+    console.log($rootScope.businesses);
     $rootScope.$emit('getLocationData', $stateParams.location);
 
     // This watcher will only be triggered once, which is after the initial DB load of all locations.

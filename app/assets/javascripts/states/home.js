@@ -8,8 +8,10 @@ angular.module('state.home', ['ui.router'])
     });
 })
 
-.controller('homeCtrl', function($rootScope) {
+.controller('homeCtrl', function($rootScope, $state) {
     $rootScope.pageTitle = 'Home';
+    // Default redirect.  Should make this customize based upon user IP location
+    $state.go('location', { location: 'seattle' });
 })
 
 ;

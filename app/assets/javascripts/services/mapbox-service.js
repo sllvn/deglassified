@@ -84,8 +84,7 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
 //            if (!$scope.$$phase) {
 ////                $digest;
 //            }
-
-            layer.on('popupopen', function(business) {
+            layer.on('click', function(business) {
                 return function() {
                     // Need to add location params
                     $state.go('location.business', { business: business.slug });
