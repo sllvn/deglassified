@@ -9,24 +9,27 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
 
 .controller('businessCtrl', function($rootScope, $stateParams, mapboxService) {
     // Will only be triggered on the page load, when it must first wait for $rootScope.businesses to be set
-    $rootScope.$on('businessesDone', loadBusiness);
+    $rootScope.$on('businessesLoadedInMapbox', loadBusiness);
+
     if ($rootScope.businesses) {
         loadBusiness();
     }
 
     function loadBusiness() {
-        var business;
-        for(var i = 0; i < $rootScope.businesses.length; i++) {
-            if ($rootScope.businesses[i].url_slug === $stateParams.business) {
-                business = $rootScope.businesses[i];
-                break;
-            }
-        }
+        var business = findBusinessFromLocation($stateParams.business);
         if (business) {
-            console.log(business.id);
             $rootScope.pageTitle = business.name;
             mapboxService.openPopupForId(business.id);
         }
+    }
+
+    function findBusinessFromLocation(businessSlug) {
+        for(var i = 0; i < $rootScope.businesses.length; i++) {
+            if ($rootScope.businesses[i].slug === businessSlug) {
+                return $rootScope.businesses[i];
+            }
+        }
+        return false;
     }
 
 

@@ -13,22 +13,27 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
 
     var markerLayer = L.mapbox.markerLayer();
 
-    function loadLocation(location) {
+
+    $rootScope.$on('locationDataRetrieved', function(event, location) {
+        loadLocationOnMapbox(location);
+    });
+
+    function loadLocationOnMapbox(location) {
         if (location.coordinates) {
-           panTo(location.coordinates);
+            panTo(location.coordinates);
         }
         clearMarkers();
         $('.open').find('.close-reveal-modal').click();
-        loadBusinesses();
     }
 
+
     // Only used for initial page load
-    $rootScope.$on('businessesLoaded', function() {
-        loadBusinesses();
-        $rootScope.$emit('businessesDone');
+    $rootScope.$on('setBusinessesInMapbox', function(event, businesses) {
+        addBusinessesToMapbox(businesses);
+        $rootScope.$emit('businessesLoadedInMapbox');
     });
 
-    function loadBusinesses() {
+    function addBusinessesToMapbox() {
         angular.forEach($rootScope.businesses, function(business) {
             addBusiness(business);
         });
@@ -61,7 +66,7 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
             layer.on('popupopen', function(business) {
                 return function() {
                     // Need to add location params
-                    $state.go('location.business', { business: business.url_slug });
+                    $state.go('location.business', { business: business.slug });
                 };
             }(business));
         });
@@ -87,8 +92,6 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
 
 
     return {
-        loadLocation: loadLocation,
-        addBusiness: addBusiness,
         openPopupForId: openPopupForId
     };
 })

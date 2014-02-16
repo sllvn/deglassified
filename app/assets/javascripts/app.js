@@ -28,19 +28,11 @@ angular.module('deglassified', [
 .run(function($rootScope, $state, mapboxService, dataLoader) {
 
     $rootScope.loadLocation = function(location) {
-        $state.go('location', { location: location.url_slug });
+        $state.go('location', { location: location.slug });
     };
 
     $rootScope.showBusiness = function(business) {
-        $state.go('location.business',
-            {
-                location: $rootScope.currentLocation.url_slug,
-                business: business.url_slug
-            },
-            {
-                reload: true
-            }
-        );
+        $state.go('location.business', { location: $rootScope.currentLocation.slug, business: business.slug });
     };
 })
 
