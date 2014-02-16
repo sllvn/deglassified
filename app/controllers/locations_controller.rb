@@ -6,7 +6,7 @@ class LocationsController < ApplicationController
   end
 
   def show
-    render json: Location.find(params[:id]), serializer: LocationSerializer
+    render json: Location.friendly.find(params[:id]), serializer: LocationSerializer
   end
 
   def create
@@ -20,7 +20,7 @@ class LocationsController < ApplicationController
   end
 
   def update
-    @location = Location.find(params[:id])
+    @location = Location.friendly.find(params[:id])
 
     if @location.update(location_params)
       head :no_content

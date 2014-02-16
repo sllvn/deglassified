@@ -48,6 +48,8 @@ GEM
     foundation-rails (5.0.2.0)
       railties (>= 3.1.0)
       sass (>= 3.2.0)
+    friendly_id (5.0.3)
+      activerecord (>= 4.0.0)
     haml (4.0.4)
       tilt
     hike (1.2.3)
@@ -158,6 +160,7 @@ DEPENDENCIES
   angularjs-rails (~> 1.2.5)
   coffee-rails (~> 4.0.0)
   foundation-rails
+  friendly_id (~> 5.0.0)
   haml
   jquery-rails
   mapbox-rails

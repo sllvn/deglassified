@@ -2,17 +2,17 @@ class BusinessesController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index
-    @businesses = Location.find(params[:location_id]).businesses
+    @businesses = Location.friendly.find(params[:location_id]).businesses
 
     render json: @businesses, each_serializer: BusinessSerializer
   end
 
   def show
-    render json: Business.find(params[:id]), serializer: BusinessSerializer
+    render json: Business.friendly.find(params[:id]), serializer: BusinessSerializer
   end
 
   def create
-    @location = Location.find(params[:location_id])
+    @location = Location.friendly.find(params[:location_id])
     @business = Business.new(business_params)
     @business.location = @location
 
@@ -24,7 +24,7 @@ class BusinessesController < ApplicationController
   end
 
   def update
-    @business = Business.find(params[:id])
+    @business = Business.frienldy.find(params[:id])
 
     if @business.update(business_params)
       head :no_content
