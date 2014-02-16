@@ -10,10 +10,7 @@ angular.module('state.location', [
         url: '/:location',
         // Load a second ui-view so that the child states can attach and execute their controllers
         template: '<div ui-view></div>',
-        controller: 'locationCtrl',
-        onEnter: function() {
-            console.log('load once');
-        }
+        controller: 'locationCtrl'
     });
 })
 
