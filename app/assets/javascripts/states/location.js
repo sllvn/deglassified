@@ -7,45 +7,30 @@ angular.module('state.location', [
 
 .config(function($stateProvider) {
     $stateProvider.state('location', {
-        url: '/:location',
+        url: '/:locationSlug',
         controller: 'locationCtrl'
     });
 })
 
 .controller('locationCtrl', function($rootScope, $state, $stateParams, mapboxService, Restangular) {
+    $rootScope.$emit('getLocationData', $stateParams.locationSlug);
+
     // This watcher will only be triggered once, which is after the initial DB load of all locations.
-    $rootScope.$on('allLocationsLoaded', function(event, data) {
-//        loadLocation();
+    $rootScope.$on('locationDataRetrieved', function(event, locationData) {
+        loadLocation(locationData);
     });
 
-    if ($rootScope.locations) {
-        loadLocation();
-    }
-
-    function loadLocation() {
-        var currentLocation = findLocationByUrlslug();
-
-        if (currentLocation) {
-            $rootScope.pageTitle = currentLocation.city;
-            $rootScope.currentLocation = currentLocation;
-            $rootScope.currentCity = $rootScope.currentLocation.city;
-            mapboxService.loadLocation(currentLocation);
-            $rootScope.$emit('getBusinessesForLocation', currentLocation);
+    function loadLocation(locationData) {
+        if (locationData) {
+            $rootScope.pageTitle = locationData.city;
+            $rootScope.currentLocation = locationData;
+            $rootScope.currentCity = locationData.city;
+            mapboxService.loadLocation(locationData);
         } else {
             // Add a 404 state and redirect to instead
             alert('404: Location not found!');
             $state.go('home');
         }
-    }
-
-
-    function findLocationByUrlslug() {
-        for(var i = 0; i < $rootScope.locations.length; i++) {
-            if ($rootScope.locations[i].url_slug === $stateParams.location) {
-                return $rootScope.locations[i];
-            }
-        }
-        return false;
     }
 
 })
