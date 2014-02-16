@@ -1,9 +1,7 @@
 Deglassified::Application.routes.draw do
   scope :api do
-    resources :businesses, only: [:index, :show]
-
-    resources :locations, only: [:index, :show] do
-      resources :businesses, only: [:index, :show]
+    resources :locations, only: [:index, :show, :create, :update] do
+      resources :businesses, only: [:index, :show, :create, :update]
     end
   end
 
