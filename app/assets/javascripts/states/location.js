@@ -8,8 +8,8 @@ angular.module('state.location', [
     $stateProvider.state('location', {
         url: '/:location',
         // Load a second ui-view so that the child states can attach and execute their controllers
-//        template: '<div ui-view></div>',
-        templateUrl: '/partials/location-data.html',
+        template: '<div ui-view></div>',
+//        templateUrl: '/partials/location-data.html',
         controller: 'locationCtrl'
     });
 
