@@ -1,7 +1,7 @@
 angular.module('state.location', [
     'ui.router',
     'state.business',
-    'service.load-location-data'
+    'service.load-single-location'
 ])
 
 .config(function($stateProvider) {
@@ -14,7 +14,9 @@ angular.module('state.location', [
 
 })
 
-.controller('locationCtrl', function($rootScope, $state, $stateParams, loadLocationData) {
+.controller('locationCtrl', function($rootScope, $state, $stateParams, loadSingleLocation) {
+    console.log('single load');
+
     $rootScope.$emit('getLocationData', $stateParams.location);
 
     // This watcher will only be triggered once, which is after the initial DB load of all locations.

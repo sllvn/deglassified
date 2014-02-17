@@ -12,7 +12,8 @@ angular.module('deglassified', [
     'restangular',
     'ui.router',
     // Services
-    'service.load-location-data',
+    'service.load-single-location',
+    'service.load-locations-list',
     'service.mapbox',
     // States
     'state.home',
@@ -25,7 +26,7 @@ angular.module('deglassified', [
     RestangularProvider.setBaseUrl('/api');
 })
 
-.run(function($rootScope, $state, mapboxService, loadLocationData) {
+.run(function($rootScope, $state, mapboxService, loadSingleLocation) {
 
     $rootScope.loadLocation = function(location) {
         // Need to clear any existing business parameters when swapping locations.
