@@ -83,11 +83,13 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
 
         layer.on('popupopen', function(business) {
             return function() {
+                console.log('open');
                 $state.go('location.business', { business: business.slug });
             };
         }(business));
 
         layer.on('popupclose', function() {
+            console.log('close');
             var location = $rootScope.currentLocation;
             // Not doing a full reload of the location controller, which would recenter the user.
             // Just changing the url and page title.

@@ -7,6 +7,8 @@
 //= require restangular.min
 //= require_tree .
 
+$(document).foundation();
+
 angular.module('deglassified', [
     // Libs
     'restangular',
