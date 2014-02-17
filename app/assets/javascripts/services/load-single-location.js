@@ -1,7 +1,7 @@
-angular.module('service.load-location-data', ['restangular'])
+angular.module('service.load-single-location', ['restangular'])
 
 // TODO: Find a way to run this without having to inject service in a controller
-.service('loadLocationData', function($rootScope, $q, Restangular) {
+.service('loadSingleLocation', function($rootScope, $q, Restangular) {
     var cachedLocations = {};
 
     $rootScope.$on('getLocationData', function(event, locationSlug) {
