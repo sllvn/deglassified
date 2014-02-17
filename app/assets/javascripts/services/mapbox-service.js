@@ -83,19 +83,24 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
 //            if (!$scope.$$phase) {
 ////                $digest;
 //            }
-            layer.on('click', function(business) {
+
+            layer.on('popupopen', function(business) {
                 return function() {
+                    console.log('open');
                     // Need to add location params
                     $state.go('location.business', { business: business.slug });
                 };
             }(business));
 
-            layer.on('popupclose', function(locationSlug) {
-                return function() {
-                    // Since we are loading the same location state and params, need to force a reload of the controller
-                    $state.go('location', { location: locationSlug }, { reload: true });
-                }
-            }($rootScope.currentLocation.slug));
+            layer.on('popupclose', function() {
+                console.log('close');
+                var location = $rootScope.currentLocation;
+                // Not doing a full reload of the location controller, which would recenter the user.
+                // Just changing the url and page title.
+                $rootScope.pageTitle = location.city;
+                $state.go('location', { location: location.slug });
+            });
+
         });
     }
 
