@@ -2,7 +2,7 @@
 
 angular.module('service.mapbox', ['restangular', 'ui.router'])
 
-.service('mapboxService', function($rootScope, $state, $compile) {
+.service('mapboxService', function($rootScope, $state) {
     var mapName = 'map',
         defaultView = [47.603569, -122.329453],
         defaultZoom = 12,
@@ -63,8 +63,8 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
     function setPopups(layer) {
         business = layer.feature.properties.business;
 
-        // We cannot use ng-include or any Angular bindings, as we would need to use $compile, and Mapbox's
-        // popups will not accept the $compiled object
+        // Not worth binding an ng-include to the pop-up instead, as you'll have to $compile the ng-include div
+        // AND and nested directives inside the ng-included template.
         var content  = "<h4>" + business.name + "</h4>" +
             "<p>" + business.address + "</p>";
         if (business.links)
