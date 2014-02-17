@@ -3,13 +3,15 @@
   %head
     %meta{ charset: 'utf-8' }
     %meta{ name: 'viewport', content:'width=device-width, initial-scale=1.0' }
-    %title Deglassified
+    %title(ng-bind-template='{{pageTitle}} - Delgassified')
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'vendor/modernizr'
     = csrf_meta_tags
-  %body{'ng-controller' => 'DeglassifiedCtrl as deglassified'}
+  %body
+    #div(ui-view)
     #sidebar
-      %h1 Deglassified
+      %h1
+        %a(href='/') Deglassified
       %p.lead Cataloguing businesses that value your privacy.
 
       = link_to '#', class: 'add-location', 'data-reveal-id' => 'add-location-modal' do
@@ -28,4 +30,4 @@
 
     #map
 
-    = javascript_include_tag 'application'
+    = javascript_include_tag 'app'

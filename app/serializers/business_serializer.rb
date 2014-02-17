@@ -1,4 +1,5 @@
 class BusinessSerializer < ActiveModel::Serializer
+
   attributes :id, :name, :address, :coordinates, :links, :slug
 
   def coordinates

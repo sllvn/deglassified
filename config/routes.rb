@@ -5,5 +5,7 @@ Deglassified::Application.routes.draw do
     end
   end
 
+  get '*path', controller: 'map', action: 'index'
+
   root 'map#index'
 end

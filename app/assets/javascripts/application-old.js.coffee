@@ -1,12 +1,3 @@
-#= require jquery
-#= require jquery_ujs
-#= require foundation
-#= require mapbox.js
-#= require angular
-#= require underscore
-#= require restangular.min
-#= require_tree .
-
 $ ->
   $(document).foundation()
 
@@ -26,7 +17,7 @@ deglassified.service 'map_service',
     clear_markers: ->
       @markerLayer.clearLayers()
       @geoJSON.features = []
-      
+
     pan_to: (coordinates) ->
       @map.panTo([coordinates.lat, coordinates.lng])
 
@@ -47,7 +38,7 @@ deglassified.service 'map_service',
       @markerLayer.eachLayer (layer) ->
         business = layer.feature.properties.business
         content = "<h4>#{business.name}</h4>" +
-          "<p>#{business.address}</p>"
+        "<p>#{business.address}</p>"
         if business.links
           content += '<p>'
           if business.links.website
