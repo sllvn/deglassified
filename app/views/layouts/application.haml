@@ -8,7 +8,6 @@
     = javascript_include_tag 'vendor/modernizr'
     = csrf_meta_tags
   %body
-    %div(ui-view)
     #sidebar
       %h1
         %a(href='/') Deglassified
@@ -19,7 +18,9 @@
         %i.fi-share
         %span Share Your Local Glass-Free Businesses
 
-      = yield
+      %div(ui-view)
+        -#= yield
+
 
       .contact
         %a(href='http://twitter.com/Deglassified' target='_blank')

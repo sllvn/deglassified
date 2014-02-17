@@ -17,3 +17,5 @@
     %tr{'ng-repeat' => 'business in businesses'}
       %td
         %a{'ng-click' => 'showBusiness(business)'} {{business.name}}
+
+%div(ui-view)

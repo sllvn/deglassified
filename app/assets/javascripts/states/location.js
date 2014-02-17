@@ -8,15 +8,15 @@ angular.module('state.location', [
     $stateProvider.state('location', {
         url: '/:location',
         // Load a second ui-view so that the child states can attach and execute their controllers
-        template: '<div ui-view></div>',
+//        template: '<div ui-view></div>',
+        templateUrl: '/partials/location-data.html',
         controller: 'locationCtrl'
     });
 
 })
 
 .controller('locationCtrl', function($rootScope, $state, $stateParams, loadSingleLocation) {
-    console.log('single load');
-
+        console.log('one load');
     $rootScope.$emit('getLocationData', $stateParams.location);
 
     // This watcher will only be triggered once, which is after the initial DB load of all locations.
