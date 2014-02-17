@@ -1,0 +1,28 @@
+<h3>
+  <span id='current-city'>{{currentCity}}</span>
+  Businesses
+  <small>
+    <a class='change-location' data-reveal-id='change-location-modal'>change location</a>
+  </small>
+</h3>
+<div class='reveal-modal' id='change-location-modal' data-reveal>
+  <h2>Change Location</h2>
+  <p class='lead'>Here are the cities we&rsquo;ve got data on.</p>
+  <ul ng-repeat='location in locations'>
+    <li>
+      <a ng-click='loadLocation(location)'>{{location.city}}, {{location.state}}</a>
+    </li>
+  </ul>
+  <a class='close-reveal-modal'>&#215;</a>
+</div>
+<table id='business-listing'>
+  <tbody>
+    <tr ng-repeat='business in businesses'>
+      <td>
+        <a ng-click='showBusiness(business)'>{{business.name}}</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div ui-view></div>

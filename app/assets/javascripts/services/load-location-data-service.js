@@ -2,21 +2,6 @@ angular.module('service.load-location-data', ['restangular'])
 
 // Find a way to run this without having to inject service in a controller
 .service('loadLocationData', function($rootScope, $q, Restangular) {
-    // Stub data, until we have a rest call for api/locations/ return these bare minimum details needed for
-    // the navigation.
-    $rootScope.locations = [
-        {
-            city: 'Seattle',
-            state: 'WA',
-            slug: 'seattle'
-        },
-        {
-            city: 'Las Vegas',
-            state: 'NV',
-            slug: 'las-vegas'
-        }
-    ];
-
     var cachedLocations = {};
 
     $rootScope.$on('getLocationData', function(event, locationSlug) {

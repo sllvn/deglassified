@@ -1,0 +1,9 @@
+- Add angular minification syntax
+
+- Fix popupclick and popupclose
+
+- Service injection vs .run
+
+- Make template compile
+
+- Refactor the mapbox service module

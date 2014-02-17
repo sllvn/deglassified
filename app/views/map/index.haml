@@ -1,5 +1,5 @@
 %h3
-  %span#current-city {{current_city}}
+  %span#current-city {{currentCity}}
   Businesses
   %small
     %a.change-location{ 'data-reveal-id' => 'change-location-modal' } change location
@@ -17,3 +17,5 @@
     %tr{'ng-repeat' => 'business in businesses'}
       %td
         %a{'ng-click' => 'showBusiness(business)'} {{business.name}}
+
+%div(ui-view)

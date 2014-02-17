@@ -13,6 +13,7 @@ angular.module('deglassified', [
     'ui.router',
     // Services
     'service.load-location-data',
+    'service.load-locations-list',
     'service.mapbox',
     // States
     'state.home',
