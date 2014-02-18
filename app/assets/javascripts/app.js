@@ -1,6 +1,3 @@
-//= require jquery
-//= require jquery_ujs
-//= require foundation
 //= require angular
 //= require mm-foundation-tpls-0.1.0.min
 //= require angular-ui-router.min
@@ -8,13 +5,12 @@
 //= require restangular.min
 //= require_tree .
 
-
-$(document).foundation();
-
 angular.module('deglassified', [
     // Libs
     'restangular',
     'ui.router',
+    'mm.foundation',
+
     // Services
     'service.load-single-location',
     'service.load-locations-list',
@@ -30,7 +26,19 @@ angular.module('deglassified', [
     RestangularProvider.setBaseUrl('/api');
 })
 
-.run(function($rootScope, $state, mapboxService, loadSingleLocation) {
+.run(function($rootScope, $state, $modal, mapboxService, loadSingleLocation) {
+
+    $rootScope.openLoginSignupModal = function() {
+        $modal.open({
+            templateUrl: '/partials/login-signup-modal.html'
+        });
+    };
+
+    $rootScope.openLocationModal = function() {
+        $modal.open({
+            templateUrl: '/partials/change-location-modal.html'
+        });
+    };
 
     $rootScope.loadLocation = function(location) {
         // Need to clear any existing business parameters when swapping locations.

@@ -15,7 +15,7 @@
       %hr
       %p.lead Cataloguing businesses that value your privacy.
 
-      = link_to '#', class: 'add-location', 'data-reveal-id' => 'add-location-modal' do
+      %a.add-location(ng-click='openLoginSignupModal()')
         %i.fi-share
         %span Share Your Local Glass-Free Businesses
 
@@ -29,7 +29,6 @@
           Contact Us
       .legal
         Google Glass&trade; is a trademark of Google Inc.
-    = render 'map/login_or_sign_up'
 
     #map
 
