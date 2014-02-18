@@ -34,6 +34,7 @@ angular.module('state.location', [
 //            alert('404: Location not found!');
 //            $state.go('home');
         }
+
     }
 
 })

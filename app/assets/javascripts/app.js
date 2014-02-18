@@ -2,10 +2,12 @@
 //= require jquery_ujs
 //= require foundation
 //= require angular
+//= require mm-foundation-tpls-0.1.0.min
 //= require angular-ui-router.min
 //= require underscore
 //= require restangular.min
 //= require_tree .
+
 
 $(document).foundation();
 

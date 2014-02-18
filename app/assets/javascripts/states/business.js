@@ -31,10 +31,13 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
         if (business) {
             $rootScope.pageTitle = business.name;
             $rootScope.$emit('openPopupForBusiness', business.id);
+            $rootScope.pageTitle = business.name;
+            console.log(business.name + ' | ' + $rootScope.pageTitle);
         } else {
 //            alert('404: Business not found!  Redirecting to: ' + $rootScope.currentLocation.city);
 //            $state.go('location', { location: $rootScope.currentLocation.slug });
         }
+
     }
 
     // TODO: Rename this function.  Trying to find if a business has a matching slug inside the business array
