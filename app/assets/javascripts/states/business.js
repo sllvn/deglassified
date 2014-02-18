@@ -21,7 +21,6 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
     });
 
     // Check if mapbox service has set this flag to true, which means it has finished adding all businesses to mapbox.
-    // TODO: Need to find a better way to do this check.
     if ($rootScope.businessesLoadedInMapbox) {
         loadBusiness();
     }
@@ -30,7 +29,7 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
         var business = findBusinessByStateParams($stateParams.business);
         if (business) {
             $rootScope.pageTitle = business.name;
-            $rootScope.$emit('openPopupForBusiness', business.id);
+            $rootScope.$emit('openPopupForBusiness', business.slug);
             $rootScope.pageTitle = business.name;
         } else {
 //            alert('404: Business not found!  Redirecting to: ' + $rootScope.currentLocation.city);

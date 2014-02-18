@@ -15,7 +15,7 @@ angular.module('state.location', [
 
 })
 
-.controller('locationCtrl', function($rootScope, $state, $stateParams, loadSingleLocation) {
+.controller('locationCtrl', function($rootScope, $scope, $state, $stateParams, loadSingleLocation) {
     $rootScope.$emit('getLocationData', $stateParams.location);
 
     // This watcher will only be triggered once, which is after the initial DB load of all locations.
@@ -25,6 +25,7 @@ angular.module('state.location', [
 
     function loadLocation(locationData) {
         if (locationData) {
+
             $rootScope.pageTitle = locationData.city;
             $rootScope.currentLocation = locationData;
             $rootScope.currentCity = locationData.city;

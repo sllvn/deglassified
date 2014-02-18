@@ -96,13 +96,13 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
     }
 
 
-    $rootScope.$on('openPopupForBusiness', function(event, businessId) {
-        openPopupForId(businessId);
+    $rootScope.$on('openPopupForBusiness', function(event, businessSlug) {
+        openPopupForId(businessSlug);
     });
 
-    function openPopupForId(businessId) {
+    function openPopupForId(businessSlug) {
         markerLayer.eachLayer(function(marker) {
-            if (Number(marker.feature.properties.business.id) == Number(businessId)) {
+            if (Number(marker.feature.properties.business.slug) == Number(businessSlug)) {
                 marker.openPopup();
                 panTo(marker.getLatLng());
             }
