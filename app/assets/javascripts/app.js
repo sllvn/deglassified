@@ -10,7 +10,6 @@ angular.module('deglassified', [
     'restangular',
     'ui.router',
     'mm.foundation',
-    // Animations are working without loading the animate module???
 //    'ngAnimate',
 
     // Services
