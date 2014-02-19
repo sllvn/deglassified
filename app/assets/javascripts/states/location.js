@@ -1,7 +1,7 @@
 angular.module('state.location', [
     'ui.router',
     'state.business',
-    'service.load-single-location'
+    'service.get-location'
 ])
 
 .config(function($stateProvider) {
@@ -13,9 +13,8 @@ angular.module('state.location', [
 
 })
 
-.controller('locationCtrl', function($rootScope, $scope,  $state, $stateParams, loadSingleLocation, mapboxService) {
-    console.log('locationload');
-    loadSingleLocation.load($stateParams.location)
+.controller('locationCtrl', function($rootScope, $scope,  $state, $stateParams, getLocationService, mapboxService) {
+    getLocationService($stateParams.location)
         .then(function(locationData) {
             loadLocation(locationData);
         });

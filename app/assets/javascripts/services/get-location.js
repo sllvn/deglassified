@@ -1,10 +1,10 @@
-angular.module('service.load-single-location', ['restangular'])
+angular.module('service.get-location', ['restangular'])
 
 // TODO: Find a way to run this without having to inject service in a controller
-.service('loadSingleLocation', function($rootScope, $q, Restangular) {
+.service('getLocationService', function($rootScope, $q, Restangular) {
     var cachedLocations = {};
 
-    function load(locationSlug) {
+    return function (locationSlug) {
         var deferred = $q.defer();
         // If the location is not cached, make a restangular call for it
         if (!cachedLocations[locationSlug]) {
@@ -20,11 +20,7 @@ angular.module('service.load-single-location', ['restangular'])
             deferred.resolve(location);
         }
         return deferred.promise;
-    }
-
-    return {
-        load: load
-    }
+    };
 
 })
 

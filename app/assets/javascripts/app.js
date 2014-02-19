@@ -13,8 +13,7 @@ angular.module('deglassified', [
 //    'ngAnimate',
 
     // Services
-    'service.load-single-location',
-    'service.load-locations-list',
+    'service.get-locations-list',
     'service.mapbox',
     // States
     'state.home',
@@ -27,7 +26,11 @@ angular.module('deglassified', [
     RestangularProvider.setBaseUrl('/api');
 })
 
-.run(function($rootScope, $state, $modal, mapboxService, loadSingleLocation) {
+.run(function($rootScope, $state, $modal, getLocationsListService) {
+
+    getLocationsListService().then(function(locationsList) {
+        $rootScope.locations = locationsList;
+    });
 
     $rootScope.openLoginSignupModal = function() {
         $modal.open({
@@ -42,9 +45,9 @@ angular.module('deglassified', [
     };
 
     $rootScope.loadLocation = function(location) {
-        // Need to clear any existing business parameters when swapping locations.
-        // Code below not working
-        $state.go('location', { location: location.slug } );
+        // Have to force reloads, as though the parameter for location state is changed, the state controller
+        // is not reloaded by default
+        $state.go('location', { location: location.slug }, { reload: true } );
     };
 
     $rootScope.showBusiness = function(business) {
