@@ -72,15 +72,14 @@ angular.module('service.mapbox', [ 'ui.router'])
         layer.on('popupopen', function(business) {
             return function() {
                 $state.go('location.business', { business: business.slug });
+                $rootScope.pageTitle = business.name;
             };
         }(business));
 
-        map.on('popupclose', function() {
-            // Potentially add a flag instead like if (!changingLocations)
-            console.log('closed');
-            $rootScope.pageTitle = $rootScope.currentLocation.city;
+        layer.on('popupclose', function() {
             // Does not 'reload' the state controller; Just changes the window location href
             $state.go('location', { location: $rootScope.currentLocation.slug });
+            $rootScope.pageTitle = $rootScope.currentLocation.city;
         });
     }
 
@@ -94,6 +93,10 @@ angular.module('service.mapbox', [ 'ui.router'])
     }
 
     function clearMarkers() {
+        // clearLayers() will trigger a popupclose event, so make sure to unbind the callback for the event
+        markerLayer.eachLayer(function(marker) {
+            marker.off('popupclose');
+        });
         // Here we would set the changingLocations flag
         markerLayer.clearLayers();
         geoJSON.features.length = 0;
