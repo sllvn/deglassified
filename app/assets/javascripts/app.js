@@ -41,6 +41,7 @@ angular.module('deglassified', [
     };
 
     $rootScope.loadLocation = function(location) {
+        mapboxService.clearMarkers();
         // Have to force reloads, as though the parameter for location state is changed, the state controller
         // is not reloaded by default
         $state.go('location', { location: location.slug }, { reload: true } );

@@ -13,10 +13,9 @@ angular.module('service.mapbox', [ 'ui.router'])
         features: []
     };
 
-    var markerLayer;
+    var markerLayer = L.mapbox.markerLayer();
 
     function loadLocation(location) {
-        markerLayer = L.mapbox.markerLayer();
         clearMarkers();
         if (location.coordinates) {
             panTo(location.coordinates);
@@ -93,7 +92,7 @@ angular.module('service.mapbox', [ 'ui.router'])
     }
 
     function clearMarkers() {
-        // clearLayers() will trigger a popupclose event, so make sure to unbind the callback for the event
+        // clearLayers() will trigger a popupclose event, so make sure to unbind the listener
         markerLayer.eachLayer(function(marker) {
             marker.off('popupclose');
         });
