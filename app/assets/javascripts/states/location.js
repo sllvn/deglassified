@@ -22,7 +22,9 @@ angular.module('state.location', [
     function loadLocation(locationData) {
         if (locationData) {
             $rootScope.pageTitle = locationData.city;
-            $scope.currentLocation = locationData;
+            // Need to bind to rootscope, as it will be used in mapbox service
+            // Maybe find a way to pass to mapbox service without rootscope
+            $rootScope.currentLocation = locationData;
             $scope.currentCity = locationData.city;
             $scope.businesses = locationData.businesses;
 

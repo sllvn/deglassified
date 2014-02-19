@@ -69,7 +69,7 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
             content += "<a href='" + business.links.yelp + "' target='_blank'><i class='fi-social-yelp'></i> yelp</a><br>";
         content += '</p>';
 
-        layer.setPopupContent(content);
+        layer.bindPopup(content);
 
         layer.on('popupopen', function(business) {
             return function() {
@@ -77,11 +77,10 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
             };
         }(business));
 
-        layer.on('popupclose', function() {
-            // Not doing a full reload of the location controller, which would recenter the user.
-            // Just changing the url and page title.
-            $rootScope.pageTitle = currentLocation.city;
-            $state.go('location', { location: currentLocation.slug });
+        map.on('popupclose', function() {
+            $rootScope.pageTitle = $rootScope.currentLocation.city;
+            // Does not 'reload' the state controller; Just changes the window location href
+            $state.go('location', { location: $rootScope.currentLocation.slug });
         });
     }
 
