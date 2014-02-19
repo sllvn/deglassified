@@ -15,22 +15,22 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
         return;
     }
 
-    // Will only be triggered on the page load, when it must first wait for $rootScope.businesses to be set
-    $scope.$on('businessesLoadedInMapbox',function() {
-        loadBusiness();
-
-    });
-
     // Check if mapbox service has set this flag to true, which means it has finished adding all businesses to mapbox.
-    if ($rootScope.businessesLoadedInMapbox) {
+    if ($scope.mapboxMarkersLoaded) {
         loadBusiness();
+    } else {
+        // mapboxMarkers not loaded yet.  Listen to when it is
+        // Will only be triggered on the page load, when it must first wait for $rootScope.businesses to be set
+        $scope.$on('mapboxMarkersLoaded',function() {
+            loadBusiness();
+        });
     }
 
     function loadBusiness() {
         var business = findBusinessByStateParams($stateParams.business);
         if (business) {
             $rootScope.pageTitle = business.name;
-            $rootScope.$emit('openPopupForBusiness', business.slug);
+            mapboxService.openBusinessPopup(business.slug);
             $rootScope.pageTitle = business.name;
         } else {
 //            alert('404: Business not found!  Redirecting to: ' + $rootScope.currentLocation.city);
@@ -40,9 +40,10 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
 
     // TODO: Rename this function.  Trying to find if a business has a matching slug inside the business array
     function findBusinessByStateParams(businessSlug) {
-        for(var i = 0; i < $rootScope.businesses.length; i++) {
-            if ($rootScope.businesses[i].slug === businessSlug) {
-                return $rootScope.businesses[i];
+        var businesses = $scope.businesses;
+        for(var i = 0; i < businesses.length; i++) {
+            if (businesses[i].slug === businessSlug) {
+                return businesses[i];
             }
         }
         return false;

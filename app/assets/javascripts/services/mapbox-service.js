@@ -13,30 +13,21 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
         features: []
     };
 
+    var currentLocation;
+
     var markerLayer = L.mapbox.markerLayer();
 
-
-    $rootScope.$on('locationDataRetrieved', function(event, location) {
-        loadLocationOnMapbox(location);
-    });
-
-    function loadLocationOnMapbox(location) {
+    function loadLocation(location) {
+        clearMarkers();
         if (location.coordinates) {
             panTo(location.coordinates);
         }
-        clearMarkers();
+        currentLocation = location;
+        addBusinessesToMapbox(location.businesses);
     }
 
-    $rootScope.$on('setBusinessesInMapbox', function(event, businesses) {
-        addBusinessesToMapbox(businesses);
-        // Changin this broadcast to emit to nested scopes
-        $rootScope.$broadcast('businessesLoadedInMapbox');
-        // Need to set this flag so that we know it is safe to open a business's popup
-        $rootScope.businessesLoadedInMapbox = true;
-    });
-
-    function addBusinessesToMapbox() {
-        angular.forEach($rootScope.businesses, function(business) {
+    function addBusinessesToMapbox(businesses) {
+        angular.forEach(businesses, function(business) {
             addBusiness(business);
         });
     }
@@ -60,7 +51,7 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
     }
 
     function setPopups(layer) {
-        business = layer.feature.properties.business;
+        var business = layer.feature.properties.business;
 
         // Not worth binding an ng-include to the pop-up instead, as you'll have to $compile the ng-include div
         // AND and nested directives inside the ng-included template.
@@ -87,22 +78,16 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
         }(business));
 
         layer.on('popupclose', function() {
-            var location = $rootScope.currentLocation;
             // Not doing a full reload of the location controller, which would recenter the user.
             // Just changing the url and page title.
-            $rootScope.pageTitle = location.city;
-            $state.go('location', { location: location.slug });
+            $rootScope.pageTitle = currentLocation.city;
+            $state.go('location', { location: currentLocation.slug });
         });
     }
 
-
-    $rootScope.$on('openPopupForBusiness', function(event, businessSlug) {
-        openPopupForId(businessSlug);
-    });
-
-    function openPopupForId(businessSlug) {
+    function openBusinessPopup(businessSlug) {
         markerLayer.eachLayer(function(marker) {
-            if (Number(marker.feature.properties.business.slug) == Number(businessSlug)) {
+            if (marker.feature.properties.business.slug === businessSlug) {
                 marker.openPopup();
                 panTo(marker.getLatLng());
             }
@@ -116,6 +101,12 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
 
     function panTo(coordinates) {
         map.panTo([coordinates.lat, coordinates.lng]);
+    }
+
+    return {
+        loadLocation: loadLocation,
+        addBusinessesToMapbox: addBusinessesToMapbox,
+        openBusinessPopup: openBusinessPopup
     }
 
 })

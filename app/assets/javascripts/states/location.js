@@ -13,19 +13,23 @@ angular.module('state.location', [
 
 })
 
-.controller('locationCtrl', function($rootScope, $scope, $state, $stateParams, loadSingleLocation) {
-    $rootScope.$emit('getLocationData', $stateParams.location);
-
-    // This watcher will only be triggered once, which is after the initial DB load of all locations.
-    $rootScope.$on('locationDataRetrieved', function(event, locationData) {
-        loadLocation(locationData);
-    });
+.controller('locationCtrl', function($rootScope, $scope,  $state, $stateParams, loadSingleLocation, mapboxService) {
+    console.log('locationload');
+    loadSingleLocation.load($stateParams.location)
+        .then(function(locationData) {
+            loadLocation(locationData);
+        });
 
     function loadLocation(locationData) {
         if (locationData) {
             $rootScope.pageTitle = locationData.city;
-            $rootScope.currentLocation = locationData;
-            $rootScope.currentCity = locationData.city;
+            $scope.currentLocation = locationData;
+            $scope.currentCity = locationData.city;
+            $scope.businesses = locationData.businesses;
+
+            mapboxService.loadLocation(locationData);
+            $scope.mapboxMarkersLoaded = true;
+            $scope.$broadcast('mapboxMarkersLoaded');
         } else {
             // Add a 404 state and redirect to instead
 //            alert('404: Location not found!');

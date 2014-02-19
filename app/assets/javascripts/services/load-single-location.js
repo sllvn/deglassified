@@ -4,7 +4,8 @@ angular.module('service.load-single-location', ['restangular'])
 .service('loadSingleLocation', function($rootScope, $q, Restangular) {
     var cachedLocations = {};
 
-    $rootScope.$on('getLocationData', function(event, locationSlug) {
+    function load(locationSlug) {
+        var deferred = $q.defer();
         // If the location is not cached, make a restangular call for it
         if (!cachedLocations[locationSlug]) {
             Restangular.one('locations', locationSlug)
@@ -12,19 +13,17 @@ angular.module('service.load-single-location', ['restangular'])
                 .then(function(data) {
                     var location = data.location;
                     cachedLocations[location.slug] = location;
-                    emitLocationEvents(location);
+                    deferred.resolve(location);
                 });
         } else {
             var location = cachedLocations[locationSlug];
-            emitLocationEvents(location);
+            deferred.resolve(location);
         }
-    });
+        return deferred.promise;
+    }
 
-    function emitLocationEvents(location) {
-        $rootScope.$emit('locationDataRetrieved', location);
-        // Now set the businesses for the location
-        $rootScope.businesses = location.businesses;
-        $rootScope.$emit('setBusinessesInMapbox', location.businesses);
+    return {
+        load: load
     }
 
 })

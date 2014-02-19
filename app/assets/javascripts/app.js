@@ -48,7 +48,7 @@ angular.module('deglassified', [
     };
 
     $rootScope.showBusiness = function(business) {
-        $state.go('location.business', { business: business.slug });
+        $state.go('location.business', { business: business.slug }, { reload: true });
     };
 })
 
