@@ -13,7 +13,7 @@ angular.module('deglassified', [
 //    'ngAnimate',
 
     // Services
-    'service.get-locations-list',
+    'service.location-data',
     'service.mapbox',
     // States
     'state.home',
@@ -26,11 +26,11 @@ angular.module('deglassified', [
     RestangularProvider.setBaseUrl('/api');
 })
 
-.run(function($rootScope, $state, $modal, getLocationsListService) {
-
-    getLocationsListService().then(function(locationsList) {
-        $rootScope.locations = locationsList;
-    });
+.run(function($rootScope, $state, $modal, locationDataService) {
+    locationDataService.getList()
+        .then(function(locationsList) {
+            $rootScope.locations = locationsList;
+        });
 
     $rootScope.openLoginSignupModal = function() {
         $modal.open({
