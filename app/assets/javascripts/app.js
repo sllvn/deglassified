@@ -1,13 +1,10 @@
 //= require angular
 //= require mm-foundation-tpls-0.1.0.min
 //= require angular-ui-router.min
-//= require underscore
-//= require restangular.min
 //= require_tree .
 
 angular.module('deglassified', [
     // Libs
-    'restangular',
     'ui.router',
     'mm.foundation',
 //    'ngAnimate',
@@ -21,9 +18,8 @@ angular.module('deglassified', [
     'state.location'
 ])
 
-.config(function($locationProvider, RestangularProvider) {
+.config(function($locationProvider) {
     $locationProvider.html5Mode(true);
-    RestangularProvider.setBaseUrl('/api');
 })
 
 .run(function($rootScope, $state, $modal, locationDataService) {

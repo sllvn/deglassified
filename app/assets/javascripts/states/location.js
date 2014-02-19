@@ -14,6 +14,7 @@ angular.module('state.location', [
 })
 
 .controller('locationCtrl', function($rootScope, $scope,  $state, $stateParams, locationDataService, mapboxService) {
+    console.log($stateParams);
     locationDataService.getSingle($stateParams.location)
         .then(function(locationData) {
             loadLocation(locationData);

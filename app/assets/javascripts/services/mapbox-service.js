@@ -1,6 +1,6 @@
 //= require mapbox.js
 
-angular.module('service.mapbox', ['restangular', 'ui.router'])
+angular.module('service.mapbox', [ 'ui.router'])
 
 .service('mapboxService', function($rootScope, $state) {
     var mapName = 'map',
