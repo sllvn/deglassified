@@ -19,8 +19,7 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
     if ($scope.mapboxMarkersLoaded) {
         loadBusiness();
     } else {
-        // mapboxMarkers not loaded yet.  Listen to when it is
-        // Will only be triggered on the page load, when it must first wait for $rootScope.businesses to be set
+        // mapboxMarkers not loaded yet.  Listen to when it is.
         $scope.$on('mapboxMarkersLoaded',function() {
             loadBusiness();
         });
