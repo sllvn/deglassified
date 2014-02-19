@@ -18,6 +18,7 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
     // Will only be triggered on the page load, when it must first wait for $rootScope.businesses to be set
     $scope.$on('businessesLoadedInMapbox',function() {
         loadBusiness();
+
     });
 
     // Check if mapbox service has set this flag to true, which means it has finished adding all businesses to mapbox.
@@ -35,7 +36,6 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
 //            alert('404: Business not found!  Redirecting to: ' + $rootScope.currentLocation.city);
 //            $state.go('location', { location: $rootScope.currentLocation.slug });
         }
-
     }
 
     // TODO: Rename this function.  Trying to find if a business has a matching slug inside the business array
@@ -47,7 +47,6 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
         }
         return false;
     }
-
 
 })
 

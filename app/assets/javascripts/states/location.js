@@ -7,8 +7,6 @@ angular.module('state.location', [
 .config(function($stateProvider) {
     $stateProvider.state('location', {
         url: '/:location',
-        // Load a second ui-view so that the child states can attach and execute their controllers
-//        template: '<div ui-view></div>',
         templateUrl: '/partials/location-data.html',
         controller: 'locationCtrl'
     });
@@ -25,7 +23,6 @@ angular.module('state.location', [
 
     function loadLocation(locationData) {
         if (locationData) {
-
             $rootScope.pageTitle = locationData.city;
             $rootScope.currentLocation = locationData;
             $rootScope.currentCity = locationData.city;
