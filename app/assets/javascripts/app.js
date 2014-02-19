@@ -22,7 +22,7 @@ angular.module('deglassified', [
     $locationProvider.html5Mode(true);
 })
 
-.run(function($rootScope, $state, $modal, locationDataService) {
+.run(function($rootScope, $state, $modal, locationDataService, mapboxService) {
     locationDataService.getList()
         .then(function(locationsList) {
             $rootScope.locations = locationsList;
@@ -41,6 +41,7 @@ angular.module('deglassified', [
     };
 
     $rootScope.loadLocation = function(location) {
+        mapboxService.clearMarkers();
         // Have to set so that if mapbox closes a popup, it does try to reload back to old location
         $rootScope.currentLocation = location;
         // Have to force reloads, as though the parameter for location state is changed, the state controller

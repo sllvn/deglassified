@@ -14,7 +14,6 @@ angular.module('service.location-data', [])
                 url: '/api/locations/' + locationSlug
             })
             .success(function(data) {
-                console.log(data);
                 var location = data.location;
                 cachedLocations[location.slug] = location;
                 deferred.resolve(location);

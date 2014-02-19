@@ -13,16 +13,14 @@ angular.module('service.mapbox', [ 'ui.router'])
         features: []
     };
 
-    var currentLocation;
-
-    var markerLayer = L.mapbox.markerLayer();
+    var markerLayer;
 
     function loadLocation(location) {
+        markerLayer = L.mapbox.markerLayer();
         clearMarkers();
         if (location.coordinates) {
             panTo(location.coordinates);
         }
-        currentLocation = location;
         addBusinessesToMapbox(location.businesses);
     }
 
@@ -78,6 +76,8 @@ angular.module('service.mapbox', [ 'ui.router'])
         }(business));
 
         map.on('popupclose', function() {
+            // Potentially add a flag instead like if (!changingLocations)
+            console.log('closed');
             $rootScope.pageTitle = $rootScope.currentLocation.city;
             // Does not 'reload' the state controller; Just changes the window location href
             $state.go('location', { location: $rootScope.currentLocation.slug });
@@ -94,6 +94,7 @@ angular.module('service.mapbox', [ 'ui.router'])
     }
 
     function clearMarkers() {
+        // Here we would set the changingLocations flag
         markerLayer.clearLayers();
         geoJSON.features.length = 0;
     }
@@ -103,6 +104,7 @@ angular.module('service.mapbox', [ 'ui.router'])
     }
 
     return {
+        clearMarkers: clearMarkers,
         loadLocation: loadLocation,
         addBusinessesToMapbox: addBusinessesToMapbox,
         openBusinessPopup: openBusinessPopup
