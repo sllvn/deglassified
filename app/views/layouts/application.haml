@@ -8,25 +8,25 @@
     = javascript_include_tag 'vendor/modernizr'
     = csrf_meta_tags
   %body
-    #div(ui-view)
+
     #sidebar
       %h1
         %a(href='/') Deglassified
+      %hr
       %p.lead Cataloguing businesses that value your privacy.
 
-      = link_to '#', class: 'add-location', 'data-reveal-id' => 'add-location-modal' do
+      %a.add-location(ng-click='openLoginSignupModal()')
         %i.fi-share
         %span Share Your Local Glass-Free Businesses
 
-      = yield
-
+      %div(ui-view)
+      
       .contact
         %a(href='http://twitter.com/Deglassified' target='_blank')
           %i.fi-social-twitter
           Contact Us
       .legal
         Google Glass&trade; is a trademark of Google Inc.
-    = render 'map/login_or_sign_up'
 
     #map
 

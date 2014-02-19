@@ -1,0 +1,17 @@
+<h3>
+  <span id='current-city'>{{currentCity}}</span>
+  Businesses
+  <small>
+    <a class='change-location' ng-click="openLocationModal()">change location</a>
+  </small>
+</h3>
+<table id='business-listing'>
+  <tbody>
+    <tr ng-repeat='business in businesses'>
+      <td>
+        <a ng-click='showBusiness(business)'>{{business.name}}</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div ui-view></div>

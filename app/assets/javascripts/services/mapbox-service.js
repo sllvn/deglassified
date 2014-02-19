@@ -1,8 +1,8 @@
 //= require mapbox.js
 
-angular.module('service.mapbox', ['restangular', 'ui.router'])
+angular.module('service.mapbox', [ 'ui.router'])
 
-.service('mapboxService', function($rootScope, $state, $compile) {
+.service('mapboxService', function($rootScope, $state) {
     var mapName = 'map',
         defaultView = [47.603569, -122.329453],
         defaultZoom = 12,
@@ -13,32 +13,19 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
         features: []
     };
 
-    var markerLayer = L.mapbox.markerLayer();
+    var markerLayer;
 
-
-    $rootScope.$on('locationDataRetrieved', function(event, location) {
-        loadLocationOnMapbox(location);
-    });
-
-    function loadLocationOnMapbox(location) {
+    function loadLocation(location) {
+        markerLayer = L.mapbox.markerLayer();
+        clearMarkers();
         if (location.coordinates) {
             panTo(location.coordinates);
         }
-        clearMarkers();
-        $('.open').find('.close-reveal-modal').click();
+        addBusinessesToMapbox(location.businesses);
     }
 
-
-
-    $rootScope.$on('setBusinessesInMapbox', function(event, businesses) {
-        addBusinessesToMapbox(businesses);
-        $rootScope.$emit('businessesLoadedInMapbox');
-        // Need to set this flag so that we know it is safe to open a business's popup
-        $rootScope.businessesLoadedInMapbox = true;
-    });
-
-    function addBusinessesToMapbox() {
-        angular.forEach($rootScope.businesses, function(business) {
+    function addBusinessesToMapbox(businesses) {
+        angular.forEach(businesses, function(business) {
             addBusiness(business);
         });
     }
@@ -56,51 +43,49 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
         });
         markerLayer.setGeoJSON(geoJSON);
         markerLayer.addTo(map);
-
         markerLayer.eachLayer(function(layer) {
-            business = layer.feature.properties.business;
-
-            // TODO: fix the compiling of the ng-include
-//            var content = "<div id='business-data' ng-include='/partials/test.html'></div>";
-
-            var content  = "<h4>" + business.name + "</h4>" +
-                "<p>" + business.address + "</p>";
-            if (business.links)
-                content += '<p>';
-            if (business.links.website)
-                content += "<a href='" + business.links.website + "' target='_blank'><i class='fi-link'></i> website</a><br>";
-            if (business.links.facebook)
-                content += "<a href='" + business.links.facebook + "' target='_blank'><i class='fi-social-facebook'></i> facebook</a><br>";
-            if (business.links.twitter)
-                content += "<a href='" + business.links.twitter + "' target='_blank'><i class='fi-social-twitter'></i> twitter</a><br>";
-            if (business.links.yelp)
-                content += "<a href='" + business.links.yelp + "' target='_blank'><i class='fi-social-yelp'></i> yelp</a><br>";
-            content += '</p>';
-
-            layer.bindPopup(content);
-
-
-//            $compile(angular.element('#business-data'));
-//            if (!$scope.$$phase) {
-////                $digest;
-//            }
-            layer.on('click', function(business) {
-                return function() {
-                    // Need to add location params
-                    $state.go('location.business', { business: business.slug });
-                };
-            }(business));
+            setPopups(layer);
         });
     }
 
+    function setPopups(layer) {
+        var business = layer.feature.properties.business;
 
-    $rootScope.$on('openPopupForBusiness', function(event, business) {
-        openPopupForId(business);
-    });
+        // Not worth binding an ng-include to the pop-up instead, as you'll have to $compile the ng-include div
+        // AND and nested directives inside the ng-included template.
+        var content  = "<h4>" + business.name + "</h4>" +
+            "<p>" + business.address + "</p>";
+        if (business.links)
+            content += '<p>';
+        if (business.links.website)
+            content += "<a href='" + business.links.website + "' target='_blank'><i class='fi-link'></i> website</a><br>";
+        if (business.links.facebook)
+            content += "<a href='" + business.links.facebook + "' target='_blank'><i class='fi-social-facebook'></i> facebook</a><br>";
+        if (business.links.twitter)
+            content += "<a href='" + business.links.twitter + "' target='_blank'><i class='fi-social-twitter'></i> twitter</a><br>";
+        if (business.links.yelp)
+            content += "<a href='" + business.links.yelp + "' target='_blank'><i class='fi-social-yelp'></i> yelp</a><br>";
+        content += '</p>';
 
-    function openPopupForId(businessId) {
+        layer.bindPopup(content);
+
+        layer.on('popupopen', function(business) {
+            return function() {
+                $state.go('location.business', { business: business.slug });
+                $rootScope.pageTitle = business.name;
+            };
+        }(business));
+
+        layer.on('popupclose', function() {
+            // Does not 'reload' the state controller; Just changes the window location href
+            $state.go('location', { location: $rootScope.currentLocation.slug });
+            $rootScope.pageTitle = $rootScope.currentLocation.city;
+        });
+    }
+
+    function openBusinessPopup(businessSlug) {
         markerLayer.eachLayer(function(marker) {
-            if (Number(marker.feature.properties.business.id) == Number(businessId)) {
+            if (marker.feature.properties.business.slug === businessSlug) {
                 marker.openPopup();
                 panTo(marker.getLatLng());
             }
@@ -108,12 +93,24 @@ angular.module('service.mapbox', ['restangular', 'ui.router'])
     }
 
     function clearMarkers() {
+        // clearLayers() will trigger a popupclose event, so make sure to unbind the callback for the event
+        markerLayer.eachLayer(function(marker) {
+            marker.off('popupclose');
+        });
+        // Here we would set the changingLocations flag
         markerLayer.clearLayers();
         geoJSON.features.length = 0;
     }
 
     function panTo(coordinates) {
         map.panTo([coordinates.lat, coordinates.lng]);
+    }
+
+    return {
+        clearMarkers: clearMarkers,
+        loadLocation: loadLocation,
+        addBusinessesToMapbox: addBusinessesToMapbox,
+        openBusinessPopup: openBusinessPopup
     }
 
 })
