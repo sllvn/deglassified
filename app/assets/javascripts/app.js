@@ -12,6 +12,7 @@ angular.module('deglassified', [
     // Services
     'service.location-data',
     'service.mapbox',
+    'service.user-account',
     // States
     'state.home',
     // Location has a wildcard route, so it must be loaded after all states with an explicit route
@@ -22,7 +23,12 @@ angular.module('deglassified', [
     $locationProvider.html5Mode(true);
 })
 
-.run(function($rootScope, $state, $modal, locationDataService, mapboxService) {
+.run(function($rootScope, $state, $modal, locationDataService, mapboxService, userAccountService) {
+    userAccountService.signIn()
+        .then(function(data) {
+            console.log(data);
+        });
+
     locationDataService.getList()
         .then(function(locationsList) {
             $rootScope.locations = locationsList;
