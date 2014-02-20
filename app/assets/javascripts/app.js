@@ -26,14 +26,30 @@ angular.module('deglassified', [
 })
 
 .run(function($rootScope, $state, $modal, locationDataService, mapboxService, userAccountService) {
+    $rootScope.signedIn = false;
+
     $rootScope.signIn = function() {
         userAccountService.signIn()
             .then(function(response) {
                 if (response.status === 'success') {
                     $rootScope.signedIn = true;
+                    console.log('signed in');
                 } else {
                     // TODO: Find an appropriate message to the user
                     console.log('Login failed!');
+                }
+            });
+    };
+
+    $rootScope.signOut = function() {
+        userAccountService.signOut()
+            .then(function(response) {
+                if (response.status === 'success') {
+                    $rootScope.signedIn = false;
+                    console.log('Signed out');
+                } else {
+                    // TODO: Find an appropriate message to the user
+                    console.log('Logout failed!');
                 }
             });
     };
@@ -43,6 +59,8 @@ angular.module('deglassified', [
             $rootScope.locations = locationsList;
         });
 
+
+    // Could move this into their own service, like loadModals() or setModals()
     $rootScope.openLoginSignupModal = function() {
         $modal.open({
             templateUrl: '/partials/login-signup-modal.html'

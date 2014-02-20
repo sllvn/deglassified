@@ -20,7 +20,11 @@
         %span Share Your Local Glass-Free Businesses
 
       %div(ui-view)
-      
+
+      %div.sign-in-form(ng-switch on='signedIn')
+        %a(ng-click='signIn()' ng-switch-when='false') Sign In
+        %a(ng-click='signOut()' ng-switch-when='true') Sign Out
+
       .contact
         %a(href='http://twitter.com/Deglassified' target='_blank')
           %i.fi-social-twitter

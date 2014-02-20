@@ -36,16 +36,16 @@ angular.module('service.user-account', [
     function signOut() {
         var deferred = $q.defer();
         $http({
-            method: 'POST',
-            url: '/api/users/sign_in',
-            data: testUser
+            method: 'DELETE',
+            url: '/api/users/sign_out'
         })
             .success(function(response) {
+                localStorageService.remove('user');
                 deferred.resolve(response.auth);
             })
             .error(function(response) {
                 console.log(response.auth);
-                deferred.resolve('Sign in failed.');
+                deferred.resolve('Sign out failed.');
             });
 
         return deferred.promise;
