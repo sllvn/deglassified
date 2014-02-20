@@ -1,8 +1,8 @@
 class LocationsController < ApplicationController
-  skip_before_filter :verify_authenticity_token
+  before_filter :authenticate_user!, only: [:create, :update]
 
   def index
-    render json: Location.all, each_serializer: LocationSerializer
+    render json: Location.all, each_serializer: SimpleLocationSerializer
   end
 
   def show
