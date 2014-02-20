@@ -1,6 +1,4 @@
 class BusinessesController < ApplicationController
-  skip_before_filter :verify_authenticity_token
-
   def index
     @businesses = Location.friendly.find(params[:location_id]).businesses
 
