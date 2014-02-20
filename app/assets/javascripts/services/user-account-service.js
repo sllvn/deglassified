@@ -1,8 +1,10 @@
 angular.module('service.user-account', [
-
+    'LocalStorageModule'
 ])
 
-.service('userAccountService', function($http, $q) {
+.service('userAccountService', function($http, $q, localStorageService) {
+    var user = {};
+
     var testUser = {
         "user": {
             "email": "someone@example.com",
@@ -18,10 +20,13 @@ angular.module('service.user-account', [
             data: testUser
         })
         .success(function(response) {
-            deferred.resolve(response);
+            user.sessionToken = response.auth.token;
+            // Find out if this automatically overwrites
+            localStorageService.add('user', user);
+            deferred.resolve(response.auth);
         })
         .error(function(response) {
-            console.log(response);
+            console.log(response.auth);
             deferred.resolve('Sign in failed.');
         });
 
@@ -36,10 +41,10 @@ angular.module('service.user-account', [
             data: testUser
         })
             .success(function(response) {
-                deferred.resolve(response);
+                deferred.resolve(response.auth);
             })
             .error(function(response) {
-                console.log(response);
+                console.log(response.auth);
                 deferred.resolve('Sign in failed.');
             });
 

@@ -1,5 +1,6 @@
 //= require angular
 //= require mm-foundation-tpls-0.1.0.min
+//= require angular-local-storage.min
 //= require angular-ui-router.min
 //= require_tree .
 
@@ -7,7 +8,7 @@ angular.module('deglassified', [
     // Libs
     'ui.router',
     'mm.foundation',
-//    'ngAnimate',
+    'LocalStorageModule',
 
     // Services
     'service.location-data',
@@ -19,15 +20,23 @@ angular.module('deglassified', [
     'state.location'
 ])
 
-.config(function($locationProvider) {
+.config(function($locationProvider, localStorageServiceProvider) {
     $locationProvider.html5Mode(true);
+    localStorageServiceProvider.setPrefix('deglassified');
 })
 
 .run(function($rootScope, $state, $modal, locationDataService, mapboxService, userAccountService) {
-    userAccountService.signIn()
-        .then(function(data) {
-            console.log(data);
-        });
+    $rootScope.signIn = function() {
+        userAccountService.signIn()
+            .then(function(response) {
+                if (response.status === 'success') {
+                    $rootScope.signedIn = true;
+                } else {
+                    // TODO: Find an appropriate message to the user
+                    console.log('Login failed!');
+                }
+            });
+    };
 
     locationDataService.getList()
         .then(function(locationsList) {
