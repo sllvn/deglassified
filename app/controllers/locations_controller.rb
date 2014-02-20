@@ -1,4 +1,6 @@
 class LocationsController < ApplicationController
+  before_filter :authenticate_user!, only: [:create, :update]
+
   def index
     render json: Location.all, each_serializer: SimpleLocationSerializer
   end
