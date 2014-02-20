@@ -6,6 +6,8 @@ gem 'pg'
 gem 'puma'
 gem 'active_model_serializers'
 gem 'friendly_id', '~> 5.0.0'
+gem 'devise'
+gem 'simple_token_authentication'
 
 # front-end gems
 gem 'haml'
