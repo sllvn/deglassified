@@ -8,7 +8,6 @@ angular.module('deglassified', [
     // Libs
     'ui.router',
     'mm.foundation',
-    'LocalStorageModule',
 
     // Services
     'service.location-data',
@@ -20,9 +19,8 @@ angular.module('deglassified', [
     'state.location'
 ])
 
-.config(function($locationProvider, localStorageServiceProvider) {
+.config(function($locationProvider) {
     $locationProvider.html5Mode(true);
-    localStorageServiceProvider.setPrefix('deglassified');
 })
 
 .run(function($rootScope, $state, $modal, locationDataService, mapboxService, userAccountService) {

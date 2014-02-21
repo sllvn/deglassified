@@ -1,8 +1,10 @@
+//= require angular-cookies
+
 angular.module('service.user-account', [
-    'LocalStorageModule'
+    'ngCookies'
 ])
 
-.service('userAccountService', function($http, $q, localStorageService) {
+.service('userAccountService', function($http, $q, $cookieStore) {
     var user = {};
 
     var testUser = {
@@ -18,18 +20,18 @@ angular.module('service.user-account', [
         $http({
             method: 'POST',
             url: '/api/users/sign_in',
-//            data: testUser
-            data: loginDetails
+            data: testUser
+//            data: loginDetails
         })
         .success(function(response) {
-            user.sessionToken = response.auth.token;
             // Find out if this automatically overwrites
-            localStorageService.add('user', user);
+            $cookieStore.put('user', {
+                sessionToken: response.auth.token
+            });
             deferred.resolve(response.auth);
         })
         .error(function(response) {
-            console.log(response.auth);
-            deferred.resolve('Sign in failed.');
+            deferred.resolve('error');
         });
 
         return deferred.promise;
@@ -42,7 +44,7 @@ angular.module('service.user-account', [
             url: '/api/users/sign_out'
         })
             .success(function(response) {
-                localStorageService.remove('user');
+                $cookieStore.remove('user');
                 deferred.resolve(response.auth);
             })
             .error(function(response) {
