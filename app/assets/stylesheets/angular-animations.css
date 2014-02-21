@@ -45,3 +45,31 @@
     -ms-transform: translate(0, 0);
     transform: translate(0, 0);
 }
+
+/* Standard ngAnimate animations */
+
+
+
+.animate-switch {
+    opacity: 0.6;
+}
+
+.animate-switch.ng-animate {
+    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.3s;
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.3s;
+
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+.animate-switch.ng-leave.ng-leave-active,
+.animate-switch.ng-enter {
+    top:-50px;
+}
+.animate-switch.ng-leave,
+.animate-switch.ng-enter.ng-enter-active {
+    top:0;
+}

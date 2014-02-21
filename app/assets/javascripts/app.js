@@ -1,4 +1,5 @@
 //= require angular
+//= require angular-animate.min
 //= require mm-foundation-tpls-0.1.0.min
 //= require angular-local-storage.min
 //= require angular-ui-router.min
@@ -7,6 +8,7 @@
 angular.module('deglassified', [
     // Libs
     'ui.router',
+    'ngAnimate',
     'mm.foundation',
 
     // Services

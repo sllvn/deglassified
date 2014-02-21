@@ -1,4 +1,4 @@
-//= require angular-cookies
+//= require angular-cookies.min
 
 angular.module('service.user-account', [
     'ngCookies'

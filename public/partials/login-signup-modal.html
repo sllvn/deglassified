@@ -5,23 +5,26 @@
         <fieldset>
             <legend>Sign In</legend>
 
-            <div ng-switch on="signInError">
-                <div ng-switch-when='failed-login'>
-                    <alert type='danger'>
-                        Your email / password combination is incorrect.  Please try again.
-                    </alert>
-                </div>
-                <div ng-switch-when='server-down'>
-                    <alert type='danger'>
-                        Cannot connect to server.  Please check your connection and try again.
-                    </alert>
-                </div>
-            </div>
-
             <label for='email'>Email</label>
             <input type='email' id='email' name='email' ng-model='user.email' placeholder='you@example.com'>
             <label for='password'>Password</label>
             <input type='password' id='password' name='password' ng-model='user.password'>
+
+            <div class='sign-in-error'>
+                <div ng-switch on="signInError">
+                    <div ng-switch-when='failed-login' class="animate-switch">
+                        <alert type='danger'>
+                            Your email / password combination is incorrect.  Please try again.
+                        </alert>
+                    </div>
+                    <div ng-switch-when='server-down' class="animate-switch">
+                        <alert type='danger'>
+                            Cannot connect to server.  Please check your connection and try again.
+                        </alert>
+                    </div>
+                </div>
+            </div>
+
             <button class='button medium' type='submit'>Sign In</button>
             <a class='forgot-password'>Forgot password?</a>
         </fieldset>
