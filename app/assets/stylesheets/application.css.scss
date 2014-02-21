@@ -47,6 +47,25 @@ body, html, .fill-height {
   }
 }
 
+#main-modal {
+    .signed-in-message {
+        @extend .large-10;
+        @extend .columns;
+        em {
+            font-weight: bold;
+        }
+    }
+    .sign-out-button {
+        @extend .large-2;
+        @extend .columns;
+        @extend .text-center;
+        button {
+            @extend .button;
+            @extend .tiny;
+        }
+    }
+}
+
 #map {
   @extend .large-8;
   @extend .columns;

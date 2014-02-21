@@ -68,10 +68,11 @@ angular.module('deglassified', [
                     $scope.signInError = 'failed-login';
                     // Only reset the password on failed login
                     $scope.user.password = '';
-                    setTimeout(function() {
-                        $scope.signInError = null;
-                    }, 3000);
                 }
+                // Set the timeout to disappear
+                setTimeout(function() {
+                    $scope.signInError = false;
+                }, 3000);
             });
     };
 
