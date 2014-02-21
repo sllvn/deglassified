@@ -14,28 +14,37 @@ angular.module('service.user-account', [
         }
     };
 
-    function signIn(loginDetails) {
+    function signIn(email, password) {
+        var loginDetails = {
+            user: {
+                email: email,
+                password: password
+            }
+        };
         console.log(loginDetails);
         var deferred = $q.defer();
         $http({
             method: 'POST',
             url: '/api/users/sign_in',
-            data: testUser
-//            data: loginDetails
+//            data: testUser
+            data: loginDetails
         })
         .success(function(response) {
             // Find out if this automatically overwrites
             $cookieStore.put('user', {
                 sessionToken: response.auth.token
             });
-            deferred.resolve(response.auth);
+            deferred.resolve(response.auth.status);
         })
         .error(function(response) {
-            deferred.resolve('error');
+            console.log(response);
+            deferred.resolve('failure');
         });
 
         return deferred.promise;
     }
+
+
 
     function signOut() {
         var deferred = $q.defer();

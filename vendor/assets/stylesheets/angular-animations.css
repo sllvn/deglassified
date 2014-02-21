@@ -30,3 +30,18 @@
     filter: alpha(opacity=50);
     opacity: .5;
 }
+
+.alert-box.fade {
+    -webkit-transition: -webkit-transform .3s ease-out;
+    -moz-transition:    -moz-transform .3s ease-out;
+    -o-transition:      -o-transform .3s ease-out;
+    transition:         transform .3s ease-out;
+    -webkit-transform: translate(0, -25%);
+    -ms-transform: translate(0, -25%);
+    transform: translate(0, -25%);
+}
+.alert-box.in {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
