@@ -11,14 +11,17 @@ angular.module('controller.main-modal', [
     $scope.signIn = function(email, password) {
         userAccountService.signIn($scope.user.email, $scope.user.password)
             .then(function(response) {
-                if (response === 'server-down') {
-                    $scope.signInError = 'server-down';
-                } else if (response === 'success') {
-                    $rootScope.signedIn = true;
-                } else if (response === 'failure') {
-                    $scope.signInError = 'failed-login';
-                    // Only reset the password on failed login
-                    $scope.user.password = '';
+                switch (response) {
+                    case 'success':
+                        $rootScope.signedIn = true;
+                        break;
+                    case 'server-down':
+                        $scope.signInError = 'server-down';
+                        break;
+                    case 'failure':
+                        $scope.signInError = 'failed-login';
+                        $scope.user.password = '';
+                        break;
                 }
                 // Set the timeout to disappear
                 setTimeout(function() {
@@ -39,6 +42,8 @@ angular.module('controller.main-modal', [
                 }
             });
     };
+
+
 })
 
 ;
