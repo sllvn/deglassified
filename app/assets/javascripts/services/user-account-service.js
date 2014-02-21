@@ -6,18 +6,20 @@ angular.module('service.user-account', [
     var user = {};
 
     var testUser = {
-        "user": {
-            "email": "someone@example.com",
-            "password": "somepassword"
+        user: {
+            email: 'someone@example.com',
+            password: 'somepassword'
         }
     };
 
-    function signIn() {
+    function signIn(loginDetails) {
+        console.log(loginDetails);
         var deferred = $q.defer();
         $http({
             method: 'POST',
             url: '/api/users/sign_in',
-            data: testUser
+//            data: testUser
+            data: loginDetails
         })
         .success(function(response) {
             user.sessionToken = response.auth.token;

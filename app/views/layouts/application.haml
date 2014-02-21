@@ -21,9 +21,15 @@
 
       %div(ui-view)
 
-      %div.sign-in-form(ng-switch on='signedIn')
-        %a(ng-click='signIn()' ng-switch-when='false') Sign In
-        %a(ng-click='signOut()' ng-switch-when='true') Sign Out
+      -#%div.row
+      -#  %form.sign-in-form.medium-12(ng-switch on='signedIn')
+      -#    %fieldset
+      -#      %legend(ng-switch-when='false') Sign In
+      -#      %legend(ng-switch-when='true') Sign Out
+      -#      %input(type='email' ng-model='user.email' placeholder='Email')
+      -#      %input(type='password' ng-model='user.password' placeholder='Password')
+      -#      %button.button.tiny(ng-switch-when='false') Sign In
+      -#      %button.button.tiny(ng-switch-when='true') Sign Out
 
       .contact
         %a(href='http://twitter.com/Deglassified' target='_blank')

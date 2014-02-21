@@ -29,7 +29,13 @@ angular.module('deglassified', [
     $rootScope.signedIn = false;
 
     $rootScope.signIn = function() {
-        userAccountService.signIn()
+        loginDetails = {
+            user: {
+                email: $rootScope.name,
+                password: $rootScope.password
+            }
+        }
+        userAccountService.signIn(loginDetails)
             .then(function(response) {
                 if (response.status === 'success') {
                     $rootScope.signedIn = true;
@@ -63,7 +69,7 @@ angular.module('deglassified', [
     // Could move this into their own service, like loadModals() or setModals()
     $rootScope.openLoginSignupModal = function() {
         $modal.open({
-            templateUrl: '/partials/login-signup-modal.html'
+            templateUrl: '/partials/main-modal.html'
         });
     };
 

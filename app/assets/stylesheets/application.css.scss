@@ -13,6 +13,11 @@ body, html, .fill-height {
   height: 100%;
 }
 
+// TODO: Find a way to not hardcode this
+.reveal-modal {
+    top: 1.5rem !important;
+}
+
 #sidebar {
   @extend .large-4;
   @extend .columns;

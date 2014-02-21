@@ -1,0 +1,8 @@
+<div ng-switch on='signedIn'>
+    <div ng-switch-when='false'>
+        <div ng-include="'/partials/login-signup-modal.html'"></div>
+    </div>
+    <div ng-switch-when='true'>
+        <div ng-include="'/partials/dashboard.html'"></div>
+    </div>
+</div>
