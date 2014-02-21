@@ -1,16 +1,16 @@
 <p class='login-required'>To add your local Glass-free businesses (and to reduce spam), you&rsquo;ll need to sign in first.</p>
 
 <div class='sign-in-form'>
-    <form ng-submit="signIn(email, password)" name="signInForm">
+    <form ng-submit="signIn()" name="signInForm">
         <fieldset>
             <legend>Sign In</legend>
             <alert type='danger' ng-show='showSignInError'>
                 There was an error with your sign in.  Please try again.
             </alert>
             <label for='email'>Email</label>
-            <input type='email' id='email' name='email' ng-model='email' placeholder='you@example.com'>
+            <input type='email' id='email' name='email' ng-model='user.email' placeholder='you@example.com'>
             <label for='password'>Password</label>
-            <input type='password' id='password' name='password' ng-model='password'>
+            <input type='password' id='password' name='password' ng-model='user.password'>
             <button class='button medium' type='submit'>Sign In</button>
             <a class='forgot-password'>Forgot password?</a>
         </fieldset>

@@ -24,10 +24,11 @@ angular.module('deglassified', [
     $locationProvider.html5Mode(true);
 })
 
-.controller('sideBarCtrl', function($scope, $state, $modal, mapboxService, locationDataService) {
+.controller('sideBarCtrl', function($rootScope, $scope, $state, $modal, mapboxService, locationDataService) {
     locationDataService.getList()
         .then(function(locationsList) {
-            $scope.locations = locationsList;
+            // As the data will be used in a modal being appended to the DOM, have to store in rootScope.
+            $rootScope.locations = locationsList;
         });
 
     // Could move this into their own service, like loadModals() or setModals()
@@ -57,16 +58,14 @@ angular.module('deglassified', [
 
 .controller('modalCtrl', function($scope, $state, userAccountService) {
     $scope.signedIn = false;
+    $scope.user = {};
 
     $scope.signIn = function(email, password) {
-        console.log(email + ' ' + password);
-        userAccountService.signIn(email, password)
+        userAccountService.signIn($scope.user.email, $scope.user.password)
             .then(function(response) {
                 if (response.status === 'success') {
                     $scope.signedIn = true;
-                    console.log('signed in');
                 } else {
-                    console.log('Login failed!');
                     $scope.showSignInError = true;
                     setTimeout(function() {
                         $scope.showSignInError = false;

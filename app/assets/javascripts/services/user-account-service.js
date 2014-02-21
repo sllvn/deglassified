@@ -5,8 +5,6 @@ angular.module('service.user-account', [
 ])
 
 .service('userAccountService', function($http, $q, $cookieStore) {
-    var user = {};
-
     var testUser = {
         user: {
             email: 'someone@example.com',
@@ -15,30 +13,30 @@ angular.module('service.user-account', [
     };
 
     function signIn(email, password) {
+        var deferred = $q.defer();
+
         var loginDetails = {
             user: {
                 email: email,
                 password: password
             }
         };
-        console.log(loginDetails);
-        var deferred = $q.defer();
+
         $http({
             method: 'POST',
             url: '/api/users/sign_in',
-//            data: testUser
             data: loginDetails
+//            data: testUser
         })
         .success(function(response) {
-            // Find out if this automatically overwrites
             $cookieStore.put('user', {
                 sessionToken: response.auth.token
             });
-            deferred.resolve(response.auth.status);
+            deferred.resolve(response.auth);
         })
         .error(function(response) {
-            console.log(response);
-            deferred.resolve('failure');
+            console.log(response.auth);
+            deferred.resolve(response.auth);
         });
 
         return deferred.promise;
