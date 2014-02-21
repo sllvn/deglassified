@@ -26,7 +26,8 @@ angular.module('deglassified', [
     $locationProvider.html5Mode(true);
 })
 
-.controller('sideBarCtrl', function($rootScope, $scope, $state, $modal, mapboxService, locationDataService) {
+.controller('sideBarCtrl', function($rootScope, $scope, $state, $modal,  locationDataService) {
+    // Gets list of locations from REST server, stores in $rootScope
     locationDataService.getList()
         .then(function(locationsList) {
             // As the data will be used in a modal being appended to the DOM, have to store in rootScope.
@@ -42,15 +43,17 @@ angular.module('deglassified', [
         $modal.open({ templateUrl: '/partials/change-location-modal.html' });
     };
 
+    $scope.showBusiness = function(business) {
+        $state.go('location.business', { business: business.slug }, { reload: true });
+    };
+})
+
+.controller('changeLocationModalCtrl', function($scope, $state, mapboxService) {
     $scope.loadLocation = function(location) {
         mapboxService.clearMarkers();
         // Have to force reloads, as though the parameter for location state is changed, the state controller
         // is not reloaded by default
         $state.go('location', { location: location.slug }, { reload: true } );
-    };
-
-    $scope.showBusiness = function(business) {
-        $state.go('location.business', { business: business.slug }, { reload: true });
     };
 })
 
