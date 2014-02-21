@@ -32,11 +32,14 @@ angular.module('service.user-account', [
             $cookieStore.put('user', {
                 sessionToken: response.auth.token
             });
-            deferred.resolve(response.auth);
+            deferred.resolve(response.auth.status);
         })
         .error(function(response) {
-            console.log(response.auth);
-            deferred.resolve(response.auth);
+            if (!response) {
+                deferred.resolve('server-down');
+            } else {
+                deferred.resolve(response.auth.status);
+            }
         });
 
         return deferred.promise;

@@ -33,15 +33,11 @@ angular.module('deglassified', [
 
     // Could move this into their own service, like loadModals() or setModals()
     $scope.openLoginSignupModal = function() {
-        $modal.open({
-            templateUrl: '/partials/main-modal.html'
-        });
+        $modal.open({ templateUrl: '/partials/main-modal.html' });
     };
 
     $scope.openLocationModal = function() {
-        $modal.open({
-            templateUrl: '/partials/change-location-modal.html'
-        });
+        $modal.open({ templateUrl: '/partials/change-location-modal.html' });
     };
 
     $scope.loadLocation = function(location) {
@@ -56,19 +52,24 @@ angular.module('deglassified', [
     };
 })
 
-.controller('modalCtrl', function($scope, $state, userAccountService) {
-    $scope.signedIn = false;
+.controller('modalCtrl', function($rootScope, $scope, $state, userAccountService) {
+    $rootScope.signedIn = false;
+    // Need to define these to access the models in the modal
     $scope.user = {};
 
     $scope.signIn = function(email, password) {
         userAccountService.signIn($scope.user.email, $scope.user.password)
             .then(function(response) {
-                if (response.status === 'success') {
-                    $scope.signedIn = true;
-                } else {
-                    $scope.showSignInError = true;
+                if (response === 'server-down') {
+                    $scope.signInError = 'server-down';
+                } else if (response === 'success') {
+                    $rootScope.signedIn = true;
+                } else if (response === 'failure') {
+                    $scope.signInError = 'failed-login';
+                    // Only reset the password on failed login
+                    $scope.user.password = '';
                     setTimeout(function() {
-                        $scope.showSignInError = false;
+                        $scope.signInError = null;
                     }, 3000);
                 }
             });
@@ -78,7 +79,7 @@ angular.module('deglassified', [
         userAccountService.signOut()
             .then(function(response) {
                 if (response.status === 'success') {
-                    $scope.signedIn = false;
+                    $rootScope.signedIn = false;
                     console.log('Signed out');
                 } else {
                     // TODO: Find an appropriate message to the user
