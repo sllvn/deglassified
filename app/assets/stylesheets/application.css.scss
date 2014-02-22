@@ -71,6 +71,14 @@ body, html, .fill-height {
     .sign-in-error {
 
     }
+    .add-location-form {
+        @extend .large-6;
+        @extend .columns;
+    }
+    #mini-map {
+        @extend .large-6;
+        @extend .columns;
+    }
 }
 
 #map {

@@ -47,8 +47,6 @@ angular.module('controller.main-modal', [
     $scope.register = function() {
         if ($scope.registration.password !== $scope.registration.verifyPassword) {
             $scope.registrationError = 'mismatch-password';
-            $scope.registration.password = '';
-            $scope.registration.verifyPassword = '';
         } else {
             userAccountService.register($scope.registration.email, $scope.registration.password)
                 .then(function(response) {
@@ -66,11 +64,14 @@ angular.module('controller.main-modal', [
                             break;
                     }
                 });
-            $scope.registration.password = '';
-            $scope.registration.verifyPassword = '';
         }
+        $scope.registration.password = '';
+        $scope.registration.verifyPassword = '';
     };
 
+    $scope.findLocation = function() {
+
+    };
 
 })
 
