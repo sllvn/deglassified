@@ -4,23 +4,21 @@ angular.module('controller.main-modal', [
 ])
 
 .controller('mainModalCtrl', function($rootScope, $scope, $state, userAccountService) {
-    $rootScope.signedIn = false;
     // Need to define these to access the models in the modal
-    $scope.user = {};
+    $scope.login = {};
 
-    $scope.signIn = function(email, password) {
-        userAccountService.signIn($scope.user.email, $scope.user.password)
+    $scope.signIn = function() {
+        userAccountService.signIn($scope.login.email, $scope.login.password)
             .then(function(response) {
-                switch (response) {
+                switch (response.status) {
                     case 'success':
-                        $rootScope.signedIn = true;
                         break;
                     case 'server-down':
                         $scope.signInError = 'server-down';
                         break;
                     case 'failure':
                         $scope.signInError = 'failed-login';
-                        $scope.user.password = '';
+                        $scope.login.password = '';
                         break;
                 }
                 // Set the timeout to disappear
@@ -34,13 +32,39 @@ angular.module('controller.main-modal', [
         userAccountService.signOut()
             .then(function(response) {
                 if (response.status === 'success') {
-                    $rootScope.signedIn = false;
+                    $rootScope.user.signedIn = false;
                     console.log('Signed out');
                 } else {
                     // TODO: Find an appropriate message to the user
                     console.log('Logout failed!');
                 }
             });
+    };
+
+    $scope.registration = {};
+
+    $scope.register = function() {
+        if ($scope.registration.password !== $scope.registration.verifyPassword) {
+            $scope.registrationError = 'mismatch-password';
+            $scope.registration.password = '';
+            $scope.registration.verifyPassword = '';
+        } else {
+            userAccountService.register($scope.registration.email, $scope.registration.password)
+                .then(function(response) {
+                    console.log(response);
+                    switch (response.status) {
+                        case 'success':
+                            break;
+                        case 'server-down':
+                            $scope.signInError = 'server-down';
+                            break;
+                        case 'failure':
+                            $scope.registrationError = 'failed-registration';
+                            $scope.registration.password = '';
+                            break;
+                    }
+                })
+        }
     };
 
 

@@ -6,9 +6,9 @@
             <legend>Sign In</legend>
 
             <label for='email'>Email</label>
-            <input type='email' id='email' name='email' ng-model='user.email' placeholder='you@example.com'>
+            <input type='email' id='email' name='email' ng-model='login.email' placeholder='you@example.com'>
             <label for='password'>Password</label>
-            <input type='password' id='password' name='password' ng-model='user.password'>
+            <input type='password' id='password' name='password' ng-model='login.password'>
 
             <div class='sign-in-error'>
                 <div ng-switch on="signInError">
@@ -36,16 +36,32 @@
 </div>
 
 <div class='create-account-form'>
-    <form>
+    <form ng-submit='register()'>
         <fieldset>
             <legend>Don't Have An Account? Create One!</legend>
             <p>We&rsquo;ll never share your information and we promise not to send you spam.</p>
             <label for='email'>Email</label>
-            <input id='email' name='email' placeholder='you@example.com' type='text'>
+            <input type='email' id='email' ng-model='registration.email' placeholder='you@example.com' >
             <label for='password'>Password</label>
-            <input id='password' name='password' type='password'>
-            <label for='verify_password'>Verify Password</label>
-            <input id='verify_password' name='verify_password' type='password'>
+            <input type='password' id='password' ng-model='registration.password'>
+            <label for='verify-password'>Verify Password</label>
+            <input type='password' id='verify-password' ng-model='registration.verifyPassword'>
+
+            <div class='registration-error'>
+                <div ng-switch on="registrationError">
+                    <div ng-switch-when='mismatch-password' class="animate-switch">
+                        <alert type='danger'>
+                            Passwords do not match.  Please try again with matching passwords.
+                        </alert>
+                    </div>
+                    <div ng-switch-when='server-down' class="animate-switch">
+                        <alert type='danger'>
+                            Cannot connect to server.  Please check your connection and try again.
+                        </alert>
+                    </div>
+                </div>
+            </div>
+
             <button class='button medium success' type='submit'>Create Your Account</button>
         </fieldset>
     </form>

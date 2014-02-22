@@ -4,48 +4,42 @@ angular.module('service.user-account', [
     'ngCookies'
 ])
 
-.service('userAccountService', function($http, $q, $cookieStore) {
-    var testUser = {
-        user: {
-            email: 'someone@example.com',
-            password: 'somepassword'
-        }
-    };
+.service('userAccountService', function($rootScope, $http, $q, $cookieStore) {
+    $rootScope.user = {};
+    $rootScope.user.signedIn = false;
 
     function signIn(email, password) {
         var deferred = $q.defer();
-
-        var loginDetails = {
-            user: {
-                email: email,
-                password: password
-            }
-        };
-
         $http({
             method: 'POST',
             url: '/api/users/sign_in',
-            data: loginDetails
-//            data: testUser
+            data:  {
+                user: {
+                    email: email,
+                    password: password
+                }
+            }
         })
         .success(function(response) {
+            $rootScope.user.signedIn = true;
+            $rootScope.user.email = email;
             $cookieStore.put('user', {
                 sessionToken: response.auth.token
             });
-            deferred.resolve(response.auth.status);
+            $rootScope.user.sessionToken = response.auth.token;
+
+            deferred.resolve(response.auth);
         })
         .error(function(response) {
             if (!response) {
                 deferred.resolve('server-down');
             } else {
-                deferred.resolve(response.auth.status);
+                deferred.resolve(response.auth);
             }
         });
 
         return deferred.promise;
     }
-
-
 
     function signOut() {
         var deferred = $q.defer();
@@ -65,9 +59,42 @@ angular.module('service.user-account', [
         return deferred.promise;
     }
 
+    function register(email, password) {
+        var deferred = $q.defer();
+        $http({
+            method: 'POST',
+            url: '/api/users',
+            data: {
+                user: {
+                    email: email,
+                    password: password
+                }
+            }
+        })
+            .success(function(response) {
+                $rootScope.user.signedIn = true;
+                $rootScope.user.email = email;
+                $cookieStore.put('user', {
+                    sessionToken: response.auth.token
+                });
+                $rootScope.user.sessionToken = response.auth.token;
+                deferred.resolve(response.auth);
+            })
+            .error(function(response) {
+                if (!response) {
+                    deferred.resolve('server-down');
+                } else {
+                    deferred.resolve(response.auth);
+                }
+            });
+
+        return deferred.promise;
+    }
+
     return {
         signIn: signIn,
-        signOut: signOut
+        signOut: signOut,
+        register: register
     }
 })
 
