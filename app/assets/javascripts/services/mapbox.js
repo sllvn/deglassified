@@ -3,10 +3,10 @@
 angular.module('service.mapbox', [ 'ui.router'])
 
 .service('mapboxService', function($rootScope, $state) {
-    var mapName = 'map',
+    var mapElement = 'map',
         defaultView = [47.603569, -122.329453],
         defaultZoom = 12,
-        map = L.mapbox.map(mapName, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
+        map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
 
     var geoJSON = {
         type: 'FeatureCollection',
@@ -87,8 +87,12 @@ angular.module('service.mapbox', [ 'ui.router'])
     function openBusinessPopup(businessSlug) {
         markerLayer.eachLayer(function(marker) {
             if (marker.feature.properties.business.slug === businessSlug) {
-                marker.openPopup();
-                panTo(marker.getLatLng());
+                // Check up if popup is not already open
+                if(!marker._map.hasLayer(marker._popup)) {
+                    // Popup is not open, ok to open popup
+                    marker.openPopup();
+                    panTo(marker.getLatLng());
+                }
             }
         })
     }
