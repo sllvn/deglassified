@@ -75,9 +75,14 @@ body, html, .fill-height {
         @extend .large-6;
         @extend .columns;
     }
-    #mini-map {
+    .location-preview {
         @extend .large-6;
         @extend .columns;
+    }
+    #minimap {
+        @extend .large-12;
+        @extend .columns;
+        @extend .fill-height;
     }
 }
 

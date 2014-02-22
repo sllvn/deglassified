@@ -1,3 +1,5 @@
+//= require mapbox.js
+
 angular.module('controller.main-modal', [
     'ui.router',
     'service.user-account'
@@ -70,8 +72,22 @@ angular.module('controller.main-modal', [
     };
 
     $scope.findLocation = function() {
-
+        loadMinimap();
     };
+
+    function loadMinimap() {
+        var mapElement = 'minimap',
+            defaultView = [47.603569, -122.329453],
+            defaultZoom = 12,
+            map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
+
+        var geoJSON = {
+            type: 'FeatureCollection',
+            features: []
+        };
+
+        var markerLayer = L.mapbox.markerLayer();
+    }
 
 })
 

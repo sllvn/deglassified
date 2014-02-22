@@ -15,6 +15,8 @@ angular.module('service.mapbox', [ 'ui.router'])
 
     var markerLayer = L.mapbox.markerLayer();
 
+    console.log(markerLayer);
+
     function loadLocation(location) {
         clearMarkers();
         if (location.coordinates) {
