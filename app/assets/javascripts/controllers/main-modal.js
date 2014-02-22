@@ -18,10 +18,11 @@ angular.module('controller.main-modal', [
                         break;
                     case 'failure':
                         $scope.signInError = 'failed-login';
-                        $scope.login.password = '';
                         break;
                 }
-                // Set the timeout to disappear
+                // Always clear password, regardless of response
+                $scope.login.password = '';
+                // Set the alert box to disappear
                 setTimeout(function() {
                     $scope.signInError = false;
                 }, 3000);
@@ -54,16 +55,19 @@ angular.module('controller.main-modal', [
                     console.log(response);
                     switch (response.status) {
                         case 'success':
+                            // Successful registration, clear all models in form
+                            $scope.registration = {};
                             break;
                         case 'server-down':
                             $scope.signInError = 'server-down';
                             break;
                         case 'failure':
                             $scope.registrationError = 'failed-registration';
-                            $scope.registration.password = '';
                             break;
                     }
-                })
+                });
+            $scope.registration.password = '';
+            $scope.registration.verifyPassword = '';
         }
     };
 

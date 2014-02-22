@@ -5,8 +5,20 @@ angular.module('service.user-account', [
 ])
 
 .service('userAccountService', function($rootScope, $http, $q, $cookieStore) {
-    $rootScope.user = {};
-    $rootScope.user.signedIn = false;
+    // Keep user object on rootScope, as may need it for bindings in other controllers
+
+    function initUserData() {
+        var existingUserData = $cookieStore.get('user');
+        if (existingUserData) {
+            $rootScope.user = existingUserData;
+        } else {
+            $rootScope.user = {};
+            $rootScope.user.signedIn = false;
+        }
+        $rootScope.$watch('user', function() {
+            $cookieStore.put('user', $rootScope.user);
+        }, true);
+    }
 
     function signIn(email, password) {
         var deferred = $q.defer();
@@ -23,11 +35,7 @@ angular.module('service.user-account', [
         .success(function(response) {
             $rootScope.user.signedIn = true;
             $rootScope.user.email = email;
-            $cookieStore.put('user', {
-                sessionToken: response.auth.token
-            });
             $rootScope.user.sessionToken = response.auth.token;
-
             deferred.resolve(response.auth);
         })
         .error(function(response) {
@@ -48,11 +56,11 @@ angular.module('service.user-account', [
             url: '/api/users/sign_out'
         })
             .success(function(response) {
-                $cookieStore.remove('user');
+                // Replace old user data with empty object
+                $rootScope.user = {};
                 deferred.resolve(response.auth);
             })
             .error(function(response) {
-                console.log(response.auth);
                 deferred.resolve('Sign out failed.');
             });
 
@@ -74,9 +82,6 @@ angular.module('service.user-account', [
             .success(function(response) {
                 $rootScope.user.signedIn = true;
                 $rootScope.user.email = email;
-                $cookieStore.put('user', {
-                    sessionToken: response.auth.token
-                });
                 $rootScope.user.sessionToken = response.auth.token;
                 deferred.resolve(response.auth);
             })
@@ -94,7 +99,8 @@ angular.module('service.user-account', [
     return {
         signIn: signIn,
         signOut: signOut,
-        register: register
+        register: register,
+        initUserData: initUserData
     }
 })
 

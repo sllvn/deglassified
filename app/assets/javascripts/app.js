@@ -13,6 +13,7 @@ angular.module('deglassified', [
 
     // Services
     'service.location-data',
+    'service.user-account',
 
     // Controllers
     'controller.main-modal',
@@ -26,6 +27,10 @@ angular.module('deglassified', [
 
 .config(function($locationProvider) {
     $locationProvider.html5Mode(true);
+})
+
+.run(function(userAccountService) {
+    userAccountService.initUserData();
 })
 
 .controller('sideBarCtrl', function($rootScope, $scope, $state, $modal, locationDataService) {
