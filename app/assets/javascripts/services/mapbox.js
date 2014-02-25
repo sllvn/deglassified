@@ -15,8 +15,6 @@ angular.module('service.mapbox', [ 'ui.router'])
 
     var markerLayer = L.mapbox.markerLayer();
 
-    console.log(markerLayer);
-
     function loadLocation(location) {
         clearMarkers();
         if (location.coordinates) {
@@ -50,10 +48,8 @@ angular.module('service.mapbox', [ 'ui.router'])
     }
 
     function setPopups(layer) {
-        var business = layer.feature.properties.business;
-
-        // Not worth binding an ng-include to the pop-up instead, as you'll have to $compile the ng-include div
-        // AND and nested directives inside the ng-included template.
+        var business = layer.feature.properties.business; 
+        // Yeah, still trying to figure out a better way.  Ng-include will not work cleanly
         var content  = "<h4>" + business.name + "</h4>" +
             "<p>" + business.address + "</p>";
         if (business.links)
@@ -107,8 +103,8 @@ angular.module('service.mapbox', [ 'ui.router'])
         geoJSON.features.length = 0;
     }
 
-    function panTo(coordinates) {
-        map.panTo([coordinates.lat, coordinates.lng]);
+    function panTo(coords) {
+        map.panTo([coords.lat, coords.lng]);
     }
 
     return {

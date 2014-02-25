@@ -4,7 +4,6 @@
 //= require angular-local-storage.min
 //= require angular-ui-router.min
 //= require_tree .
-
 angular.module('deglassified', [
     // Libs
     'ui.router',
@@ -25,7 +24,9 @@ angular.module('deglassified', [
     'state.location'
 ])
 
-.config(function($locationProvider) {
+.config(function($locationProvider, $httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
     $locationProvider.html5Mode(true);
 })
 

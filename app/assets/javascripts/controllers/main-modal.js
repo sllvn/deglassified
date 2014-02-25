@@ -71,7 +71,7 @@ angular.module('controller.main-modal', [
         $scope.registration.password = '';
         $scope.registration.verifyPassword = '';
     };
-
+;
 
 })
 
