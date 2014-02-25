@@ -2,10 +2,11 @@
 
 angular.module('controller.main-modal', [
     'ui.router',
-    'service.user-account'
+    'service.user-account',
+    'controller.dashboard'
 ])
 
-.controller('mainModalCtrl', function($rootScope, $scope, $state, userAccountService) {
+.controller('mainModalCtrl', function($rootScope, $scope, $http, $state, userAccountService) {
     // Need to define these to access the models in the modal
     $scope.login = {};
 
@@ -71,23 +72,6 @@ angular.module('controller.main-modal', [
         $scope.registration.verifyPassword = '';
     };
 
-    $scope.findLocation = function() {
-        loadMinimap();
-    };
-
-    function loadMinimap() {
-        var mapElement = 'minimap',
-            defaultView = [47.603569, -122.329453],
-            defaultZoom = 12,
-            map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
-
-        var geoJSON = {
-            type: 'FeatureCollection',
-            features: []
-        };
-
-        var markerLayer = L.mapbox.markerLayer();
-    }
 
 })
 

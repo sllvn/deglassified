@@ -78,6 +78,8 @@ body, html, .fill-height {
     .location-preview {
         @extend .large-6;
         @extend .columns;
+@extend .fill-height;
+height: 400px;
     }
     #minimap {
         @extend .large-12;
