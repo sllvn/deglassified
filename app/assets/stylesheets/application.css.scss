@@ -78,9 +78,24 @@ body, html, .fill-height {
     .location-preview {
         @extend .large-6;
         @extend .columns;
-@extend .fill-height;
-height: 400px;
+        @extend .fill-height;
+        height: 350px;
     }
+
+    .coord-column {
+        @extend .large-6;
+        @extend .columns;
+        input {
+            @extend .small-7;
+            @extend .columns;
+            padding-left: 10px !important;
+        }
+        .prefix {
+            @extend .small-5;
+            @extend .columns;
+        }
+    }
+
     #minimap {
         @extend .large-12;
         @extend .columns;

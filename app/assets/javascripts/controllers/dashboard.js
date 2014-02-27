@@ -3,6 +3,9 @@ angular.module('controller.dashboard', ['service.mini-map'])
 .controller('dashboardCtrl', function($scope, $http, $q, miniMapService) {
     $scope.business = {};
 
+    $scope.business.address = '1311 12th ave so 98144';
+    $scope.business.name = 'Deglassified Inc.';
+
     $scope.findLocation = function() {
         getGeoCoords($scope.business.address)
             .then(function(coords) {

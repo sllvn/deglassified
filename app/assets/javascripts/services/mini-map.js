@@ -5,7 +5,7 @@ angular.module('service.mini-map', [])
 .service('miniMapService', function() {
     var mapElement = 'minimap',
         defaultView = [47.603569, -122.329453],
-        defaultZoom = 12,
+        defaultZoom = 15,
         map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
 
     var geoJSON = {
@@ -13,19 +13,16 @@ angular.module('service.mini-map', [])
         features: []
     };
 
-    var markerLayer = L.mapbox.markerLayer();
-
-    var marker;
+    var markerLayer = L.mapbox.markerLayer(),
+        marker;
 
     function showBusiness(coords, business) {
-        console.log(business); 
-        if (coords) {
-            panTo(coords);
-        }
+        clearMarker();
         marker = L.marker([coords.lat, coords.lng], { draggable:true }).addTo(map);
         bindMarkerPopup(marker, business);
         marker.on('dragend', handleMarkerDrag);
         marker.openPopup();
+        panTo(coords);
     }
 
     function bindMarkerPopup(marker, business) {
@@ -49,6 +46,10 @@ angular.module('service.mini-map', [])
     function handleMarkerDrag(event) {
         var latlng = event.target.getLatLng();
         console.log(latlng);
+    }
+
+    function clearMarker() {
+        markerLayer.clearLayers();
     }
 
     function panTo(coords) {
