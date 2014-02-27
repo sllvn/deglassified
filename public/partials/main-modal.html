@@ -1,0 +1,10 @@
+<div ng-controller='mainModalCtrl' id='main-modal'>
+    <div ng-switch on='user.signedIn'>
+        <div ng-switch-when='false'>
+            <div ng-include="'/partials/login-register-modal.html'"></div>
+        </div>
+        <div ng-switch-when='true'>
+            <div ng-include="'/partials/dashboard.html'"></div>
+        </div>
+    </div>
+</div>
