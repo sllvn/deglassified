@@ -101,12 +101,16 @@ body, html, .fill-height {
     }
 
     #minimap {
-        @extend .large-12;
+        @extend .small-12;
         @extend .columns;
         @extend .fill-height;
     }
 
-    
+    #map-buttons {
+        @extend .small-12;
+        @extend .columns;
+        text-align: center;
+    }    
 }
 
 #map {

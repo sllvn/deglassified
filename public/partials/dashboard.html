@@ -56,7 +56,12 @@
                 </div>
             </div>
 
-            <div id='minimap' style=""></div>
+            <div id='minimap'></div>
+            <div id='map-buttons'>
+                <h3>Is this location correct?</h3>
+                <button class='button tiny success' ng-click='submitBusiness()'>Yes, submit business.</button>
+                <button class='button tiny alert' ng-click='focusAddressField()'>No, fix address</button>
+            </div>
         </div>
     </div>
 </div>

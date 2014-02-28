@@ -3,19 +3,19 @@
 angular.module('service.mini-map', [])
 
 .service('miniMapService', function() {
-    var mapElement = 'minimap',
-        defaultView = [47.603569, -122.329453],
-        defaultZoom = 15,
-        map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
-
-    var geoJSON = {
-        type: 'FeatureCollection',
-        features: []
-    };
-
-    var markerLayer = L.mapbox.markerLayer(),
+    var map,
+        markerLayer,
         marker;
 
+    function initMap() {
+        var mapElement = 'minimap',
+            defaultView = [47.603569, -122.329453],
+            defaultZoom = 15;
+
+        map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
+        markerLayer = L.mapbox.markerLayer();
+    }
+       
     function showBusiness(coords, business) {
         clearMarker();
         marker = L.marker([coords.lat, coords.lng], { draggable:true }).addTo(map);
@@ -57,6 +57,7 @@ angular.module('service.mini-map', [])
     }
 
     return {
+        initMap: initMap,
         showBusiness: showBusiness
     };
 })

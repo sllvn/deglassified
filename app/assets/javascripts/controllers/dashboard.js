@@ -1,8 +1,10 @@
-angular.module('controller.dashboard', ['service.mini-map'])
-
+angular.module('controller.dashboard', ['service.mini-map']) 
 .controller('dashboardCtrl', function($scope, $http, $q, miniMapService) {
+    // Always init map on load
+    miniMapService.initMap();
+    
     $scope.business = {};
-
+    // Stub data
     $scope.business.address = '1311 12th ave so 98144';
     $scope.business.name = 'Deglassified Inc.';
 
@@ -36,6 +38,10 @@ angular.module('controller.dashboard', ['service.mini-map'])
         $scope.business.longitude = coords.lng;
     }
 
+    function focusAddressField() {
+        console.log('hi');
+        document.getElementById('address').focus();
+    }
 })
 
 ;
