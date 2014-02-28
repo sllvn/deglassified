@@ -85,6 +85,10 @@ body, html, .fill-height {
     .coord-column {
         @extend .large-6;
         @extend .columns;
+        input, .prefix {
+            height: 1.5rem;
+            line-height: 1.5rem;
+        }
         input {
             @extend .small-7;
             @extend .columns;
@@ -101,6 +105,8 @@ body, html, .fill-height {
         @extend .columns;
         @extend .fill-height;
     }
+
+    
 }
 
 #map {
