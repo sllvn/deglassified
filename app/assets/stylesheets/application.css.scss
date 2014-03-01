@@ -13,6 +13,13 @@ body, html, .fill-height {
   height: 100%;
 }
 
+// TODO: Find a way to not hardcode this
+.reveal-modal {
+    top: 1.5rem !important;
+    // Mapbox's zoom button is z-index 999, so need modal to be above it
+    z-index: 1000 !important;
+}
+
 #sidebar {
   @extend .large-4;
   @extend .columns;
@@ -40,6 +47,60 @@ body, html, .fill-height {
     @extend .large-12;
     @extend .columns;
   }
+}
+
+#main-modal {
+    .signed-in-message {
+        @extend .large-10;
+        @extend .columns;
+        .user-email {
+            font-style: italic;
+            font-weight: bold;
+        }
+
+    }
+    .sign-out-button {
+        @extend .large-2;
+        @extend .columns;
+        @extend .text-center;
+        button {
+            @extend .button;
+            @extend .tiny;
+        }
+    }
+    .sign-in-error {
+
+    }
+    .add-location-form {
+        @extend .large-6;
+        @extend .columns;
+    }
+    .location-preview {
+        @extend .large-6;
+        @extend .columns;
+        @extend .fill-height;
+        height: 350px;
+    }
+
+    .coord-column {
+        @extend .large-6;
+        @extend .columns;
+        input {
+            @extend .small-7;
+            @extend .columns;
+            padding-left: 10px !important;
+        }
+        .prefix {
+            @extend .small-5;
+            @extend .columns;
+        }
+    }
+
+    #minimap {
+        @extend .large-12;
+        @extend .columns;
+        @extend .fill-height;
+    }
 }
 
 #map {

@@ -1,0 +1,75 @@
+.fade {
+    opacity: 0;
+    -webkit-transition: opacity .15s linear;
+    transition: opacity .15s linear;
+}
+.fade.in {
+    opacity: 1;
+}
+
+.reveal-modal.fade {
+    -webkit-transition: -webkit-transform .3s ease-out;
+    -moz-transition:    -moz-transform .3s ease-out;
+    -o-transition:      -o-transform .3s ease-out;
+    transition:         transform .3s ease-out;
+    -webkit-transform: translate(0, -25%);
+    -ms-transform: translate(0, -25%);
+    transform: translate(0, -25%);
+}
+.reveal-modal.in {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+
+.reveal-modal-bg.fade {
+    filter: alpha(opacity=0);
+    opacity: 0;
+}
+.reveal-modal-bg.in {
+    filter: alpha(opacity=50);
+    opacity: .5;
+}
+
+.alert-box.fade {
+    -webkit-transition: -webkit-transform .3s ease-out;
+    -moz-transition:    -moz-transform .3s ease-out;
+    -o-transition:      -o-transform .3s ease-out;
+    transition:         transform .3s ease-out;
+    -webkit-transform: translate(0, -25%);
+    -ms-transform: translate(0, -25%);
+    transform: translate(0, -25%);
+}
+.alert-box.in {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+}
+
+/* Standard ngAnimate animations */
+
+
+
+.animate-switch {
+    opacity: 0.6;
+}
+
+.animate-switch.ng-animate {
+    -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.3s;
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.3s;
+
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+.animate-switch.ng-leave.ng-leave-active,
+.animate-switch.ng-enter {
+    top:-50px;
+}
+.animate-switch.ng-leave,
+.animate-switch.ng-enter.ng-enter-active {
+    top:0;
+}

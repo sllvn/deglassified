@@ -1,0 +1,62 @@
+<div ng-controller='dashboardCtrl'>
+    <div class='signed-in-message'>
+        <p>
+            Signed in: <span class='user-email'>{{user.email}}</span>
+        </p>
+    </div>
+    <div class='sign-out-button'>
+        <button ng-click='signOut()'>
+            Sign Out
+        </button>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class='add-location-form'>
+            <form ng-submit='findLocation()'>
+                <fieldset>
+                    <legend>Add Business</legend>
+
+                    <label for='name'>Name</label>
+                    <input type='text' id='name' ng-model='business.name' placeholder='Deglassified Inc.' >
+
+                    <label for='name'>Location:</label>
+                    <select ng-model='business.location' ng-options='location.slug as location.city for location in locations'>
+                        <option value="" disabled selected>Choose a location</option>
+                    </select>
+
+                    <label for='address'>Address</label>
+                    <input type='text' id='address' ng-model='business.address' placeholder='12345 Fake Street' >
+
+                    <!--<label for='zipcode'>Zip Code</label>-->
+                    <!--<input type='text' id='zipcode' ng-model='business.zipcode'>-->
+
+                    <!--<label for='state'>State</label>-->
+                    <!--<input type='text' id='state' ng-model='business.state'>-->
+
+                    <!--<label for='website'>Website</label>-->
+                    <!--<input type='text' id='website' ng-model='business.website'>-->
+
+                    <button class='button medium success' type='submit'>Find Location on Map</button>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class='location-preview' style="">
+            <div class='coord-column'>
+                <div class='row collapse'>
+                    <span class="prefix">Latitude</span>
+                    <input type='text' id='latitude' ng-model='business.latitude'>
+                </div>
+            </div>
+            <div class='coord-column'>
+                <div class='row collapse'>
+                    <span class="prefix">Longitude</span>
+                    <input type='text' id='longitude' ng-model='business.longitude'>
+                </div>
+            </div>
+
+            <div id='minimap' style=""></div>
+        </div>
+    </div>
+</div>

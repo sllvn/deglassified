@@ -3,13 +3,13 @@
   %head
     %meta{ charset: 'utf-8' }
     %meta{ name: 'viewport', content:'width=device-width, initial-scale=1.0' }
-    %title(ng-bind-template='{{pageTitle}} - Delgassified')
+    %title(ng-bind-template='{{pageTitle}} - Deglassified')
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_include_tag 'vendor/modernizr'
     = csrf_meta_tags
   %body
 
-    #sidebar
+    #sidebar(ng-controller='sideBarCtrl')
       %h1
         %a(href='/') Deglassified
       %hr
@@ -20,7 +20,17 @@
         %span Share Your Local Glass-Free Businesses
 
       %div(ui-view)
-      
+
+      -#%div.row
+      -#  %form.sign-in-form.medium-12(ng-switch on='signedIn')
+      -#    %fieldset
+      -#      %legend(ng-switch-when='false') Sign In
+      -#      %legend(ng-switch-when='true') Sign Out
+      -#      %input(type='email' ng-model='user.email' placeholder='Email')
+      -#      %input(type='password' ng-model='user.password' placeholder='Password')
+      -#      %button.button.tiny(ng-switch-when='false') Sign In
+      -#      %button.button.tiny(ng-switch-when='true') Sign Out
+
       .contact
         %a(href='http://twitter.com/Deglassified' target='_blank')
           %i.fi-social-twitter
