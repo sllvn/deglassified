@@ -46,21 +46,32 @@ angular.module('service.mini-map', [])
     function handleMarkerDrag(event) {
         var coords = event.target.getLatLng();
         $rootScope.$broadcast('locationCoordsChange', coords);
+        marker.openPopup();
     }
     
     function createNewMarker(coords) {
         marker = L.marker([coords.lat, coords.lng], { draggable:true })
-            .addTo(markerLayer);
+            .addTo(map);
+        //markerLayer = L.mapbox.markerLayer({
+            //type: 'Feature',
+            //geometry: {
+                //type: 'Point',
+                //coordinates: [coords.lat, coords.lng] 
+            //},
+            //properties: {
+                //title: 'A Single Marker',
+                //description: 'Just one of me'
+            //}
+        //});
+        //markerLayer.addTo(map);
     }
 
     function clearExistingMarker() {
-        console.log(map);
         markerLayer.clearLayers();
     }
 
     function panMapTo(coords) {
         map.panTo([coords.lat, coords.lng]);
-
     }
 
     return {
