@@ -50,9 +50,8 @@ angular.module('controller.dashboard', ['service.mini-map'])
     }
 
     $scope.$on('locationCoordsChange', function(event, coords) {
-        console.log(coords);
-        $scope.business.latitude = coords.lat;
-        $scope.business.longitude = coords.lng;
+        setCoordsOnScope(coords);
+        $scope.$digest($scope.busines);
     });
 })
 
