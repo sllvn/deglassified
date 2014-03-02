@@ -4,7 +4,6 @@ angular.module('service.mini-map', [])
 
 .service('miniMapService', function($rootScope) {
     var map,
-        markerLayer,
         marker;
 
     function initMap() {
@@ -13,11 +12,15 @@ angular.module('service.mini-map', [])
             defaultZoom = 15;
 
         map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
-        markerLayer = L.mapbox.markerLayer();
     }
        
     function showBusiness(coords, business) {
-        clearExistingMarker();
+        // If marker already exists, just change marker coords
+        if (marker) {
+            changeMarkerCoords(coords);
+            return;
+        }
+
         createNewMarker(coords);
         bindMarkerPopup(business);
         marker.on('dragend', handleMarkerDrag);
@@ -52,28 +55,16 @@ angular.module('service.mini-map', [])
     function createNewMarker(coords) {
         marker = L.marker([coords.lat, coords.lng], { draggable:true })
             .addTo(map);
-        //markerLayer = L.mapbox.markerLayer({
-            //type: 'Feature',
-            //geometry: {
-                //type: 'Point',
-                //coordinates: [coords.lat, coords.lng] 
-            //},
-            //properties: {
-                //title: 'A Single Marker',
-                //description: 'Just one of me'
-            //}
-        //});
-        //markerLayer.addTo(map);
     }
 
-    function clearExistingMarker() {
-        markerLayer.clearLayers();
-    }
 
     function panMapTo(coords) {
         map.panTo([coords.lat, coords.lng]);
     }
 
+    function changeMarkerCoords(coords) {
+        marker.setLatLng(coords);
+    }
     return {
         initMap: initMap,
         showBusiness: showBusiness
