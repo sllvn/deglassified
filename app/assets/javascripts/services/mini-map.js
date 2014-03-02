@@ -50,10 +50,11 @@ angular.module('service.mini-map', [])
     
     function createNewMarker(coords) {
         marker = L.marker([coords.lat, coords.lng], { draggable:true })
-            .addTo(map);
+            .addTo(markerLayer);
     }
 
     function clearExistingMarker() {
+        console.log(map);
         markerLayer.clearLayers();
     }
 

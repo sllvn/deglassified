@@ -51,13 +51,10 @@ angular.module('controller.dashboard', ['service.mini-map'])
 
     $scope.$on('locationCoordsChange', function(event, coords) {
         setCoordsOnScope(coords);
-        getAddressFromCoords(coords)
-            .then(function(address) {
-                $scope.business.address = address;
-            });
         $scope.$digest($scope.business);
     });
 
+    // Not using this for now
     function getAddressFromCoords(coords) {
         var queryCoords = coords.lat.toFixed(7) + ',' + coords.lng.toFixed(7);
         var deferred = $q.defer();

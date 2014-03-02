@@ -91,7 +91,7 @@ angular.module('service.mapbox', [ 'ui.router'])
                     panTo(marker.getLatLng());
                 }
             }
-        })
+        });
     }
 
     function clearMarkers() {
@@ -113,7 +113,7 @@ angular.module('service.mapbox', [ 'ui.router'])
         loadLocation: loadLocation,
         addBusinessesToMapbox: addBusinessesToMapbox,
         openBusinessPopup: openBusinessPopup
-    }
+    };
 
 })
 
