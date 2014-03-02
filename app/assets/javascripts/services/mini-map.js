@@ -14,11 +14,13 @@ angular.module('service.mini-map', [])
     };
 
     var markerLayer = L.mapbox.markerLayer(),
-        marker;
+        marker,
+        markers = [];
 
     function showBusiness(coords, business) {
-        clearMarker();
+        clearMarkers();
         marker = L.marker([coords.lat, coords.lng], { draggable:true }).addTo(map);
+        markers.push(marker);
         bindMarkerPopup(marker, business);
         marker.on('dragend', handleMarkerDrag);
         marker.openPopup();
@@ -48,8 +50,10 @@ angular.module('service.mini-map', [])
         console.log(latlng);
     }
 
-    function clearMarker() {
-        markerLayer.clearLayers();
+    function clearMarkers() {
+        angular.forEach(markers, function(marker, key) {
+          map.removeLayer(marker);
+        });
     }
 
     function panTo(coords) {
