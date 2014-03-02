@@ -38,7 +38,6 @@
                     <!--<input type='text' id='website' ng-model='business.website'>-->
 
                     <button class='button medium success' type='submit'>Find Business on Map</button>
-                    <p class="small">Once the business is added to the map, you can drag its marker to re-position.</p>
                 </fieldset>
             </form>
         </div>
@@ -59,6 +58,7 @@
 
             <div id='minimap'></div>
             <div id='map-buttons' ng-show='displaySubmitMapButtons'>
+                <p class='small'>*You can drag the marker to re-position.</p>
                 <h4>Is this location correct?</h4>
                 <button class='button tiny success' ng-click='submitBusiness()'>Yes, submit business</button>
                 <button class='button tiny alert' ng-click='focusAddressField()'>No, fix address</button>

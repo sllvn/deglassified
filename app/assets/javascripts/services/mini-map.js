@@ -15,17 +15,23 @@ angular.module('service.mini-map', [])
     }
        
     function showBusiness(coords, business) {
-        // If marker already exists, just change marker coords
+        // If marker already exists, just change marker coords and popup content
         if (marker) {
             changeMarkerCoords(coords);
-            return;
+            bindMarkerPopup(business);
+        } else {
+            createNewMarker(coords, business);
         }
 
-        createNewMarker(coords);
-        bindMarkerPopup(business);
-        marker.on('dragend', handleMarkerDrag);
         marker.openPopup();
         panMapTo(coords);
+    }
+
+    function createNewMarker(coords, business) {
+        marker = L.marker([coords.lat, coords.lng], { draggable:true })
+            .addTo(map);
+        bindMarkerPopup(business);
+        marker.on('dragend', handleMarkerDrag);
     }
 
     function bindMarkerPopup(business) {
@@ -50,14 +56,9 @@ angular.module('service.mini-map', [])
         var coords = event.target.getLatLng();
         $rootScope.$broadcast('locationCoordsChange', coords);
         marker.openPopup();
+        panMapTo(coords);
     }
     
-    function createNewMarker(coords) {
-        marker = L.marker([coords.lat, coords.lng], { draggable:true })
-            .addTo(map);
-    }
-
-
     function panMapTo(coords) {
         map.panTo([coords.lat, coords.lng]);
     }
