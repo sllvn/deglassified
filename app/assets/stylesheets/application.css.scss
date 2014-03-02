@@ -74,6 +74,11 @@ body, html, .fill-height {
     .add-location-form {
         @extend .large-6;
         @extend .columns;
+
+        .small {
+          font-size: 0.9em;
+          color: #666;
+        }
     }
 
     .location-preview {

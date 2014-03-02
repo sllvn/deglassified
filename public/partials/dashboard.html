@@ -37,7 +37,8 @@
                     <!--<label for='website'>Website</label>-->
                     <!--<input type='text' id='website' ng-model='business.website'>-->
 
-                    <button class='button medium success' type='submit'>Find Location on Map</button>
+                    <button class='button medium success' type='submit'>Find Business on Map</button>
+                    <p class="small">Once the business is added to the map, you can drag its marker to re-position.</p>
                 </fieldset>
             </form>
         </div>
@@ -46,13 +47,13 @@
             <div class='coord-column'>
                 <div class='row collapse'>
                     <span class="prefix">Latitude</span>
-                    <input type='text' id='latitude' value='{{business.latitude | number:6}}' readonly>
+                    <input type='text' id='latitude' value='{{business.latitude | number:7}}' readonly>
                 </div>
             </div>
             <div class='coord-column'>
                 <div class='row collapse'>
                     <span class="prefix">Longitude</span>
-                    <input type='text' id='longitude' value='{{business.longitude | number:6}}' readonly>
+                    <input type='text' id='longitude' value='{{business.longitude | number:7}}' readonly>
                 </div>
             </div>
 

@@ -54,24 +54,30 @@ angular.module('controller.dashboard', ['service.mini-map'])
         getAddressFromCoords(coords)
             .then(function(address) {
                 $scope.business.address = address;
-            })
+            });
         $scope.$digest($scope.business);
     });
 
     function getAddressFromCoords(coords) {
-        console.log(coords.lat);
+        var queryCoords = coords.lat.toFixed(7) + ',' + coords.lng.toFixed(7);
         var deferred = $q.defer();
         $http({
             method: 'GET',
             url: 'http://api.geocod.io/v1/reverse',
             params: {
                 api_key: '40c7637d034f707bd6f5600c536d5c5790f0073',
-                q: [coords.lat, coords.lng]
+                // Can't get this to work
+                //q: [coords.lat, coords.lng]
+                //q: coords.lat + ',' + coords.lng
+                q: queryCoords 
             }
         })
         .success(function(data, response) {
             var formattedAddress = data.results[0].formatted_address;
             deferred.resolve(formattedAddress);
+        })
+        .error(function(err, status) {
+            console.log(error);
         });
         return deferred.promise;
     }
