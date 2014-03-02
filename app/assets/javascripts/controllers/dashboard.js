@@ -51,8 +51,30 @@ angular.module('controller.dashboard', ['service.mini-map'])
 
     $scope.$on('locationCoordsChange', function(event, coords) {
         setCoordsOnScope(coords);
-        $scope.$digest($scope.busines);
+        getAddressFromCoords(coords)
+            .then(function(address) {
+                $scope.business.address = address;
+            })
+        $scope.$digest($scope.business);
     });
+
+    function getAddressFromCoords(coords) {
+        console.log(coords.lat);
+        var deferred = $q.defer();
+        $http({
+            method: 'GET',
+            url: 'http://api.geocod.io/v1/reverse',
+            params: {
+                api_key: '40c7637d034f707bd6f5600c536d5c5790f0073',
+                q: [coords.lat, coords.lng]
+            }
+        })
+        .success(function(data, response) {
+            var formattedAddress = data.results[0].formatted_address;
+            deferred.resolve(formattedAddress);
+        });
+        return deferred.promise;
+    }
 })
 
 ;
