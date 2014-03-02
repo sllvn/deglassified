@@ -1,4 +1,5 @@
 angular.module('controller.dashboard', ['service.mini-map']) 
+
 .controller('dashboardCtrl', function($scope, $http, $q, miniMapService) {
     // Always init map on load
     miniMapService.initMap();
@@ -13,6 +14,7 @@ angular.module('controller.dashboard', ['service.mini-map'])
             .then(function(coords) {
                 setCoordsOnScope(coords);
                 miniMapService.showBusiness(coords, $scope.business);
+                $scope.displaySubmitMapButtons = true;
             });
     };
 
@@ -38,10 +40,20 @@ angular.module('controller.dashboard', ['service.mini-map'])
         $scope.business.longitude = coords.lng;
     }
 
-    function focusAddressField() {
-        console.log('hi');
+    $scope.focusAddressField = function() {
         document.getElementById('address').focus();
+        $scope.displaySubmitMapButtons = false;
     }
+
+    $scope.submitBusiness = function() {
+        console.log('submit');
+    }
+
+    $scope.$on('locationCoordsChange', function(event, coords) {
+        console.log(coords);
+        $scope.business.latitude = coords.lat;
+        $scope.business.longitude = coords.lng;
+    });
 })
 
 ;

@@ -42,7 +42,7 @@
             </form>
         </div>
 
-        <div class='location-preview' style="">
+        <div class='location-preview'>
             <div class='coord-column'>
                 <div class='row collapse'>
                     <span class="prefix">Latitude</span>
@@ -57,9 +57,9 @@
             </div>
 
             <div id='minimap'></div>
-            <div id='map-buttons'>
-                <h3>Is this location correct?</h3>
-                <button class='button tiny success' ng-click='submitBusiness()'>Yes, submit business.</button>
+            <div id='map-buttons' ng-show='displaySubmitMapButtons'>
+                <h4>Is this location correct?</h4>
+                <button class='button tiny success' ng-click='submitBusiness()'>Yes, submit business</button>
                 <button class='button tiny alert' ng-click='focusAddressField()'>No, fix address</button>
             </div>
         </div>

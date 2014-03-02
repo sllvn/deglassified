@@ -2,7 +2,7 @@
 
 angular.module('service.mini-map', [])
 
-.service('miniMapService', function() {
+.service('miniMapService', function($rootScope) {
     var map,
         markerLayer,
         marker;
@@ -17,15 +17,15 @@ angular.module('service.mini-map', [])
     }
        
     function showBusiness(coords, business) {
-        clearMarker();
-        marker = L.marker([coords.lat, coords.lng], { draggable:true }).addTo(map);
-        bindMarkerPopup(marker, business);
+        clearExistingMarker();
+        createNewMarker(coords);
+        bindMarkerPopup(business);
         marker.on('dragend', handleMarkerDrag);
         marker.openPopup();
-        panTo(coords);
+        panMapTo(coords);
     }
 
-    function bindMarkerPopup(marker, business) {
+    function bindMarkerPopup(business) {
         var content  = "<h4>" + business.name + "</h4>" +
             "<p>" + business.address + "</p>";
         if (business.links) {
@@ -44,16 +44,22 @@ angular.module('service.mini-map', [])
     }
 
     function handleMarkerDrag(event) {
-        var latlng = event.target.getLatLng();
-        console.log(latlng);
+        var coords = event.target.getLatLng();
+        $rootScope.$broadcast('locationCoordsChange', coords);
+    }
+    
+    function createNewMarker(coords) {
+        marker = L.marker([coords.lat, coords.lng], { draggable:true })
+            .addTo(map);
     }
 
-    function clearMarker() {
+    function clearExistingMarker() {
         markerLayer.clearLayers();
     }
 
-    function panTo(coords) {
+    function panMapTo(coords) {
         map.panTo([coords.lat, coords.lng]);
+
     }
 
     return {
