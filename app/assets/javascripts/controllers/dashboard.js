@@ -1,6 +1,6 @@
 angular.module('controller.dashboard', ['service.mini-map']) 
 
-.controller('dashboardCtrl', function($scope, $http, $q, miniMapService) {
+.controller('dashboardCtrl', function($rootScope, $scope, $http, $q, miniMapService) {
     // Always init map on load
     miniMapService.initMap();
     
@@ -46,7 +46,21 @@ angular.module('controller.dashboard', ['service.mini-map'])
     }
 
     $scope.submitBusiness = function() {
-        console.log('submit');
+        console.log($scope.business);
+        var business; $scope.business;
+        $http({
+            method: 'GET',
+            // business.location is an slug string
+            url: '/api/locations/' + business.location + '/businesses',
+            data: business
+        })
+        .success(function(data, response) {
+            var formattedAddress = data.results[0].formatted_address;
+            deferred.resolve(formattedAddress);
+        })
+        .error(function(err, status) {
+            console.log(error);
+        });
     }
 
     $scope.$on('locationCoordsChange', function(event, coords) {
@@ -78,6 +92,8 @@ angular.module('controller.dashboard', ['service.mini-map'])
         });
         return deferred.promise;
     }
+
+
 })
 
 ;
