@@ -43,7 +43,7 @@ angular.module('deglassified', [
         });
 
     // Could move this into their own service, like loadModals() or setModals()
-    $scope.openLoginSignupModal = function() {
+    $scope.openMainModal = function() {
         $modal.open({
             templateUrl: '/partials/main-modal.html',
             controller: function($scope, $modalInstance) {

@@ -18,7 +18,7 @@
                     <legend>Add Business</legend>
 
                     <label for='name'>Name</label>
-                    <input type='text' id='name' ng-model='business.name' placeholder='Deglassified Inc.' >
+                    <input type='text' id='name' ng-model='business.name' placeholder='Deglassified Inc.' required>
 
                     <label for='name'>Location:</label>
                     <select ng-model='business.locationSlug' ng-options='location.slug as location.city for location in locations' required>
@@ -26,16 +26,13 @@
                     </select>
 
                     <label for='address'>Address</label>
-                    <input type='text' id='address' ng-model='business.address' placeholder='12345 Fake Street' >
-
-                    <!--<label for='zipcode'>Zip Code</label>-->
-                    <!--<input type='text' id='zipcode' ng-model='business.zipcode'>-->
-
-                    <!--<label for='state'>State</label>-->
-                    <!--<input type='text' id='state' ng-model='business.state'>-->
+                    <input type='text' id='address' ng-model='business.address' placeholder='12345 Fake Street' required>
 
                     <!--<label for='website'>Website</label>-->
-                    <!--<input type='text' id='website' ng-model='business.website'>-->
+                    <!--<input type='text' id='website' ng-model='business.website' placeholder='www.example.com'>-->
+
+                    <!--<label for='yelp'>Yelp</label>-->
+                    <!--<input type='text' id='yelp' ng-model='business.yelp' placeholder='yelp.com/biz/example-business'>-->
 
                     <button class='button medium success' type='submit'>Find Business on Map</button>
                 </fieldset>
