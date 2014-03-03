@@ -1,17 +1,20 @@
 angular.module('controller.dashboard', ['service.mini-map']) 
 
-.controller('dashboardCtrl', function($rootScope, $scope, $http, $q, miniMapService) {
+.controller('dashboardCtrl', function($rootScope, $scope, $http, $q, $state,  miniMapService) {
     // Always init map on load
     miniMapService.initMap();
     
     $scope.business = {};
     // Stub data
-    $scope.business.address = '1311 12th ave so 98144';
+    $scope.business.address = '1311 12th avenue south, Seattle, WA 98144';
     $scope.business.name = 'Deglassified Inc.';
 
     $scope.findLocation = function() {
         getGeoCoords($scope.business.address)
-            .then(function(coords) {
+            .then(function(response) {
+                // Replace user-typed address with formatted address.
+                $scope.business.address = response.formatted_address;
+                var coords = response.location;
                 setCoordsOnScope(coords);
                 miniMapService.showBusiness(coords, $scope.business);
                 $scope.displaySubmitMapButtons = true;
@@ -29,39 +32,47 @@ angular.module('controller.dashboard', ['service.mini-map'])
             }
         })
         .success(function(data, response) {
-            var coords = data.results[0].location;
-            deferred.resolve(coords);
+            deferred.resolve(data.results[0]);
         });
         return deferred.promise;
     }
 
     function setCoordsOnScope(coords) {
-        $scope.business.latitude = coords.lat;
-        $scope.business.longitude = coords.lng;
+        $scope.business.lat = coords.lat;
+        $scope.business.lng = coords.lng;
     }
 
     $scope.focusAddressField = function() {
         document.getElementById('address').focus();
         $scope.displaySubmitMapButtons = false;
-    }
+    };
 
     $scope.submitBusiness = function() {
-        console.log($scope.business);
-        var business; $scope.business;
+        var business = $scope.business;
         $http({
-            method: 'GET',
-            // business.location is an slug string
-            url: '/api/locations/' + business.location + '/businesses',
-            data: business
+            method: 'POST',
+            url: '/api/locations/' + business.locationSlug + '/businesses',
+            params: {
+                user_email: $rootScope.user.email,
+                user_token: $rootScope.user.sessionToken
+            },
+            data: {
+                name: business.name,
+                lat: business.lat,
+                lng: business.lng,
+                address: business.address
+            }
         })
-        .success(function(data, response) {
-            var formattedAddress = data.results[0].formatted_address;
-            deferred.resolve(formattedAddress);
+        .success(function(res) {
+            // Open the newly added business on the main map
+            $state.go('location.business', { location: business.locationSlug, business: res.business.slug }, { reload: true });
+            $scope.closeModal();
         })
         .error(function(err, status) {
-            console.log(error);
+            console.log(err);
+            console.log(status);
         });
-    }
+    };
 
     $scope.$on('locationCoordsChange', function(event, coords) {
         setCoordsOnScope(coords);
