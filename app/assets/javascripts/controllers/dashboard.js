@@ -64,7 +64,8 @@ angular.module('controller.dashboard', ['service.mini-map'])
             }
         })
         .success(function(res) {
-            // Delete the current cache for the business's location, so that a fresh business list including the new business is fetched
+            // Delete the current cache for the business's location, so that a 
+            // fresh business list including the new business is fetched
             locationDataService.deleteLocationCache(business.locationSlug);
             // Open the newly added business on the main map
             $state.go('location.business', { location: business.locationSlug, business: res.business.slug }, { reload: true });
