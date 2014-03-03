@@ -2,32 +2,40 @@
 
 angular.module('service.mini-map', [])
 
-.service('miniMapService', function() {
-    var mapElement = 'minimap',
-        defaultView = [47.603569, -122.329453],
-        defaultZoom = 15,
+.service('miniMapService', function($rootScope) {
+    var map,
+        marker;
+
+    function initMap() {
+        var mapElement = 'minimap',
+            defaultView = [47.603569, -122.329453],
+            defaultZoom = 15;
+
         map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
-
-    var geoJSON = {
-        type: 'FeatureCollection',
-        features: []
-    };
-
-    var markerLayer = L.mapbox.markerLayer(),
-        marker,
-        markers = [];
-
+        // Null any markers from previous instances of map
+        marker = null;
+    }
+       
     function showBusiness(coords, business) {
-        clearMarkers();
-        marker = L.marker([coords.lat, coords.lng], { draggable:true }).addTo(map);
-        markers.push(marker);
-        bindMarkerPopup(marker, business);
-        marker.on('dragend', handleMarkerDrag);
+        // If marker already exists, just change marker coords and popup content
+        if (marker) {
+            changeMarkerCoords(coords);
+            bindMarkerPopup(business);
+        } else {
+            createNewMarker(coords, business);
+        }
         marker.openPopup();
-        panTo(coords);
+        panMapTo(coords);
     }
 
-    function bindMarkerPopup(marker, business) {
+    function createNewMarker(coords, business) {
+        marker = L.marker([coords.lat, coords.lng], { draggable:true })
+            .addTo(map);
+        bindMarkerPopup(business);
+        marker.on('dragend', handleMarkerDrag);
+    }
+
+    function bindMarkerPopup(business) {
         var content  = "<h4>" + business.name + "</h4>" +
             "<p>" + business.address + "</p>";
         if (business.links) {
@@ -46,21 +54,21 @@ angular.module('service.mini-map', [])
     }
 
     function handleMarkerDrag(event) {
-        var latlng = event.target.getLatLng();
-        console.log(latlng);
+        var coords = event.target.getLatLng();
+        $rootScope.$broadcast('locationCoordsChange', coords);
+        marker.openPopup();
+        panMapTo(coords);
     }
-
-    function clearMarkers() {
-        angular.forEach(markers, function(marker, key) {
-          map.removeLayer(marker);
-        });
-    }
-
-    function panTo(coords) {
+    
+    function panMapTo(coords) {
         map.panTo([coords.lat, coords.lng]);
     }
 
+    function changeMarkerCoords(coords) {
+        marker.setLatLng(coords);
+    }
     return {
+        initMap: initMap,
         showBusiness: showBusiness
     };
 })

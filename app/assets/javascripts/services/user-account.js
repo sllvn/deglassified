@@ -101,7 +101,7 @@ angular.module('service.user-account', [
         signOut: signOut,
         register: register,
         initUserData: initUserData
-    }
+    };
 })
 
 ;

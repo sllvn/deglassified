@@ -25,7 +25,7 @@ body, html, .fill-height {
   @extend .columns;
   @extend .fill-height;
 
-  .add-location {
+  .main-modal-button {
     @extend .button;
     @extend .radius;
 
@@ -74,22 +74,25 @@ body, html, .fill-height {
     .add-location-form {
         @extend .large-6;
         @extend .columns;
-
-        .small {
-          font-size: 0.9em;
-          color: #666;
-        }
+    }
+    .small {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom:0;
     }
     .location-preview {
         @extend .large-6;
         @extend .columns;
-        @extend .fill-height;
-        height: 350px;
     }
 
     .coord-column {
         @extend .large-6;
         @extend .columns;
+        padding: 0;
+        input, .prefix {
+            height: 1.5rem;
+            line-height: 1.5rem;
+        }
         input {
             @extend .small-7;
             @extend .columns;
@@ -102,10 +105,20 @@ body, html, .fill-height {
     }
 
     #minimap {
-        @extend .large-12;
+        @extend .small-12;
         @extend .columns;
-        @extend .fill-height;
+        height: 300px !important;
     }
+
+    #map-buttons {
+        @extend .small-12;
+        @extend .columns;
+        padding: 0;
+        button {
+            /*@extend .small-5;*/
+            /*@extend .columns;*/
+        }
+    }    
 }
 
 #map {

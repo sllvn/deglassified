@@ -18,46 +18,48 @@
                     <legend>Add Business</legend>
 
                     <label for='name'>Name</label>
-                    <input type='text' id='name' ng-model='business.name' placeholder='Deglassified Inc.' >
+                    <input type='text' id='name' ng-model='business.name' placeholder='Deglassified Inc.' required>
 
                     <label for='name'>Location:</label>
-                    <select ng-model='business.location' ng-options='location.slug as location.city for location in locations'>
+                    <select ng-model='business.locationSlug' ng-options='location.slug as location.city for location in locations' required>
                         <option value="" disabled selected>Choose a location</option>
                     </select>
 
                     <label for='address'>Address</label>
-                    <input type='text' id='address' ng-model='business.address' placeholder='12345 Fake Street' >
-
-                    <!--<label for='zipcode'>Zip Code</label>-->
-                    <!--<input type='text' id='zipcode' ng-model='business.zipcode'>-->
-
-                    <!--<label for='state'>State</label>-->
-                    <!--<input type='text' id='state' ng-model='business.state'>-->
+                    <input type='text' id='address' ng-model='business.address' placeholder='12345 Fake Street' required>
 
                     <!--<label for='website'>Website</label>-->
-                    <!--<input type='text' id='website' ng-model='business.website'>-->
+                    <!--<input type='text' id='website' ng-model='business.website' placeholder='www.example.com'>-->
+
+                    <!--<label for='yelp'>Yelp</label>-->
+                    <!--<input type='text' id='yelp' ng-model='business.yelp' placeholder='yelp.com/biz/example-business'>-->
 
                     <button class='button medium success' type='submit'>Find Business on Map</button>
-                    <p class="small">Once the business is added to the map, you can drag its marker to re-position.</p>
                 </fieldset>
             </form>
         </div>
 
-        <div class='location-preview' style="">
+        <div class='location-preview'>
             <div class='coord-column'>
                 <div class='row collapse'>
                     <span class="prefix">Latitude</span>
-                    <input type='text' id='latitude' ng-model='business.latitude'>
+                    <input type='text' id='latitude' value='{{business.lat | number:7}}' readonly>
                 </div>
             </div>
             <div class='coord-column'>
                 <div class='row collapse'>
                     <span class="prefix">Longitude</span>
-                    <input type='text' id='longitude' ng-model='business.longitude'>
+                    <input type='text' id='longitude' value='{{business.lng | number:7}}' readonly>
                 </div>
             </div>
 
-            <div id='minimap' style=""></div>
+            <div id='minimap'></div>
+            <div id='map-buttons' ng-show='displaySubmitMapButtons'>
+                <p class='small'>*You can drag the marker to re-position.</p>
+                <h4>Is this location correct?</h4>
+                <button class='button tiny success' ng-click='submitBusiness()'>Yes, submit business</button>
+                <button class='button tiny alert' ng-click='focusAddressField()'>No, fix address</button>
+            </div>
         </div>
     </div>
 </div>
