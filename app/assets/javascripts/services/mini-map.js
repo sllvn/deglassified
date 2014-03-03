@@ -10,22 +10,20 @@ angular.module('service.mini-map', [])
         var mapElement = 'minimap',
             defaultView = [47.603569, -122.329453],
             defaultZoom = 15;
-
         map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
-        // Null any markers from previous instances of map
-        marker = null;
     }
-       
+
     function showBusiness(coords, business) {
-        // If marker already exists, just change marker coords and popup content
         if (marker) {
-            changeMarkerCoords(coords);
-            bindMarkerPopup(business);
-        } else {
-            createNewMarker(coords, business);
+            clearMarker();
         }
+        createNewMarker(coords, business);
         marker.openPopup();
         panMapTo(coords);
+    }
+
+    function clearMarker() {
+        map.removeLayer(marker);
     }
 
     function createNewMarker(coords, business) {
@@ -64,9 +62,6 @@ angular.module('service.mini-map', [])
         map.panTo([coords.lat, coords.lng]);
     }
 
-    function changeMarkerCoords(coords) {
-        marker.setLatLng(coords);
-    }
     return {
         initMap: initMap,
         showBusiness: showBusiness
