@@ -1,11 +1,31 @@
-angular.module('controller.dashboard', [
+angular.module('state.add-business', [
     'ui.router',
     'service.user-account',
     'service.mini-map',
     'service.main-modal'
 ]) 
 
-.controller('dashboardCtrl', function($rootScope, $scope, $http, $q, $state,  miniMapService, locationDataService) {
+.config(function($stateProvider) {
+    $stateProvider.state('add-business', {
+        url: '/add-business',
+        controller: 'addBusinessCtrl',
+        views: {
+            'mainModal': {
+                templateUrl: '/partials/add-business-page-1.html',
+            }
+        },
+        onEnter: function($rootScope, $state, mainModalService, userAccountService) {
+            $rootScope.pageTitle = 'Add a Business';
+            mainModalService.openModal();
+            // If user is not logged, redirect to login state
+            if (!userAccountService.isLoggedIn()) {
+                $state.go('login');
+            }
+        }
+    }); 
+})
+
+.controller('addBusinessCtrl', function($rootScope, $scope, $http, $q, $state,  miniMapService, locationDataService) {
     // Always init map on load
     miniMapService.initMap();
     

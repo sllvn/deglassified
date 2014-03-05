@@ -96,11 +96,16 @@ angular.module('service.user-account', [
         return deferred.promise;
     }
 
+    function isLoggedIn() {
+        return $rootScope.user.signedIn;
+    }
+
     return {
         signIn: signIn,
         signOut: signOut,
         register: register,
-        initUserData: initUserData
+        initUserData: initUserData,
+        isLoggedIn: isLoggedIn
     };
 })
 
