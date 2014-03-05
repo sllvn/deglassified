@@ -4,7 +4,7 @@ angular.module('service.user-account', [
     'ngCookies'
 ])
 
-.service('userAccountService', function($http, $q, $cookieStore) {
+.service('userAccountService', function($http, $q, $state, $cookieStore) {
     var existingUserData = $cookieStore.get('user');
     var user = existingUserData ? existingUserData : {};
 
@@ -88,6 +88,13 @@ angular.module('service.user-account', [
         updateUserCookie();
     }
 
+    function redirectToLoginIfNotSignedIn() {
+        // If user is not logged, redirect to login state
+        if (!user.signedIn) {
+            $state.go('login');
+        }
+    }
+
     function updateUserCookie() {
         $cookieStore.put('user', user);
     }
@@ -104,7 +111,8 @@ angular.module('service.user-account', [
         signIn: signIn,
         signOut: signOut,
         register: register,
-        getUser: getUser
+        getUser: getUser,
+        redirectToLoginIfNotSignedIn: redirectToLoginIfNotSignedIn
     };
 })
 
