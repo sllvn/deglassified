@@ -8,10 +8,10 @@ angular.module('state.add-business', [
 .config(function($stateProvider) {
     $stateProvider.state('add-business', {
         url: '/add-business',
-        controller: 'addBusinessCtrl',
         views: {
             'mainModal': {
                 templateUrl: '/partials/add-business-page-1.html',
+                controller: 'addBusinessCtrl'
             }
         },
         onEnter: function($rootScope, $state, mainModalService, userAccountService) {
@@ -89,9 +89,8 @@ angular.module('state.add-business', [
             }
         })
         .success(function(res) {
-            // Delete the current cache for the business's location, so that a 
-            // fresh business list including the new business is fetched
-            locationDataService.deleteLocationCache(business.locationSlug);
+            // Update location cache for the new business
+            locationDataService.updateLocationCache(business.locationSlug);
             // Open the newly added business on the main map
             $state.go('location.business', { location: business.locationSlug, business: res.business.slug }, { reload: true });
             $scope.closeModal();
@@ -101,37 +100,6 @@ angular.module('state.add-business', [
             console.log(status);
         });
     };
-
-    $scope.$on('locationCoordsChange', function(event, coords) {
-        setCoordsOnScope(coords);
-        $scope.$digest($scope.business);
-    });
-
-    // Not using this for now
-    function getAddressFromCoords(coords) {
-        var queryCoords = coords.lat.toFixed(7) + ',' + coords.lng.toFixed(7);
-        var deferred = $q.defer();
-        $http({
-            method: 'GET',
-            url: 'http://api.geocod.io/v1/reverse',
-            params: {
-                api_key: '40c7637d034f707bd6f5600c536d5c5790f0073',
-                // Can't get this to work
-                //q: [coords.lat, coords.lng]
-                //q: coords.lat + ',' + coords.lng
-                q: queryCoords 
-            }
-        })
-        .success(function(data, response) {
-            var formattedAddress = data.results[0].formatted_address;
-            deferred.resolve(formattedAddress);
-        })
-        .error(function(err, status) {
-            console.log(error);
-        });
-        return deferred.promise;
-    }
-
 
 })
 

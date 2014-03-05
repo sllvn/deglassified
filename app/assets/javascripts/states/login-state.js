@@ -1,4 +1,4 @@
-angular.module('state.modal.login', [
+angular.module('state.login', [
     'ui.router',
     'service.user-account',
     'service.main-modal'
@@ -7,10 +7,10 @@ angular.module('state.modal.login', [
 .config(function($stateProvider) {
     $stateProvider.state('login', {
         url: '/login',
-        controller: 'loginCtrl',
         views: {
             'mainModal': {
                 templateUrl: '/partials/login-register-modal.html',
+                controller: 'loginCtrl'
             }
         },
         onEnter: function($rootScope, mainModalService) {
@@ -20,15 +20,19 @@ angular.module('state.modal.login', [
     }); 
 })
 
-.controller('loginCtrl', function($rootScope, $scope, $http, $state, userAccountService) {
+.controller('loginCtrl', function($rootScope, $scope, $state, $http, $state, userAccountService) {
     // Need to define these to access the models in the modal
-    $scope.login = {};
+    $scope.loginForm = {};
+    // Stub data
+    $scope.loginForm.email = 'someone@example.com';
+    $scope.loginForm.password = 'somepassword';
 
     $scope.signIn = function() {
-        userAccountService.signIn($scope.login.email, $scope.login.password)
+        userAccountService.signIn($scope.loginForm.email, $scope.loginForm.password)
             .then(function(response) {
                 switch (response.status) {
                     case 'success':
+                        $state.go('add-business');
                         break;
                     case 'server-down':
                         $scope.signInError = 'server-down';
@@ -38,7 +42,7 @@ angular.module('state.modal.login', [
                         break;
                 }
                 // Always clear password, regardless of response
-                $scope.login.password = '';
+                $scope.loginForm.password = '';
                 // Set the alert box to disappear
                 setTimeout(function() {
                     $scope.signInError = false;

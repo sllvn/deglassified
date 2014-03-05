@@ -4,21 +4,9 @@ angular.module('service.user-account', [
     'ngCookies'
 ])
 
-.service('userAccountService', function($rootScope, $http, $q, $cookieStore) {
-    // Keep user object on rootScope, as may need it for bindings in other controllers
-
-    function initUserData() {
-        var existingUserData = $cookieStore.get('user');
-        if (existingUserData) {
-            $rootScope.user = existingUserData;
-        } else {
-            $rootScope.user = {};
-            $rootScope.user.signedIn = false;
-        }
-        $rootScope.$watch('user', function() {
-            $cookieStore.put('user', $rootScope.user);
-        }, true);
-    }
+.service('userAccountService', function($http, $q, $cookieStore) {
+    var existingUserData = $cookieStore.get('user');
+    var user = existingUserData ? existingUserData : {};
 
     function signIn(email, password) {
         var deferred = $q.defer();
@@ -33,9 +21,7 @@ angular.module('service.user-account', [
             }
         })
         .success(function(response) {
-            $rootScope.user.signedIn = true;
-            $rootScope.user.email = email;
-            $rootScope.user.sessionToken = response.auth.token;
+            signInUser(email, response);
             deferred.resolve(response.auth);
         })
         .error(function(response) {
@@ -57,7 +43,8 @@ angular.module('service.user-account', [
         })
             .success(function(response) {
                 // Replace old user data with empty object
-                $rootScope.user = {};
+                user = {};
+                deleteUserCookie();
                 deferred.resolve(response.auth);
             })
             .error(function(response) {
@@ -80,9 +67,7 @@ angular.module('service.user-account', [
             }
         })
             .success(function(response) {
-                $rootScope.user.signedIn = true;
-                $rootScope.user.email = email;
-                $rootScope.user.sessionToken = response.auth.token;
+                signInUser(email, response);
                 deferred.resolve(response.auth);
             })
             .error(function(response) {
@@ -96,15 +81,29 @@ angular.module('service.user-account', [
         return deferred.promise;
     }
 
+    function signInUser(email, response) {
+        user.signedIn = true;
+        user.email = email;
+        user.sessionToken = response.auth.token;
+        updateUserCookie();
+    }
+
+    function updateUserCookie() {
+        $cookieStore.put('user', user);
+    }
+
+    function deleteUserCookie() {
+        $cookieStore.remove('user');
+    }
+
     function isLoggedIn() {
-        return $rootScope.user.signedIn;
+        return user.signedIn;
     }
 
     return {
         signIn: signIn,
         signOut: signOut,
         register: register,
-        initUserData: initUserData,
         isLoggedIn: isLoggedIn
     };
 })
