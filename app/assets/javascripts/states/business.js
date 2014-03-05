@@ -1,4 +1,4 @@
-angular.module('state.business', ['ui.router', 'service.mapbox'])
+angular.module('state.business', ['ui.router', 'service.main-map'])
 
 .config(function($stateProvider) {
     $stateProvider.state('location.business', {
@@ -7,7 +7,7 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
     });
 })
 
-.controller('businessCtrl', function($rootScope, $scope, $state, $stateParams, mapboxService) {
+.controller('businessCtrl', function($rootScope, $scope, $state, $stateParams, mainMapService) {
     // If the business param is empty (ie. '/seattle/') redirect to the location, WITHOUT a trailing
     // slash (ie. '/seattle').  Important to cease code to not trigger a 404 page.
     if ($stateParams.business === '') {
@@ -28,7 +28,7 @@ angular.module('state.business', ['ui.router', 'service.mapbox'])
         var business = findBusinessByStateParams($stateParams.business);
         if (business) {
             $rootScope.pageTitle = business.name;
-            mapboxService.openBusinessPopup(business.slug);
+            mainMapService.openBusinessPopup(business.slug);
 //            $rootScope.pageTitle = business.name;
         } else {
 //            alert('404: Business not found!  Redirecting to: ' + $rootScope.currentLocation.city);

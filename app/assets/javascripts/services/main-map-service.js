@@ -1,8 +1,8 @@
 //= require mapbox.js
 
-angular.module('service.mapbox', [ 'ui.router'])
+angular.module('service.main-map', [ 'ui.router'])
 
-.service('mapboxService', function($rootScope, $state) {
+.service('mainMapService', function($rootScope, $state) {
     var map,
         geoJSON,
         markerLayer;

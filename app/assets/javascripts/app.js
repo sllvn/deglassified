@@ -17,7 +17,7 @@ angular.module('deglassified', [
 
     // Services
     'service.location-data',
-    'service.mapbox',
+    'service.main-map',
 
     // Controllers
     'controller.side-bar',
@@ -37,8 +37,8 @@ angular.module('deglassified', [
     $locationProvider.html5Mode(true);
 })
 
-.run(function(mapboxService) {
-    mapboxService.initMap();
+.run(function(mainMapService) {
+    mainMapService.initMap();
 })
 
 ;

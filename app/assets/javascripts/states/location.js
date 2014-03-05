@@ -1,7 +1,8 @@
 angular.module('state.location', [
     'ui.router',
     'state.business',
-    'service.location-data'
+    'service.location-data',
+    'service.main-map'
 ])
 
 .config(function($stateProvider) {
@@ -13,7 +14,7 @@ angular.module('state.location', [
 
 })
 
-.controller('locationCtrl', function($rootScope, $scope,  $state, $stateParams, locationDataService, mapboxService) {
+.controller('locationCtrl', function($rootScope, $scope,  $state, $stateParams, locationDataService, mainMapService) {
     locationDataService.getSingle($stateParams.location)
         .then(function(locationData) {
             loadLocation(locationData);
@@ -22,13 +23,13 @@ angular.module('state.location', [
     function loadLocation(locationData) {
         if (locationData) {
             $rootScope.pageTitle = locationData.city;
-            // Need to bind to rootscope, as it will be used in mapbox service
-            // Maybe find a way to pass to mapbox service without rootscope
+            // Need to bind to rootscope, as it will be used in mainMap service
+            // Maybe find a way to pass to mainMap service without rootscope
             $rootScope.currentLocation = locationData;
             $scope.currentCity = locationData.city;
             $scope.businesses = locationData.businesses;
 
-            mapboxService.loadLocation(locationData);
+            mainMapService.loadLocation(locationData);
             $scope.mapboxMarkersLoaded = true;
             $scope.$broadcast('mapboxMarkersLoaded');
         } else {
