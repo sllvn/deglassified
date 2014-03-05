@@ -1,6 +1,6 @@
 angular.module('service.main-modal', [])
 
-.service('mainModalService', function($modal, $state) {
+.service('mainModalService', function($rootScope, $modal, $state) {
     var mainModal = $('#mainModal');
     var isModalOpen;
 
@@ -9,7 +9,11 @@ angular.module('service.main-modal', [])
 
     function closedModalCallback() {
         isModalOpen = false;
-        $state.go('home');
+        if ($rootScope.currentLocation) {
+            $state.go('location', { location: $rootScope.currentLocation.slug });
+        } else {
+            $state.go('home');
+        }
     }
 
     function openModal() {
@@ -19,8 +23,13 @@ angular.module('service.main-modal', [])
         }
     }
 
+    function closeModal() {
+        mainModal.foundation('reveal', 'close');
+    }
+
     return {
-        openModal: openModal
+        openModal: openModal,
+        closeModal: closeModal
     };
 })
 

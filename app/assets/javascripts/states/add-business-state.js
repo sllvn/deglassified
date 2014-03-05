@@ -17,15 +17,16 @@ angular.module('state.add-business', [
         onEnter: function($rootScope, $state, mainModalService, userAccountService) {
             $rootScope.pageTitle = 'Add a Business';
             mainModalService.openModal();
+            var user = userAccountService.getUser();
             // If user is not logged, redirect to login state
-            if (!userAccountService.isLoggedIn()) {
+            if (!user.signedIn) {
                 $state.go('login');
             }
         }
     }); 
 })
 
-.controller('addBusinessCtrl', function($rootScope, $scope, $http, $q, $state,  miniMapService, locationDataService) {
+.controller('addBusinessCtrl', function($scope, $http, $q, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
     // Always init map on load
     miniMapService.initMap();
     
@@ -33,6 +34,8 @@ angular.module('state.add-business', [
     // Stub data
     $scope.business.address = '1311 12th avenue south, Seattle, WA 98144';
     $scope.business.name = 'Deglassified Inc.';
+
+    $scope.userEmail = userAccountService.getUser().email;
 
     $scope.findLocation = function() {
         getGeoCoords($scope.business.address)
@@ -73,13 +76,14 @@ angular.module('state.add-business', [
     };
 
     $scope.submitBusiness = function() {
+        var user = userAccountService.getUser();
         var business = $scope.business;
         $http({
             method: 'POST',
             url: '/api/locations/' + business.locationSlug + '/businesses',
             params: {
-                user_email: $rootScope.user.email,
-                user_token: $rootScope.user.sessionToken
+                user_email: user.email,
+                user_token: user.sessionToken
             },
             data: {
                 name: business.name,
@@ -93,7 +97,7 @@ angular.module('state.add-business', [
             locationDataService.updateLocationCache(business.locationSlug);
             // Open the newly added business on the main map
             $state.go('location.business', { location: business.locationSlug, business: res.business.slug }, { reload: true });
-            $scope.closeModal();
+            mainModalService.closeModal();
         })
         .error(function(err, status) {
             console.log(err);

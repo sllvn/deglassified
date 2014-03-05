@@ -96,15 +96,15 @@ angular.module('service.user-account', [
         $cookieStore.remove('user');
     }
 
-    function isLoggedIn() {
-        return user.signedIn;
+    function getUser() {
+        return user;
     }
 
     return {
         signIn: signIn,
         signOut: signOut,
         register: register,
-        isLoggedIn: isLoggedIn
+        getUser: getUser
     };
 })
 

@@ -17,6 +17,7 @@ angular.module('deglassified', [
 
     // Services
     'service.location-data',
+    'service.mapbox',
 
     // Controllers
     'controller.side-bar',
@@ -34,6 +35,10 @@ angular.module('deglassified', [
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
     $locationProvider.html5Mode(true);
+})
+
+.run(function(mapboxService) {
+    mapboxService.initMap();
 })
 
 ;

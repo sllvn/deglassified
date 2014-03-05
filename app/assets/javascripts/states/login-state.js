@@ -13,9 +13,14 @@ angular.module('state.login', [
                 controller: 'loginCtrl'
             }
         },
-        onEnter: function($rootScope, mainModalService) {
+        onEnter: function($rootScope, $state, mainModalService, userAccountService) {
             $rootScope.pageTitle = 'Login';
             mainModalService.openModal();
+            var user = userAccountService.getUser();
+            // If user is logged in, redirect to dashboard page
+            if (user.signedIn) {
+                $state.go('add-business');
+            }
         }
     }); 
 })
