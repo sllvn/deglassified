@@ -1,4 +1,4 @@
-angular.module('state.add-business.page-1', [
+angular.module('state.add-business.page-2', [
     'ui.router',
     'service.user-account',
     'service.mini-map',
@@ -6,21 +6,21 @@ angular.module('state.add-business.page-1', [
 ]) 
 
 .config(function($stateProvider) {
-    $stateProvider.state('add-business.page-1', {
-        url: '/basic-information',
+    $stateProvider.state('add-business.page-2', {
+        url: '/mark-location',
         views: {
             'addBusiness': {
-                templateUrl: '/partials/add-business-page-1.html',
+                templateUrl: '/partials/add-business-page-2.html',
                 controller: 'addBusinessPage1Ctrl'
             }
         },
         onEnter: function($rootScope) {
-            $rootScope.pageTitle = 'Basic Information - Add Business';
+            $rootScope.pageTitle = 'Mark Location - Add Business';
         }
     }); 
 })
 
-.controller('addBusinessPage1Ctrl', function($scope, $http, $q, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
+.controller('addBusinessPage2Ctrl', function($scope, $http, $q, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
     // Always init map on load
     miniMapService.initMap();
     

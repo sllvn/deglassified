@@ -71,6 +71,18 @@ body, html, .fill-height {
     .sign-in-error {
 
     }
+    .wizard-state {
+        a {
+            color: lightgrey;
+            margin-left: 10px;
+            &.active {
+                color: black;
+            }
+            &:hover {
+                color: grey;
+            }
+        }
+    }
     .add-location-form {
         @extend .large-6;
         @extend .columns;

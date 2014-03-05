@@ -19,7 +19,7 @@ angular.module('state.add-business', [
         onEnter: function($rootScope, $state, mainModalService, userAccountService) {
             $rootScope.pageTitle = 'Add Business';
             mainModalService.openModal();
-            userAccountService.redirectToLoginIfNotSignedIn();
+            userAccountService.redirectIfNotSignedIn('login');
         }
     }); 
 
@@ -33,6 +33,13 @@ angular.module('state.add-business', [
 
 .controller('addBusinessCtrl', function($scope, $http, $q, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
     $scope.userEmail = userAccountService.getUser().email;
+
+    $scope.signOut = function() {
+        userAccountService.signOut()
+            .then(function(response) {
+                $state.go('login');
+            });
+    };
 })
 
 ;

@@ -16,11 +16,7 @@ angular.module('state.login', [
         onEnter: function($rootScope, $state, mainModalService, userAccountService) {
             $rootScope.pageTitle = 'Login';
             mainModalService.openModal();
-            var user = userAccountService.getUser();
-            // If user is logged in, redirect to dashboard page
-            if (user.signedIn) {
-                $state.go('add-business');
-            }
+            userAccountService.redirectIfSignedIn('add-business.default');
         }
     }); 
 })
@@ -37,7 +33,7 @@ angular.module('state.login', [
             .then(function(response) {
                 switch (response.status) {
                     case 'success':
-                        $state.go('add-business');
+                        $state.go('add-business.default');
                         break;
                     case 'server-down':
                         $scope.signInError = 'server-down';

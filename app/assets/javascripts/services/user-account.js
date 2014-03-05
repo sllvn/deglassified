@@ -88,10 +88,15 @@ angular.module('service.user-account', [
         updateUserCookie();
     }
 
-    function redirectToLoginIfNotSignedIn() {
-        // If user is not logged, redirect to login state
+    function redirectIfNotSignedIn(stateToRedirect) {
         if (!user.signedIn) {
-            $state.go('login');
+            $state.go(stateToRedirect);
+        }
+    }
+
+    function redirectIfSignedIn(stateToRedirect) {
+        if (user.signedIn) {
+            $state.go(stateToRedirect);
         }
     }
 
@@ -112,7 +117,8 @@ angular.module('service.user-account', [
         signOut: signOut,
         register: register,
         getUser: getUser,
-        redirectToLoginIfNotSignedIn: redirectToLoginIfNotSignedIn
+        redirectIfNotSignedIn: redirectIfNotSignedIn,
+        redirectIfSignedIn: redirectIfSignedIn
     };
 })
 
