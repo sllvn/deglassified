@@ -1,6 +1,4 @@
-//= require mapbox.js
-
-angular.module('state.login', [
+angular.module('state.modal.login', [
     'ui.router',
     'service.user-account',
     'service.main-modal'
@@ -10,7 +8,11 @@ angular.module('state.login', [
     $stateProvider.state('login', {
         url: '/login',
         controller: 'loginCtrl',
-        templateUrl: 'login-register-modal.html',
+        views: {
+            'mainModal': {
+                templateUrl: '/partials/login-register-modal.html',
+            }
+        },
         onEnter: function($rootScope, mainModalService) {
             $rootScope.pageTitle = 'Login';
             mainModalService.openModal();

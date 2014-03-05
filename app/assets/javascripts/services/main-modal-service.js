@@ -1,32 +1,26 @@
 angular.module('service.main-modal', [])
 
-.service('mainModalService', function($modal) {
-    var isModalOpen,
-        closeModalInstance;
+.service('mainModalService', function($modal, $state) {
+    var mainModal = $('#mainModal');
+    var isModalOpen;
 
-    // Could move this into their own service, like loadModals() or setModals()
+    // After modal is closed, invoke callback
+    $(document).on('closed', '[data-reveal]', closedModalCallback);
+
+    function closedModalCallback() {
+        isModalOpen = false;
+        $state.go('home');
+    }
+
     function openModal() {
         if (!isModalOpen) {
-            $modal.open({
-                templateUrl: '/partials/main-modal.html',
-                controller: function($scope, $modalInstance) {
-                    closeModalInstance = $modalInstance.close;
-                }
-            });
+            mainModal.foundation('reveal', 'open');
             isModalOpen = true;
         }
     }
-    
-    function closeModal() {
-        if (isModalOpen && !!closeModalInstance) {
-            closeModalInstance();
-            isModalOpen = false;
-        } 
-    }
 
     return {
-        openModal: openModal,
-        closeModal: closeModal
+        openModal: openModal
     };
 })
 

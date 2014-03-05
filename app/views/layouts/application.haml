@@ -15,7 +15,7 @@
       %hr
       %p.lead Cataloguing businesses with policies against Google Glass.
 
-      %a.main-modal-button(ng-click='openMainModal()')
+      %a.main-modal-button(ui-sref='login')
         %i.fi-share
         %span Share Your Local Glass-Free Businesses
 
@@ -39,5 +39,8 @@
         Google Glass&trade; is a trademark of Google Inc.
 
     #map
+
+    #mainModal.reveal-modal(data-reveal)
+      %div(ui-view='mainModal')
 
     = javascript_include_tag 'app'
