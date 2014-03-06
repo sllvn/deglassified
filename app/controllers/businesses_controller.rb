@@ -12,19 +12,25 @@ class BusinessesController < ApplicationController
   end
 
   def create
-    @location = Location.friendly.find(params[:location_id])
+    if Business.find_by(name: business_params[:name], address: business_params[:address])
+      render json: { status: 'failure', errors: ['That business already exists'] }, status: :unprocessable_entity
+      return
+    end
+
     @business = Business.new(business_params)
-    @business.location = @location
+    location = Location.find_by(city: params[:business][:location]) || Location.create_and_geocode(params[:business][:location])
+    @business.location = location
 
     if @business.save
       render json: @business, status: :created, business: @business
     else
-      render json: @business.errors, status: :unprocessable_entity
+      error_response = { status: 'failure', errors: @business.errors.messages.map { |k,v| "#{k} #{v.join(' and ')}" } }
+      render json: error_response, status: :unprocessable_entity
     end
   end
 
   def update
-    @business = Business.frienldy.find(params[:id])
+    @business = Business.friendly.find(params[:id])
 
     if @business.update(business_params)
       head :no_content

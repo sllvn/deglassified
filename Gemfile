@@ -8,6 +8,7 @@ gem 'active_model_serializers'
 gem 'friendly_id', '~> 5.0.0'
 gem 'devise'
 gem 'simple_token_authentication'
+gem 'figaro'
 
 # front-end gems
 gem 'haml'

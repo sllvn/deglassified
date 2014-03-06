@@ -52,6 +52,9 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.0.2)
+    figaro (0.7.0)
+      bundler (~> 1.0)
+      rails (>= 3, < 5)
     foundation-rails (5.0.2.0)
       railties (>= 3.1.0)
       sass (>= 3.2.0)
@@ -178,6 +181,7 @@ DEPENDENCIES
   angularjs-rails (~> 1.2.13)
   coffee-rails (~> 4.0.0)
   devise
+  figaro
   foundation-rails
   friendly_id (~> 5.0.0)
   haml
