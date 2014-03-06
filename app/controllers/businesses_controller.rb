@@ -24,7 +24,8 @@ class BusinessesController < ApplicationController
     if @business.save
       render json: @business, status: :created, business: @business
     else
-      render json: @business.errors, status: :unprocessable_entity
+      error_response = { status: 'failure', errors: @business.errors.messages.map { |k,v| "#{k} #{v.join(' and ')}" } }
+      render json: error_response, status: :unprocessable_entity
     end
   end
 
