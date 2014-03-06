@@ -24,7 +24,7 @@ class BusinessesController < ApplicationController
   end
 
   def update
-    @business = Business.frienldy.find(params[:id])
+    @business = Business.friendly.find(params[:id])
 
     if @business.update(business_params)
       head :no_content
