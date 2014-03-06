@@ -12,6 +12,11 @@ class BusinessesController < ApplicationController
   end
 
   def create
+    if Business.find_by(name: business_params[:name], address: business_params[:address])
+      render json: { status: 'failure', errors: ['That business already exists'] }, status: :unprocessable_entity
+      return
+    end
+
     @business = Business.new(business_params)
     location = Location.find_by(city: params[:business][:location]) || Location.create_and_geocode(params[:business][:location])
     @business.location = location
