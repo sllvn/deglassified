@@ -7,4 +7,11 @@ class Location < ActiveRecord::Base
   def url_slug
     city.downcase.gsub(/\s/, '-')
   end
+
+  def self.create_and_geocode(name)
+    location = Location.new
+    location.name = name
+    location.lat, location.lng = Geocoder.geocode(name)
+    location.save
+  end
 end

@@ -12,8 +12,8 @@ class BusinessesController < ApplicationController
   end
 
   def create
-    @location = Location.friendly.find(params[:location_id])
     @business = Business.new(business_params)
+    @location = Location.find_by(city: params[:business][:location]) || Location.create_and_geocode(params[:business][:location])
     @business.location = @location
 
     if @business.save
