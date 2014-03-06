@@ -114,6 +114,12 @@ body, html, .fill-height {
     .business-data {
         @extend .large-6;
         @extend .columns;
+        .formatted-address {
+            margin-bottom: 15px;
+            a {
+                text-decoration: underline;
+            }
+        }
         .business {
             font-weight: bold !important;
         }

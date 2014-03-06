@@ -43,21 +43,19 @@ angular.module('state.add-business', [
             });
     };
 
-    $scope.business = {};
-    // Stub data
-    $scope.business.address = '1311 12th avenue south, Seattle, WA 98144';
-    $scope.business.name = 'Deglassified Inc.';
-
     var businessFormCookie = $cookieStore.get('addBusinessForm');
     if (businessFormCookie) {
         $scope.business = businessFormCookie;
-        console.log('cookie loaded');
+    } else {
+        $scope.business = {};
+        // Stub data
+        $scope.business.address = '1311 12th avenue south, Seattle, WA 98144';
+        $scope.business.name = 'Deglassified Inc.';
     } 
 
-    $scope.$watch($scope.business, function() {
-        console.log('one add');
+    $scope.$watch('business', function() {
         $cookieStore.put('addBusinessForm', $scope.business);   
-    });
+    }, true);
 
 })
 

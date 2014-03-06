@@ -2,6 +2,10 @@
     <div class='business-data'>
         <form ng-submit='submitBusiness()'>
             <fieldset>
+                <div class='formatted-address' ng-if='business.address != business.formattedAddress'>
+                    Did you mean:
+                    <a ng-click='useFormattedAddress()'>{{business.formattedAddress}}</a>?
+                </div>
                 <table>
                     <tbody>
                         <tr class='business'>

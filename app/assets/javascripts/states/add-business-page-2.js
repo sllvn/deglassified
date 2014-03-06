@@ -44,7 +44,7 @@ angular.module('state.add-business.page-2', [
 
     function setBusinessDetails(business) {
         var coords = business.location;
-        $scope.business.address = business.formatted_address;
+        $scope.business.formattedAddress = business.formatted_address;
         $scope.business.lat = coords.lat;
         $scope.business.lng = coords.lng;
     }
@@ -82,5 +82,8 @@ angular.module('state.add-business.page-2', [
         });
     };
 
+    $scope.useFormattedAddress= function() {
+        $scope.business.address = $scope.business.formattedAddress;
+    };
 })
 ;
