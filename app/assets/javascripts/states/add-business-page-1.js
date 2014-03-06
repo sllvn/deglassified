@@ -1,5 +1,9 @@
+//= require select2
+//= require angular-ui-select2
+
 angular.module('state.add-business.page-1', [
-    'ui.router'
+    'ui.router',
+    'ui.select2'
 ]) 
 
 .config(function($stateProvider) {
@@ -21,6 +25,8 @@ angular.module('state.add-business.page-1', [
     $scope.nextPage = function() {
         $state.go('add-business.page-2');
     };
+
+    $('#city-select').select2();
 
 })
 

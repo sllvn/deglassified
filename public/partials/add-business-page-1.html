@@ -23,7 +23,7 @@
             <div class='large-6 columns'>
                 <fieldset>
                     <label for='name' class='required'>Location *</label>
-                    <select ng-model='business.locationSlug' ng-options='location.slug as location.city for location in locations' required>
+                    <select ui-select2 ng-model='business.locationSlug' ng-options='location.slug as location.city for location in locations' id='city-select' required>
                         <option value="" disabled selected>Choose a location</option>
                     </select>
 

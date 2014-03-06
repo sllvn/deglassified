@@ -20,6 +20,7 @@ gem 'underscore-rails'
 gem 'angularjs-rails', '~> 1.2.13'
 gem 'foundation-rails'
 gem 'mapbox-rails'
+gem 'select2-rails'
 
 group :doc do
   gem 'sdoc', require: false

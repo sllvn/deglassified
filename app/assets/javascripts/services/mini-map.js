@@ -7,8 +7,10 @@ angular.module('service.mini-map', [])
         marker;
 
     function showBusiness(coords, business) {
-        initMap(coords);
-        createNewMarker(coords, business);
+        if (document.getElementById('minimap')) {
+            initMap(coords);
+            createNewMarker(coords, business);
+        }
     }
 
     function initMap(coords) {
