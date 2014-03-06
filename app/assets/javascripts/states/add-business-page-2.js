@@ -54,7 +54,7 @@ angular.module('state.add-business.page-2', [
         var business = $scope.business;
         $http({
             method: 'POST',
-            url: '/api/locations/' + business.locationSlug + '/businesses',
+            url: '/api/business',
             params: {
                 user_email: user.email,
                 user_token: user.sessionToken
@@ -63,7 +63,8 @@ angular.module('state.add-business.page-2', [
                 name: business.name,
                 lat: business.lat,
                 lng: business.lng,
-                address: business.address
+                address: business.address,
+                location: business.city.text
             }
         })
         .success(function(res) {

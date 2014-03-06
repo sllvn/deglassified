@@ -1,6 +1,3 @@
-//= require select2
-//= require angular-ui-select2
-
 angular.module('state.add-business.page-1', [
     'ui.router',
     'ui.select2'
@@ -26,7 +23,22 @@ angular.module('state.add-business.page-1', [
         $state.go('add-business.page-2');
     };
 
-    $('#city-select').select2();
+    var formattedCities = $scope.locations.map(function(location) {
+        return { id: location.city, text: location.city };
+    });
+    $scope.select2Options = {
+        data: formattedCities,
+        createSearchChoice: function (term, data) {
+            if ($(data).filter(function () {
+                return this.text.localeCompare(term) === 0;
+            }).length === 0) {
+                return {
+                    id: term,
+                    text: term
+                };
+            }
+        }
+    };
 
 })
 

@@ -62,7 +62,6 @@ body, html, .fill-height {
             font-style: italic;
             font-weight: bold;
         }
-
     }
     .sign-out-button {
         @extend .large-2;
@@ -92,6 +91,16 @@ body, html, .fill-height {
         }
     }
     .add-location-form {
+        .select2-container {
+            width: 100% !important;
+            margin-bottom: 1rem;
+            a {
+                border-radius: 0;
+            }
+            .select2-arrow {
+                border-radius: 0;
+            }
+        }
         .required {
             font-weight: bold;
         }
