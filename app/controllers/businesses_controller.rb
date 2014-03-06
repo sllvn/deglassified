@@ -13,8 +13,8 @@ class BusinessesController < ApplicationController
 
   def create
     @business = Business.new(business_params)
-    @location = Location.find_by(city: params[:business][:location]) || Location.create_and_geocode(params[:business][:location])
-    @business.location = @location
+    location = Location.find_by(city: params[:business][:location]) || Location.create_and_geocode(params[:business][:location])
+    @business.location = location
 
     if @business.save
       render json: @business, status: :created, business: @business

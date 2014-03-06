@@ -10,7 +10,7 @@ class Location < ActiveRecord::Base
 
   def self.create_and_geocode(name)
     location = Location.new
-    location.name = name
+    location.city = name
     location.lat, location.lng = Geocoder.geocode(name)
     location.save
   end
