@@ -22,28 +22,31 @@ angular.module('state.add-business.page-2', [
 .controller('addBusinessPage2Ctrl', function($scope, $http, $q, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
 
     getGeoCoords($scope.business.address)
-        .then(function(response) {
+        .success(function(data) {
+            var business = data.results[0];
+            setBusinessDetails(business);
             // Replace user-typed address with formatted address.
-            $scope.business.address = response.formatted_address;
-            var coords = response.location;
-            miniMapService.initMap(coords);
+            var coords = business.location;
             miniMapService.showBusiness(coords, $scope.business);
+            $scope.enableSubmitButton = true;
         });
 
     function getGeoCoords(address) {
-        var deferred = $q.defer();
-        $http({
+        return $http({
             method: 'GET',
             url: 'http://api.geocod.io/v1/geocode',
             params: {
                 api_key: '40c7637d034f707bd6f5600c536d5c5790f0073',
                 q: address
             }
-        })
-        .success(function(data, response) {
-            deferred.resolve(data.results[0]);
         });
-        return deferred.promise;
+    }
+
+    function setBusinessDetails(business) {
+        var coords = business.location;
+        $scope.business.address = business.formatted_address;
+        $scope.business.lat = coords.lat;
+        $scope.business.lng = coords.lng;
     }
 
     $scope.submitBusiness = function() {
@@ -71,7 +74,7 @@ angular.module('state.add-business.page-2', [
             setTimeout(function() {
                 // Open the newly added business on the main map
                 $state.go('location.business', { location: business.locationSlug, business: res.business.slug }, { reload: true });
-            }, 1000);
+            }, 2000);
         })
         .error(function(err, status) {
             console.log(err);

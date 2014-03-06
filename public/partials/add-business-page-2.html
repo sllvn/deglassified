@@ -1,6 +1,6 @@
 <div class="row">
     <div class='business-data'>
-        <form ng-submit='findLocation()'>
+        <form ng-submit='submitBusiness()'>
             <fieldset>
                 <table>
                     <tbody>
@@ -34,7 +34,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class='button medium success' type='submit'>Save Business</button>
+                <button class='button medium success' type='submit' ng-disabled='!enableSubmitButton'>Save Business</button>
             </fieldset>
         </form>
     </div>

@@ -6,6 +6,11 @@ angular.module('service.mini-map', [])
     var map,
         marker;
 
+    function showBusiness(coords, business) {
+        initMap(coords);
+        createNewMarker(coords, business);
+    }
+
     function initMap(coords) {
         var mapElement = 'minimap',
             defaultView = [coords.lat, coords.lng],
@@ -13,23 +18,12 @@ angular.module('service.mini-map', [])
         map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
     }
 
-    function showBusiness(coords, business) {
-        if (marker) {
-            clearMarker();
-        }
-        createNewMarker(coords, business);
-        marker.openPopup();
-    }
-
-    function clearMarker() {
-        map.removeLayer(marker);
-    }
-
     function createNewMarker(coords, business) {
         marker = L.marker([coords.lat, coords.lng], { draggable:true })
             .addTo(map);
         bindMarkerPopup(business);
         marker.on('dragend', handleMarkerDrag);
+        marker.openPopup();
     }
 
     function bindMarkerPopup(business) {
