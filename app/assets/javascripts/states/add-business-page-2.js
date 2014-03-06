@@ -1,6 +1,5 @@
 angular.module('state.add-business.page-2', [
     'ui.router',
-    'service.user-account',
     'service.mini-map',
     'service.main-modal'
 ]) 
@@ -11,7 +10,7 @@ angular.module('state.add-business.page-2', [
         views: {
             'addBusiness': {
                 templateUrl: '/partials/add-business-page-2.html',
-                controller: 'addBusinessPage1Ctrl'
+                controller: 'addBusinessPage2Ctrl'
             }
         },
         onEnter: function($rootScope) {
@@ -21,27 +20,15 @@ angular.module('state.add-business.page-2', [
 })
 
 .controller('addBusinessPage2Ctrl', function($scope, $http, $q, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
-    // Always init map on load
-    miniMapService.initMap();
-    
-    $scope.business = {};
-    // Stub data
-    $scope.business.address = '1311 12th avenue south, Seattle, WA 98144';
-    $scope.business.name = 'Deglassified Inc.';
 
-    $scope.userEmail = userAccountService.getUser().email;
-
-    $scope.findLocation = function() {
-        getGeoCoords($scope.business.address)
-            .then(function(response) {
-                // Replace user-typed address with formatted address.
-                $scope.business.address = response.formatted_address;
-                var coords = response.location;
-                setCoordsOnScope(coords);
-                miniMapService.showBusiness(coords, $scope.business);
-                $scope.displaySubmitMapButtons = true;
-            });
-    };
+    getGeoCoords($scope.business.address)
+        .then(function(response) {
+            // Replace user-typed address with formatted address.
+            $scope.business.address = response.formatted_address;
+            var coords = response.location;
+            miniMapService.initMap(coords);
+            miniMapService.showBusiness(coords, $scope.business);
+        });
 
     function getGeoCoords(address) {
         var deferred = $q.defer();
@@ -58,16 +45,6 @@ angular.module('state.add-business.page-2', [
         });
         return deferred.promise;
     }
-
-    function setCoordsOnScope(coords) {
-        $scope.business.lat = coords.lat;
-        $scope.business.lng = coords.lng;
-    }
-
-    $scope.focusAddressField = function() {
-        document.getElementById('address').focus();
-        $scope.displaySubmitMapButtons = false;
-    };
 
     $scope.submitBusiness = function() {
         var user = userAccountService.getUser();
@@ -90,8 +67,11 @@ angular.module('state.add-business.page-2', [
             // Update location cache for the new business
             locationDataService.updateLocationCache(business.locationSlug);
             mainModalService.closeModal();
-            // Open the newly added business on the main map
-            $state.go('location.business', { location: business.locationSlug, business: res.business.slug }, { reload: true });
+            // Wait for the modal to finish closing before changing state
+            setTimeout(function() {
+                // Open the newly added business on the main map
+                $state.go('location.business', { location: business.locationSlug, business: res.business.slug }, { reload: true });
+            }, 1000);
         })
         .error(function(err, status) {
             console.log(err);

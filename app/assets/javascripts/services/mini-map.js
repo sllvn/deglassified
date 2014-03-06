@@ -6,9 +6,9 @@ angular.module('service.mini-map', [])
     var map,
         marker;
 
-    function initMap() {
+    function initMap(coords) {
         var mapElement = 'minimap',
-            defaultView = [47.603569, -122.329453],
+            defaultView = [coords.lat, coords.lng],
             defaultZoom = 15;
         map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
     }
@@ -19,7 +19,6 @@ angular.module('service.mini-map', [])
         }
         createNewMarker(coords, business);
         marker.openPopup();
-        panMapTo(coords);
     }
 
     function clearMarker() {

@@ -3,7 +3,8 @@ angular.module('state.add-business', [
     'service.user-account',
     'service.mini-map',
     'service.main-modal',
-    'state.add-business.page-1'
+    'state.add-business.page-1',
+    'state.add-business.page-2'
 ]) 
 
 .config(function($stateProvider) {
@@ -40,6 +41,11 @@ angular.module('state.add-business', [
                 $state.go('login');
             });
     };
+
+    $scope.business = {};
+    // Stub data
+    $scope.business.address = '1311 12th avenue south, Seattle, WA 98144';
+    $scope.business.name = 'Deglassified Inc.';
 })
 
 ;

@@ -1,0 +1,46 @@
+<div class="row">
+    <div class='business-data'>
+        <form ng-submit='findLocation()'>
+            <fieldset>
+                <table>
+                    <tbody>
+                        <tr class='business'>
+                            <td>Name:</td>
+                            <td>{{business.name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Address:</td>
+                            <td>{{business.address}}</td>
+                        </tr>
+                        <tr>
+                            <td>City:</td>
+                            <td>{{business.locationSlug}}</td>
+                        </tr>
+                        <tr ng-if='business.website'>
+                            <td>Website:</td>
+                            <td>{{business.website}}</td>
+                        </tr>
+                        <tr ng-if='business.yelp'>
+                            <td>Yelp:</td>
+                            <td>{{business.yelp}}</td>
+                        </tr>
+                        <tr ng-if='business.facebook'>
+                            <td>Facebook:</td>
+                            <td>{{business.facebook}}</td>
+                        </tr>
+                        <tr ng-if='business.twitter'>
+                            <td>Twitter:</td>
+                            <td>{{business.twitter}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class='button medium success' type='submit'>Save Business</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class='location-preview'>
+        <h2>Location wrong?  Drag the marker to correct.</h2>
+        <div id='minimap'></div>
+    </div>
+</div>
