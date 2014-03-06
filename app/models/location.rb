@@ -13,5 +13,6 @@ class Location < ActiveRecord::Base
     location.city = name
     location.lat, location.lng = Geocoder.geocode(name)
     location.save
+    location
   end
 end
