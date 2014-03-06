@@ -3,7 +3,7 @@
         <form ng-submit='nextPage()'>
             <div class='large-6 columns'>
                 <fieldset>
-                    <label for='name'><strong>Name</strong></label>
+                    <label for='name' class='required'>Name *</label>
                     <input type='text' id='name' ng-model='business.name' placeholder='Deglassified Inc.' required>
 
                     <label for='website'>Website</label>
@@ -22,14 +22,15 @@
 
             <div class='large-6 columns'>
                 <fieldset>
-                    <label for='name'>Location:</label>
+                    <label for='name' class='required'>Location *</label>
                     <select ng-model='business.locationSlug' ng-options='location.slug as location.city for location in locations' required>
                         <option value="" disabled selected>Choose a location</option>
                     </select>
 
-                    <label for='address'>Address</label>
+                    <label for='address' class='required'>Address *</label>
                     <input type='text' id='address' ng-model='business.address' placeholder='12345 Fake Street' required>
-                    <button class='button medium success' type='submit'>Find Business on Map</button>
+                    <button class='button medium success' type='submit'>Find Business on Map <i class='fi-arrow-right'></i></button>
+                    <p>* indicates a required field.</p>
                 </fieldset>
             </div>
         </form>

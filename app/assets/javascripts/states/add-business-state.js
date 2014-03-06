@@ -1,5 +1,6 @@
 angular.module('state.add-business', [
     'ui.router',
+    'ngCookies',
     'service.user-account',
     'service.mini-map',
     'service.main-modal',
@@ -32,7 +33,7 @@ angular.module('state.add-business', [
     });
 })
 
-.controller('addBusinessCtrl', function($scope, $http, $q, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
+.controller('addBusinessCtrl', function($scope, $http, $q, $state, userAccountService, miniMapService, locationDataService, mainModalService, $cookieStore) {
     $scope.userEmail = userAccountService.getUser().email;
 
     $scope.signOut = function() {
@@ -46,6 +47,18 @@ angular.module('state.add-business', [
     // Stub data
     $scope.business.address = '1311 12th avenue south, Seattle, WA 98144';
     $scope.business.name = 'Deglassified Inc.';
+
+    var businessFormCookie = $cookieStore.get('addBusinessForm');
+    if (businessFormCookie) {
+        $scope.business = businessFormCookie;
+        console.log('cookie loaded');
+    } 
+
+    $scope.$watch($scope.business, function() {
+        console.log('one add');
+        $cookieStore.put('addBusinessForm', $scope.business);   
+    });
+
 })
 
 ;

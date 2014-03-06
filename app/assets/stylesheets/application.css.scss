@@ -18,6 +18,7 @@ body, html, .fill-height {
     top: 1.5rem !important;
     // Mapbox's zoom button is z-index 999, so need modal to be above it
     z-index: 1000 !important;
+    padding: 1rem !important;
 }
 
 #sidebar {
@@ -53,6 +54,9 @@ body, html, .fill-height {
     .signed-in-message {
         @extend .large-10;
         @extend .columns;
+        p {
+            margin-bottom: 0px;
+        }
         .user-email {
             font-style: italic;
             font-weight: bold;
@@ -66,6 +70,7 @@ body, html, .fill-height {
         button {
             @extend .button;
             @extend .tiny;
+            margin-bottom: 10px;
         }
     }
     .sign-in-error {
@@ -86,6 +91,12 @@ body, html, .fill-height {
         }
     }
     .add-location-form {
+        .required {
+            font-weight: bold;
+        }
+        i {
+            font-size: 20px;
+        }
     }
     .small {
       font-size: 0.9em;
