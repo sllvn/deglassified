@@ -20,8 +20,7 @@ angular.module('state.add-business.page-2', [
     }); 
 })
 
-.controller('addBusinessPage2Ctrl', function($scope, $http, $cookieStore, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
-
+.controller('addBusinessPage2Ctrl', function($scope, $http, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
     getGeoCoords($scope.business.address)
         .success(function(data) {
             var business = data.results[0];
@@ -66,21 +65,21 @@ angular.module('state.add-business.page-2', [
                     lat: business.lat,
                     lng: business.lng,
                     address: business.address,
-                    location: business.city.text
+                    location: business.city.text,
+                    website: business.links.website,
+                    yelp: business.links.yelp,
+                    facebook: business.links.facebook,
+                    twitter: business.links.twitter
                 }
             }
         })
         .success(function(res) {
             // Business is submitted, so clear saved business details and cookie
-            clearFormData();
+            $scope.$parent.clearFormData();
             // Update location cache for the new business
             locationDataService.updateLocationCache(res.location.slug);
-            mainModalService.closeModal();
-            // Wait for the modal to finish closing before changing state
-            setTimeout(function() {
-                // Open the newly added business on the main map
-                $state.go('location.business', { location: res.location.slug, business: res.slug }, { reload: true });
-            }, 2000);
+            mainModalService.closeModalWithoutRedirect();
+            $state.go('location.business', { location: res.location.slug, business: res.slug }, { reload: true });
         })
         .error(function(err, status) {
             console.log(err);
@@ -88,10 +87,6 @@ angular.module('state.add-business.page-2', [
         });
     };
 
-    function clearFormData() {
-        $scope.business = {};
-        $cookieStore.remove('addBusinessForm');
-    }
 
     $scope.useFormattedAddress = function() {
         $scope.business.address = $scope.business.formattedAddress;

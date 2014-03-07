@@ -49,14 +49,17 @@ angular.module('state.add-business', [
     } else {
         $scope.business = {};
         // Stub data
-        $scope.business.address = '1311 12th avenue south, Seattle, WA 98144';
-        $scope.business.name = 'Deglassified Inc.';
+        //$scope.business.address = '1311 12th avenue south, Seattle, WA 98144';
+        //$scope.business.name = 'Deglassified Inc.';
     } 
 
     $scope.$watch('business', function() {
         $cookieStore.put('addBusinessForm', $scope.business);   
     }, true);
 
+    $scope.clearFormData = function() {
+        $scope.business = {};
+    };
 })
 
 ;
