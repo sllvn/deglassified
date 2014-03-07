@@ -1,5 +1,6 @@
 angular.module('state.add-business.page-2', [
     'ui.router',
+    'ngCookies',
     'service.mini-map',
     'service.main-modal'
 ]) 
@@ -19,7 +20,7 @@ angular.module('state.add-business.page-2', [
     }); 
 })
 
-.controller('addBusinessPage2Ctrl', function($scope, $http, $q, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
+.controller('addBusinessPage2Ctrl', function($scope, $http, $cookieStore, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
 
     getGeoCoords($scope.business.address)
         .success(function(data) {
@@ -70,9 +71,10 @@ angular.module('state.add-business.page-2', [
             }
         })
         .success(function(res) {
-            console.log(res);
+            // Business is submitted, so clear saved business details and cookie
+            clearFormData();
             // Update location cache for the new business
-            locationDataService.updateLocationCache(business.locationSlug);
+            locationDataService.updateLocationCache(res.location.slug);
             mainModalService.closeModal();
             // Wait for the modal to finish closing before changing state
             setTimeout(function() {
@@ -86,7 +88,12 @@ angular.module('state.add-business.page-2', [
         });
     };
 
-    $scope.useFormattedAddress= function() {
+    function clearFormData() {
+        $scope.business = {};
+        $cookieStore.remove('addBusinessForm');
+    }
+
+    $scope.useFormattedAddress = function() {
         $scope.business.address = $scope.business.formattedAddress;
     };
 })
