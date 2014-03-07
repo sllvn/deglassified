@@ -23,21 +23,16 @@ angular.module('state.add-business.page-1', [
         $state.go('add-business.page-2');
     };
 
-    var formattedCities = $scope.locations.map(function(location) {
-        return { id: location.city, text: location.city };
-    });
-
     $scope.select2Options = {
-        data: formattedCities,
-        createSearchChoice: function (term, data) {
-            if ($(data).filter(function () {
-                return this.text.localeCompare(term) === 0;
-            }).length === 0) {
-                return {
-                    id: term,
-                    text: term
-                };
-            }
+        ajax: {
+            dataType: 'json',
+            url: '/api/locations/',
+            results: function(data) {
+                var locations = data.locations.map(function(location) {
+                    return { id: location.city, text: location.city };
+                });
+                return { results: locations }; 
+            },
         }
     };
 
