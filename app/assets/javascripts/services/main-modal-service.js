@@ -10,7 +10,14 @@ angular.module('service.main-modal', [])
 
     function closedModalCallback() {
         isModalOpen = false;
-        if (skipStateChange) return; 
+        if (skipStateChange) {
+            skipStateChange = false;
+        } else {
+            returnToLastState();
+        }
+    }
+
+    function returnToLastState() {
         if ($rootScope.currentLocation) {
             $state.go('location', { location: $rootScope.currentLocation.slug });
         } else {

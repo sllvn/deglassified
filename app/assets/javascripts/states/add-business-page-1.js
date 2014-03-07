@@ -26,6 +26,7 @@ angular.module('state.add-business.page-1', [
     var formattedCities = $scope.locations.map(function(location) {
         return { id: location.city, text: location.city };
     });
+
     $scope.select2Options = {
         data: formattedCities,
         createSearchChoice: function (term, data) {
