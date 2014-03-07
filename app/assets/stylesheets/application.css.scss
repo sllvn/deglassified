@@ -51,6 +51,16 @@ body, html, .fill-height {
   }
 }
 
+#change-location {
+    table {
+        width: 50%;
+        border: 0px;
+        tr {
+            padding: 20px;
+        }
+    }
+}
+
 #add-business {
     .signed-in-message {
         @extend .large-10;
