@@ -79,6 +79,7 @@ body, html, .fill-height {
     .wizard-state {
         @extend .small-12;
         @extend .columns;
+        margin-bottom: 15px;
         a {
             color: lightgrey;
             margin-left: 10px;
@@ -106,6 +107,9 @@ body, html, .fill-height {
         }
         i {
             font-size: 20px;
+        }
+        button {
+            width: 100%;
         }
     }
     .small {
