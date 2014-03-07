@@ -1,50 +1,46 @@
-<div class="row">
-    <div class='business-data'>
-        <form ng-submit='submitBusiness()'>
-            <fieldset>
-                <div class='formatted-address' ng-if='business.address != business.formattedAddress'>
-                    Did you mean:
-                    <a ng-click='useFormattedAddress()'>{{business.formattedAddress}}</a>?
-                </div>
-                <table>
-                    <tbody>
-                        <tr class='business'>
-                            <td>Name:</td>
-                            <td>{{business.name}}</td>
-                        </tr>
-                        <tr>
-                            <td>Address:</td>
-                            <td>{{business.address}}</td>
-                        </tr>
-                        <tr>
-                            <td>City:</td>
-                            <td>{{business.city.text}}</td>
-                        </tr>
-                        <tr ng-if='business.website'>
-                            <td>Website:</td>
-                            <td>{{business.website}}</td>
-                        </tr>
-                        <tr ng-if='business.yelp'>
-                            <td>Yelp:</td>
-                            <td>{{business.yelp}}</td>
-                        </tr>
-                        <tr ng-if='business.facebook'>
-                            <td>Facebook:</td>
-                            <td>{{business.facebook}}</td>
-                        </tr>
-                        <tr ng-if='business.twitter'>
-                            <td>Twitter:</td>
-                            <td>{{business.twitter}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button class='button medium success' type='submit' ng-disabled='!enableSubmitButton'>Save Business</button>
-            </fieldset>
-        </form>
-    </div>
+<div class='business-data'>
+    <form ng-submit='submitBusiness()'>
+        <div class='formatted-address' ng-if='business.address != business.formattedAddress'>
+            Did you mean:
+            <a ng-click='useFormattedAddress()'>{{business.formattedAddress}}</a>?
+        </div>
+        <table>
+            <tbody>
+                <tr class='business'>
+                    <td>Name:</td>
+                    <td>{{business.name}}</td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td>{{business.address}}</td>
+                </tr>
+                <tr>
+                    <td>City:</td>
+                    <td>{{business.city.text}}</td>
+                </tr>
+                <tr ng-if='business.website'>
+                    <td>Website:</td>
+                    <td><a href='http://{{business.website}}'>{{business.website}}</a></td>
+                </tr>
+                <tr ng-if='business.yelp'>
+                    <td>Yelp:</td>
+                    <td><a href='http://{{business.yelp}}'>{{business.yelp}}</a></td>
+                </tr>
+                <tr ng-if='business.facebook'>
+                    <td>Facebook:</td>
+                    <td><a href='http://{{business.facebook}}'>{{business.facebook}}</a></td>
+                </tr>
+                <tr ng-if='business.twitter'>
+                    <td>Twitter:</td>
+                    <td><a href='http://{{business.twitter}}'>{{business.twitter}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <button class='button medium success' type='submit' ng-disabled='!enableSubmitButton'>Save Business</button>
+    </form>
+</div>
 
-    <div class='location-preview'>
-        <h2>Location wrong?  Drag the marker to correct.</h2>
-        <div id='minimap'></div>
-    </div>
+<div class='location-preview'>
+    <h2>Location wrong?  Drag the marker to correct.</h2>
+    <div id='minimap'></div>
 </div>

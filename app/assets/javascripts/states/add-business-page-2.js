@@ -54,27 +54,30 @@ angular.module('state.add-business.page-2', [
         var business = $scope.business;
         $http({
             method: 'POST',
-            url: '/api/business',
+            url: '/api/businesses',
             params: {
                 user_email: user.email,
                 user_token: user.sessionToken
             },
             data: {
-                name: business.name,
-                lat: business.lat,
-                lng: business.lng,
-                address: business.address,
-                location: business.city.text
+                business: {
+                    name: business.name,
+                    lat: business.lat,
+                    lng: business.lng,
+                    address: business.address,
+                    location: business.city.text
+                }
             }
         })
         .success(function(res) {
+            console.log(res);
             // Update location cache for the new business
             locationDataService.updateLocationCache(business.locationSlug);
             mainModalService.closeModal();
             // Wait for the modal to finish closing before changing state
             setTimeout(function() {
                 // Open the newly added business on the main map
-                $state.go('location.business', { location: business.locationSlug, business: res.business.slug }, { reload: true });
+                $state.go('location.business', { location: res.location.slug, business: res.slug }, { reload: true });
             }, 2000);
         })
         .error(function(err, status) {

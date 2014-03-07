@@ -124,6 +124,9 @@ body, html, .fill-height {
     .business-data {
         @extend .large-6;
         @extend .columns;
+        table {
+            width: 100%;
+        }
         .formatted-address {
             margin-bottom: 15px;
             a {
