@@ -8,6 +8,10 @@ class Location < ActiveRecord::Base
     city.downcase.gsub(/\s/, '-')
   end
 
+  def self.search(search_term)
+    self.where('lower(city) like ?', "%#{search_term.downcase}%")
+  end
+
   def self.create_and_geocode(name)
     location = Location.new
     location.city = name

@@ -2,7 +2,13 @@ class LocationsController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :update]
 
   def index
-    render json: Location.all, each_serializer: SimpleLocationSerializer
+    if params[:search]
+      @locations = Location.search(params[:search])
+    else
+      @locations = Location.all
+    end
+
+    render json: @locations, each_serializer: SimpleLocationSerializer
   end
 
   def show
