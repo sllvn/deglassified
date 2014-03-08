@@ -20,7 +20,7 @@ class Api::RegistrationsController < Devise::RegistrationsController
   private
 
   def successful_registration(resource)
-    { auth: { status: 'success', token: resource.authentication_token } }
+    { auth: { status: 'success', email: resource.email, token: resource.authentication_token } }
   end
 
   def successful_inactive_registration(resource)
