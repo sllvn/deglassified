@@ -32,6 +32,10 @@ angular.module('service.main-modal', [])
         }
     }
 
+    function closeModal() {
+        mainModal.foundation('reveal', 'close');
+    }
+
     function closeModalWithoutRedirect() {
         // Will be using specific state change, so skip default state change when modal closes
         skipStateChange = true;
@@ -40,6 +44,7 @@ angular.module('service.main-modal', [])
 
     return {
         openModal: openModal,
+        closeModal: closeModal,
         closeModalWithoutRedirect: closeModalWithoutRedirect
     };
 })
