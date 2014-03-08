@@ -1,5 +1,5 @@
 <div class='add-location-form'>
-    <form ng-submit='nextPage()'>
+    <form ng-submit='nextPage()' name='addLocationForm'>
         <div class='large-6 columns'>
             <label for='name' class='required'>Name *</label>
             <input type='text' id='name' ng-model='business.name' placeholder='Deglassified Inc.' required>
@@ -23,7 +23,7 @@
 
             <label for='address' class='required'>Address *</label>
             <input type='text' id='address' ng-model='business.address' placeholder='12345 Fake Street' required>
-            <button class='button medium success' type='submit'>Find Business on Map</button>
+            <button class='button medium success' type='submit' ng-disabled='addLocationForm.$invalid'>Find Business on Map</button>
             <p>* Required fields</p>
         </div>
     </form>

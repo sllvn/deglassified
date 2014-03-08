@@ -28,7 +28,7 @@ angular.module('state.add-business.page-2', [
             // Replace user-typed address with formatted address.
             var coords = business.location;
             miniMapService.showBusiness(coords, $scope.business);
-            $scope.enableSubmitButton = true;
+            $scope.geocodeXHRfinished = true;
         });
 
     function getGeoCoords(address) {

@@ -2,7 +2,6 @@
 //= require select2
 //= require angular
 //= require angular-animate.min
-//= require mm-foundation-tpls-0.1.0.min
 //= require angular-local-storage.min
 //= require angular-ui-router.min
 //= require angular-ui-select2
@@ -15,7 +14,6 @@ angular.module('deglassified', [
     // Libs
     'ui.router',
     'ngAnimate',
-    'mm.foundation',
 
     // Services
     'service.location-data',

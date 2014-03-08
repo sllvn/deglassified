@@ -1,15 +1,21 @@
 angular.module('controller.change-location-modal', [
     'ui.router',
-    'service.main-map'
+    'service.main-map',
+    'service.main-modal'
 ])
 
 .config(function($stateProvider) {
     $stateProvider.state('change-location', {
         url: '/change-location',
-        templateUrl: '/partials/change-location-modal.html',
-        controller: 'changeLocationModalCtrl',
-        onEnter: function($rootScope) {
+        views: {
+            'mainModal': {
+                templateUrl: '/partials/change-location-modal.html',
+                controller: 'changeLocationModalCtrl',
+            }
+        },
+        onEnter: function($rootScope, mainModalService) {
             $rootScope.pageTitle = 'Change Location';
+            mainModalService.openModal();
         }
     });
 })

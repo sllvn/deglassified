@@ -1,6 +1,6 @@
 angular.module('controller.side-bar', [])
 
-.controller('sideBarCtrl', function($rootScope, $scope, $state, $modal, locationDataService) {
+.controller('sideBarCtrl', function($rootScope, $scope, $state, locationDataService) {
     // Gets list of locations from REST server, stores in $rootScope
     locationDataService.getList()
         .then(function(locationsList) {
@@ -8,11 +8,7 @@ angular.module('controller.side-bar', [])
             $rootScope.locations = locationsList;
         });
 
-    $scope.openLocationModal = function() {
-        $modal.open({ templateUrl: '/partials/change-location-modal.html' });
-    };
-
-    $scope.showBusiness = function(business) {
+    $scope.showBusinessOnMap = function(business) {
         $state.go('location.business', { business: business.slug }, { reload: true });
     };
 })

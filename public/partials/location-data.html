@@ -2,14 +2,14 @@
     <span id='current-city'>{{currentCity}}</span>
     Businesses
     <small>
-        <a class='change-location' ng-click="openLocationModal()">change location</a>
+        <a class='change-location' ui-sref='change-location'>change location</a>
     </small>
 </h3>
 <table id='business-listing'>
     <tbody>
     <tr ng-repeat='business in businesses'>
         <td>
-            <a ng-click='showBusiness(business)'>{{business.name}}</a>
+            <a ng-click='showBusinessOnMap(business)'>{{business.name}}</a>
         </td>
     </tr>
     </tbody>

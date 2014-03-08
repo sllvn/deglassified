@@ -1,6 +1,6 @@
 angular.module('service.main-modal', [])
 
-.service('mainModalService', function($rootScope, $modal, $state) {
+.service('mainModalService', function($rootScope, $state) {
     var mainModal = $('#mainModal');
     var isModalOpen,
         skipStateChange;
