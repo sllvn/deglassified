@@ -36,13 +36,6 @@ angular.module('state.add-business', [
 .controller('addBusinessCtrl', function($scope, $http, $q, $state, userAccountService, miniMapService, locationDataService, mainModalService, $cookieStore) {
     $scope.userEmail = userAccountService.getUser().email;
 
-    $scope.signOut = function() {
-        userAccountService.signOut()
-            .then(function(response) {
-                $state.go('login');
-            });
-    };
-
     var businessFormCookie = $cookieStore.get('addBusinessForm');
     if (businessFormCookie) {
         $scope.business = businessFormCookie;
@@ -59,6 +52,19 @@ angular.module('state.add-business', [
 
     $scope.clearFormData = function() {
         $scope.business = {};
+    };
+
+    // If user moves marker on mapbox map, adjust lat/lng
+    $scope.$on('locationCoordsChange', function(event, coords) {
+        $scope.business.lat = coords.lat;
+        $scope.business.lng = coords.lng;
+    });
+
+    $scope.signOut = function() {
+        userAccountService.signOut()
+            .then(function(response) {
+                $state.go('login');
+            });
     };
 })
 
