@@ -2,7 +2,15 @@ class BusinessesController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :update]
 
   def index
-    @businesses = Location.friendly.find(params[:location_id]).businesses
+    if params[:location_id]
+      @businesses = Location.friendly.find(params[:location_id]).businesses
+    elsif params[:lat] and params[:lng]
+      radius = params[:radius] || 1000
+      origin = [params[:lat].to_f, params[:lng].to_f]
+      @businesses = Business.within(radius.to_f/1000, origin: origin).by_distance(origin: origin)
+    else
+      @businesses = Business.all
+    end
 
     render json: @businesses, each_serializer: BusinessSerializer
   end
@@ -22,7 +30,7 @@ class BusinessesController < ApplicationController
     @business.location = location
 
     if @business.save
-        render json: @business.attributes.merge({ location: @business.location }), status: :created, business: @business
+      render json: @business.attributes.merge({ location: @business.location }), status: :created, business: @business
     else
       error_response = { status: 'failure', errors: @business.errors.messages.map { |k,v| "#{k} #{v.join(' and ')}" } }
       render json: error_response, status: :unprocessable_entity

@@ -1,11 +1,15 @@
 class Location < ActiveRecord::Base
+  has_many :businesses
+
   extend FriendlyId
   friendly_id :city, use: :slugged
 
-  has_many :businesses
-
   def url_slug
     city.downcase.gsub(/\s/, '-')
+  end
+
+  def self.search(search_term)
+    self.where('lower(city) like ?', "%#{search_term.downcase}%")
   end
 
   def self.create_and_geocode(name)
