@@ -43,14 +43,15 @@ angular.module('service.location-data', [])
         return deferred.promise;
     }
 
-    function deleteLocationCache(location) {
-        delete cachedLocations[location];
+    function updateLocationCache(locationSlug) {
+        delete cachedLocations[locationSlug];
+        getSingle(locationSlug);
     }
 
     return {
         getSingle: getSingle,
         getList: getList,
-        deleteLocationCache: deleteLocationCache
+        updateLocationCache: updateLocationCache
     };
 
 })

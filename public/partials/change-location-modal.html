@@ -1,10 +1,12 @@
-<div ng-controller='changeLocationModalCtrl'>
+<div ng-controller='changeLocationModalCtrl' id='change-location'>
     <h2>Change Location</h2>
     <p class='lead'>Here are the cities we&rsquo;ve got data on.</p>
-    <ul ng-repeat='location in locations'>
-        <li>
-            <a ng-click='loadLocation(location); $close()'>{{location.city}}, {{location.state}}</a>
-        </li>
-    </ul>
+    <table>
+        <tr ng-repeat='location in locations'>
+            <td>
+                <a ng-click='loadLocation(location); $close()'>{{location.city}}, {{location.state}}</a>
+            </td>
+        </tr>
+    </table>
     <a class='close-reveal-modal' ng-click="$close()">&#215;</a>
 </div>

@@ -1,20 +1,39 @@
-//= require mapbox.js
-
-angular.module('controller.main-modal', [
+angular.module('state.login', [
     'ui.router',
     'service.user-account',
-    'controller.dashboard'
+    'service.main-modal'
 ])
 
-.controller('mainModalCtrl', function($rootScope, $scope, $http, $state, userAccountService) {
+.config(function($stateProvider) {
+    $stateProvider.state('login', {
+        url: '/login',
+        views: {
+            'mainModal': {
+                templateUrl: '/partials/login-register-modal.html',
+                controller: 'loginCtrl'
+            }
+        },
+        onEnter: function($rootScope, $state, mainModalService, userAccountService) {
+            $rootScope.pageTitle = 'Login';
+            mainModalService.openModal();
+            userAccountService.redirectIfSignedIn('add-business.default');
+        }
+    }); 
+})
+
+.controller('loginCtrl', function($rootScope, $scope, $state, $http, $state, userAccountService) {
     // Need to define these to access the models in the modal
-    $scope.login = {};
+    $scope.loginForm = {};
+    // Stub data
+    $scope.loginForm.email = 'someone@example.com';
+    $scope.loginForm.password = 'somepassword';
 
     $scope.signIn = function() {
-        userAccountService.signIn($scope.login.email, $scope.login.password)
+        userAccountService.signIn($scope.loginForm.email, $scope.loginForm.password)
             .then(function(response) {
                 switch (response.status) {
                     case 'success':
+                        $state.go('add-business.default');
                         break;
                     case 'server-down':
                         $scope.signInError = 'server-down';
@@ -24,7 +43,7 @@ angular.module('controller.main-modal', [
                         break;
                 }
                 // Always clear password, regardless of response
-                $scope.login.password = '';
+                $scope.loginForm.password = '';
                 // Set the alert box to disappear
                 setTimeout(function() {
                     $scope.signInError = false;
@@ -71,7 +90,6 @@ angular.module('controller.main-modal', [
         $scope.registration.password = '';
         $scope.registration.verifyPassword = '';
     };
-;
 
 })
 

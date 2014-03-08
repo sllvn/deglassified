@@ -1,19 +1,25 @@
 //= require mapbox.js
 
-angular.module('service.mapbox', [ 'ui.router'])
+angular.module('service.main-map', [ 'ui.router'])
 
-.service('mapboxService', function($rootScope, $state) {
-    var mapElement = 'map',
+.service('mainMapService', function($rootScope, $state) {
+    var map,
+        geoJSON,
+        markerLayer;
+
+    function initMap() {
+        mapElement = 'map',
         defaultView = [47.603569, -122.329453],
         defaultZoom = 12,
         map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
 
-    var geoJSON = {
-        type: 'FeatureCollection',
-        features: []
-    };
+        geoJSON = {
+            type: 'FeatureCollection',
+            features: []
+        };
 
-    var markerLayer = L.mapbox.markerLayer();
+        markerLayer = L.mapbox.markerLayer();
+    }
 
     function loadLocation(location) {
         clearMarkers();
@@ -109,6 +115,7 @@ angular.module('service.mapbox', [ 'ui.router'])
     }
 
     return {
+        initMap: initMap,
         clearMarkers: clearMarkers,
         loadLocation: loadLocation,
         addBusinessesToMapbox: addBusinessesToMapbox,

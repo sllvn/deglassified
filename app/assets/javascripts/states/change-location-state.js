@@ -3,6 +3,17 @@ angular.module('controller.change-location-modal', [
     'service.main-map'
 ])
 
+.config(function($stateProvider) {
+    $stateProvider.state('change-location', {
+        url: '/change-location',
+        templateUrl: '/partials/change-location-modal.html',
+        controller: 'changeLocationModalCtrl',
+        onEnter: function($rootScope) {
+            $rootScope.pageTitle = 'Change Location';
+        }
+    });
+})
+
 .controller('changeLocationModalCtrl', function($scope, $state, mainMapService) {
     $scope.loadLocation = function(location) {
         mainMapService.clearMarkers();

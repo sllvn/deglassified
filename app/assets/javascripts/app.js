@@ -1,9 +1,16 @@
+//= require jquery
+//= require select2
 //= require angular
 //= require angular-animate.min
 //= require mm-foundation-tpls-0.1.0.min
 //= require angular-local-storage.min
 //= require angular-ui-router.min
+//= require angular-ui-select2
+//= require custom-foundation.min
 //= require_tree .
+
+$(document).foundation();
+
 angular.module('deglassified', [
     // Libs
     'ui.router',
@@ -12,14 +19,16 @@ angular.module('deglassified', [
 
     // Services
     'service.location-data',
-    'service.user-account',
+    'service.main-map',
 
     // Controllers
-    'controller.main-modal',
+    'controller.side-bar',
     'controller.change-location-modal',
 
     // States
     'state.home',
+    'state.login',
+    'state.add-business',
     // Location has a wildcard route, so it must be loaded after all states with an explicit route
     'state.location'
 ])
@@ -30,36 +39,8 @@ angular.module('deglassified', [
     $locationProvider.html5Mode(true);
 })
 
-.run(function(userAccountService) {
-    userAccountService.initUserData();
-})
-
-.controller('sideBarCtrl', function($rootScope, $scope, $state, $modal, locationDataService) {
-    // Gets list of locations from REST server, stores in $rootScope
-    locationDataService.getList()
-        .then(function(locationsList) {
-            // As the data will be used in a modal being appended to the DOM, have to store in rootScope.
-            $rootScope.locations = locationsList;
-        });
-
-    // Could move this into their own service, like loadModals() or setModals()
-    $scope.openMainModal = function() {
-        $modal.open({
-            templateUrl: '/partials/main-modal.html',
-            controller: function($scope, $modalInstance) {
-                // Bind this function for nested controllers to use later
-                $scope.closeModal = $modalInstance.close;
-            }
-        });
-    };
-
-    $scope.openLocationModal = function() {
-        $modal.open({ templateUrl: '/partials/change-location-modal.html' });
-    };
-
-    $scope.showBusiness = function(business) {
-        $state.go('location.business', { business: business.slug }, { reload: true });
-    };
+.run(function(mainMapService) {
+    mainMapService.initMap();
 })
 
 ;

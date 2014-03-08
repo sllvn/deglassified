@@ -1,0 +1,23 @@
+<div id='add-business'>
+    <div class='signed-in-message'>
+        <p>
+            Signed in: <span class='user-email'>{{userEmail}}</span>
+        </p>
+    </div>
+    <div class='sign-out-button'>
+        <button ng-click='signOut()'>
+            Sign Out
+        </button>
+    </div>
+    <hr>
+    <div class='wizard-state'>
+        <strong>Add Business: </strong>
+        <a ui-sref='add-business.page-1' ui-sref-active='active'>
+            1) basic information 
+        </a>    
+        <a ui-sref='add-business.page-2' ui-sref-active='active'>
+            2) mark location
+        </a>    
+    </div>
+    <div ui-view='addBusiness'></div>
+</div>

@@ -4,6 +4,7 @@
  *= require foundation.min
  *= require angular-animations
  *= require foundation-icons
+ *= require select2
  *= require_tree .
  */
 
@@ -18,6 +19,7 @@ body, html, .fill-height {
     top: 1.5rem !important;
     // Mapbox's zoom button is z-index 999, so need modal to be above it
     z-index: 1000 !important;
+    padding: 1rem !important;
 }
 
 #sidebar {
@@ -49,15 +51,27 @@ body, html, .fill-height {
   }
 }
 
-#main-modal {
+#change-location {
+    table {
+        width: 50%;
+        border: 0px;
+        tr {
+            padding: 20px;
+        }
+    }
+}
+
+#add-business {
     .signed-in-message {
         @extend .large-10;
         @extend .columns;
+        p {
+            margin-bottom: 0px;
+        }
         .user-email {
             font-style: italic;
             font-weight: bold;
         }
-
     }
     .sign-out-button {
         @extend .large-2;
@@ -66,14 +80,47 @@ body, html, .fill-height {
         button {
             @extend .button;
             @extend .tiny;
+            margin-bottom: 10px;
         }
     }
     .sign-in-error {
 
     }
-    .add-location-form {
-        @extend .large-6;
+    .wizard-state {
+        @extend .small-12;
         @extend .columns;
+        margin-bottom: 15px;
+        a {
+            color: lightgrey;
+            margin-left: 10px;
+            &.active {
+                color: black;
+            }
+            &:hover {
+                color: grey;
+            }
+        }
+    }
+    .add-location-form {
+        .select2-container {
+            width: 100% !important;
+            margin-bottom: 1rem;
+            a {
+                border-radius: 0;
+            }
+            .select2-arrow {
+                border-radius: 0;
+            }
+        }
+        .required {
+            font-weight: bold;
+        }
+        i {
+            font-size: 20px;
+        }
+        button {
+            width: 100%;
+        }
     }
     .small {
       font-size: 0.9em;
@@ -83,8 +130,30 @@ body, html, .fill-height {
     .location-preview {
         @extend .large-6;
         @extend .columns;
+        h2 {
+            font-size: 16px;
+        }
     }
 
+    .business-data {
+        @extend .large-6;
+        @extend .columns;
+        table {
+            width: 100%;
+        }
+        .formatted-address {
+            margin-bottom: 15px;
+            a {
+                text-decoration: underline;
+            }
+        }
+        .business {
+            font-weight: bold !important;
+        }
+        button {
+            width: 100%;
+        }
+    }
     .coord-column {
         @extend .large-6;
         @extend .columns;
@@ -107,7 +176,7 @@ body, html, .fill-height {
     #minimap {
         @extend .small-12;
         @extend .columns;
-        height: 300px !important;
+        height: 400px !important;
     }
 
     #map-buttons {

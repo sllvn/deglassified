@@ -22,7 +22,7 @@ class BusinessesController < ApplicationController
     @business.location = location
 
     if @business.save
-      render json: @business, status: :created, business: @business
+        render json: @business.attributes.merge({ location: @business.location }), status: :created, business: @business
     else
       error_response = { status: 'failure', errors: @business.errors.messages.map { |k,v| "#{k} #{v.join(' and ')}" } }
       render json: error_response, status: :unprocessable_entity

@@ -6,26 +6,18 @@ angular.module('service.mini-map', [])
     var map,
         marker;
 
-    function initMap() {
-        var mapElement = 'minimap',
-            defaultView = [47.603569, -122.329453],
-            defaultZoom = 15;
-
-        map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
-        // Null any markers from previous instances of map
-        marker = null;
-    }
-       
     function showBusiness(coords, business) {
-        // If marker already exists, just change marker coords and popup content
-        if (marker) {
-            changeMarkerCoords(coords);
-            bindMarkerPopup(business);
-        } else {
+        if (document.getElementById('minimap')) {
+            initMap(coords);
             createNewMarker(coords, business);
         }
-        marker.openPopup();
-        panMapTo(coords);
+    }
+
+    function initMap(coords) {
+        var mapElement = 'minimap',
+            defaultView = [coords.lat, coords.lng],
+            defaultZoom = 15;
+        map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
     }
 
     function createNewMarker(coords, business) {
@@ -33,6 +25,7 @@ angular.module('service.mini-map', [])
             .addTo(map);
         bindMarkerPopup(business);
         marker.on('dragend', handleMarkerDrag);
+        marker.openPopup();
     }
 
     function bindMarkerPopup(business) {
@@ -64,9 +57,6 @@ angular.module('service.mini-map', [])
         map.panTo([coords.lat, coords.lng]);
     }
 
-    function changeMarkerCoords(coords) {
-        marker.setLatLng(coords);
-    }
     return {
         initMap: initMap,
         showBusiness: showBusiness
