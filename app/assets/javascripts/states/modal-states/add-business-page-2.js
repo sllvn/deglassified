@@ -21,11 +21,11 @@ angular.module('state.add-business.page-2', [
 })
 
 .controller('addBusinessPage2Ctrl', function($scope, $http, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
-    if (isBusinessDataMissing()) {
-        // Prompt a message asking to fill required fields
-        $state.go('add-business.page-1');
-        return;
-    }
+    //if (isBusinessDataMissing()) {
+        //// Prompt a message asking to fill required fields
+        //$state.go('add-business.page-1');
+        //return;
+    //}
     
     function isBusinessDataMissing() {
         var business = $scope.business;

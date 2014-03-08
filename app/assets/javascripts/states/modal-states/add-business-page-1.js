@@ -41,6 +41,14 @@ angular.module('state.add-business.page-1', [
                     }
                 }
             });
+
+            // ng-model does not play well with select2 inputs, so implement our own model binding
+            $('#select-location').change(function(data) {
+                $scope.business.city = {};
+                $scope.business.city.text = data.val;
+                $scope.$digest();
+           });
+           $('#select-location').val('test');
         });
 
     function formatLocations(location) {
