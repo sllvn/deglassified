@@ -9,6 +9,7 @@ gem 'friendly_id', '~> 5.0.0'
 gem 'devise'
 gem 'simple_token_authentication'
 gem 'figaro'
+gem 'geokit-rails'
 
 # front-end gems
 gem 'haml'

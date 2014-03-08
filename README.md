@@ -18,7 +18,7 @@ All businesses for that location will be returned inside a `businesses` array.
 
 `GET /api/businesses?lat={latitude}&lng={longitude}&radius={radius_in_meters}`
 
-Return all businesses within a search radius. Lat and lng are required, radius defaults to 1000 meters if omitted.
+Return all businesses within a search radius. Lat and lng are required, radius defaults to 1000 meters if omitted. Results are sorted by distance from specified lat/lng.
 
 #### Create a business
 
