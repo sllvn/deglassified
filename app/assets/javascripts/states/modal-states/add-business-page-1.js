@@ -24,32 +24,33 @@ angular.module('state.add-business.page-1', [
         $state.go('add-business.page-2');
     };
 
-    locationDataService.getList()
-        .then(function(response) {
-            var formattedLocations = response.map(formatLocations);
-
-            $('#select-location').select2({
-                data: formattedLocations,
-                createSearchChoice: function (term, data) {
-                    if ($(data).filter(function () {
-                        return this.text.localeCompare(term) === 0;
-                    }).length === 0) {
-                        return {
-                            id: term,
-                            text: term
-                        };
-                    }
-                }
-            });
-
-            // ng-model does not play well with select2 inputs, so implement our own model binding
-            $('#select-location').change(function(data) {
-                $scope.business.city = {};
-                $scope.business.city.text = data.val;
-                $scope.$digest();
-           });
-           $('#select-location').val('test');
-        });
+    $scope.select2Options = {
+        ajax: {
+            dataType: 'json',
+            url: '/api/locations/',
+            data: function(term) {
+                return {
+                    q: term
+                };
+            },
+            results: function(data) {
+                var locations = data.locations.map(function(location) {
+                    return { id: location.city, text: location.city };
+                });
+                return { results: locations }; 
+            },
+        },
+        createSearchChoice: function (term, data) {
+            if ($(data).filter(function () {
+                return this.text.localeCompare(term) === 0;
+            }).length === 0) {
+                return {
+                    id: term,
+                    text: term
+                };
+            }
+        }
+    };
 
     function formatLocations(location) {
         return { id: location.city, text: location.city };
