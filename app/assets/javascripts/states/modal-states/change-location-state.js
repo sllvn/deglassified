@@ -1,4 +1,4 @@
-angular.module('state.change-location', [
+angular.module('controller.change-location-modal', [
     'ui.router',
     'service.main-map',
     'service.main-modal'

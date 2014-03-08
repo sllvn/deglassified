@@ -2,7 +2,7 @@
 //= require select2
 //= require angular
 //= require angular-animate.min
-//= require angular-local-storage.min
+//= require angular-cookies.min
 //= require angular-ui-router.min
 //= require angular-ui-select2
 //= require custom-foundation.min
@@ -21,12 +21,12 @@ angular.module('deglassified', [
 
     // Controllers
     'controller.side-bar',
-    'controller.change-location-modal',
 
     // States
     'state.home',
     'state.login',
     'state.add-business',
+    'state.change-location',
     // Location has a wildcard route, so it must be loaded after all states with an explicit route
     'state.location'
 ])
