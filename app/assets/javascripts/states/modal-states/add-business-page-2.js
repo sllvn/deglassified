@@ -21,6 +21,17 @@ angular.module('state.add-business.page-2', [
 })
 
 .controller('addBusinessPage2Ctrl', function($scope, $http, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
+    if (isBusinessDataMissing()) {
+        // Prompt a message asking to fill required fields
+        $state.go('add-business.page-1');
+        return;
+    }
+    
+    function isBusinessDataMissing() {
+        var business = $scope.business;
+        return !business.name || !business.address || !business.location;
+    }
+
     getGeoCoords($scope.business.address)
         .success(function(data) {
             var business = data.results[0];
@@ -66,10 +77,10 @@ angular.module('state.add-business.page-2', [
                     lng: business.lng,
                     address: business.address,
                     location: business.city.text,
-                    website: business.links.website,
-                    yelp: business.links.yelp,
-                    facebook: business.links.facebook,
-                    twitter: business.links.twitter
+                    website: business.website,
+                    yelp: business.yelp,
+                    facebook: business.facebook,
+                    twitter: business.twitter
                 }
             }
         })
@@ -86,7 +97,6 @@ angular.module('state.add-business.page-2', [
             console.log(status);
         });
     };
-
 
     $scope.useFormattedAddress = function() {
         $scope.business.address = $scope.business.formattedAddress;

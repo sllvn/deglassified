@@ -31,16 +31,16 @@ angular.module('service.mini-map', [])
     function bindMarkerPopup(business) {
         var content  = "<h4>" + business.name + "</h4>" +
             "<p>" + business.address + "</p>";
-        if (business.links) {
+        if (business) {
             content += '<p>';
-            if (business.links.website)
-                content += "<a href='" + business.links.website + "' target='_blank'><i class='fi-link'></i> website</a><br>";
-            if (business.links.facebook)
-                content += "<a href='" + business.links.facebook + "' target='_blank'><i class='fi-social-facebook'></i> facebook</a><br>";
-            if (business.links.twitter)
-                content += "<a href='" + business.links.twitter + "' target='_blank'><i class='fi-social-twitter'></i> twitter</a><br>";
-            if (business.links.yelp)
-                content += "<a href='" + business.links.yelp + "' target='_blank'><i class='fi-social-yelp'></i> yelp</a><br>";
+            if (business.website)
+                content += "<a href='" + business.website + "' target='_blank'><i class='fi-link'></i> website</a><br>";
+            if (business.facebook)
+                content += "<a href='" + business.facebook + "' target='_blank'><i class='fi-social-facebook'></i> facebook</a><br>";
+            if (business.twitter)
+                content += "<a href='" + business.twitter + "' target='_blank'><i class='fi-social-twitter'></i> twitter</a><br>";
+            if (business.yelp)
+                content += "<a href='" + business.yelp + "' target='_blank'><i class='fi-social-yelp'></i> yelp</a><br>";
             content += '</p>';
         }
         marker.bindPopup(content);
