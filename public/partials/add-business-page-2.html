@@ -1,23 +1,34 @@
 <div class='business-data'>
     <form ng-submit='submitBusiness()'>
-        <div class='formatted-address' ng-if='business.address != business.formattedAddress'>
-            Did you mean:
-            <a ng-click='useFormattedAddress()'>{{business.formattedAddress}}</a>?
-        </div>
         <table>
             <tbody>
                 <tr class='business'>
                     <td>Name:</td>
                     <td>{{business.name}}</td>
                 </tr>
+
                 <tr>
                     <td>Address:</td>
                     <td>{{business.address}}</td>
                 </tr>
+                <tr ng-if='business.address != business.formattedAddress'>
+                    <td></td>
+                    <td class='formatted-suggestion'>Did you mean:
+                        <a ng-click='useFormattedAddress()'>{{business.formattedAddress}}</a>?
+                    </td>
+                </tr>
+
                 <tr>
                     <td>City:</td>
-                    <td>{{business.city.text}}</td>
+                    <td>{{business.location.text}}</td>
                 </tr>
+                <tr ng-if='business.location.text != business.formattedLocation'>
+                    <td></td>
+                    <td class='formatted-suggestion'>Did you mean:
+                        <a ng-click='useFormattedLocation()'>{{business.formattedLocation}}</a>?
+                    </td>
+                </tr>
+
                 <tr ng-if='business.website'>
                     <td>Website:</td>
                     <td><a href='http://{{business.website}}'>{{business.website}}</a></td>

@@ -22,32 +22,18 @@ angular.module('state.add-business.page-2', [
 })
 
 .controller('addBusinessPage2Ctrl', function($scope, $http, $state, userAccountService, miniMapService, locationDataService, mainModalService, geocodingService) {
-    //if (isBusinessDataMissing()) {
-        //// Prompt a message asking to fill required fields
-        //$state.go('add-business.page-1');
-        //return;
-    //}
+    if (isBusinessDataMissing()) {
+        // Prompt a message asking to fill required fields
+        $state.go('add-business.page-1');
+        return;
+    } else {
+        miniMapService.showBusiness($scope.business);
+        $scope.geocodeXHRfinished = true;
+    }
     
     function isBusinessDataMissing() {
         var business = $scope.business;
         return !business.name || !business.address || !business.location;
-    }
-
-    geocodingService.geocodeAddress($scope.business.address)
-        .success(function(data) {
-            var response = data.results[0];
-            console.log(response);
-            var coords = response.geometry.location;
-            setBusinessDetails(response.formatted_address, coords);
-            miniMapService.showBusiness(coords, $scope.business);
-            $scope.geocodeXHRfinished = true;
-        });
-
-
-    function setBusinessDetails(formattedAddress, coords) {
-        $scope.business.formattedAddress = formattedAddress;
-        $scope.business.lat = coords.lat;
-        $scope.business.lng = coords.lng;
     }
 
     $scope.submitBusiness = function() {
@@ -66,7 +52,7 @@ angular.module('state.add-business.page-2', [
                     lat: business.lat,
                     lng: business.lng,
                     address: business.address,
-                    location: business.city.text,
+                    location: business.location.text,
                     website: business.website,
                     yelp: business.yelp,
                     facebook: business.facebook,
@@ -90,6 +76,12 @@ angular.module('state.add-business.page-2', [
 
     $scope.useFormattedAddress = function() {
         $scope.business.address = $scope.business.formattedAddress;
+        miniMapService.createNewMarker($scope.business);
+    };
+
+    $scope.useFormattedLocation = function() {
+        $scope.business.location.text = $scope.business.formattedLocation;
+        miniMapService.createNewMarker($scope.business);
     };
 })
 ;

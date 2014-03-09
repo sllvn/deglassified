@@ -19,10 +19,6 @@
 
         <div class='large-6 columns'>
             <label for='name' class='required'>Location *</label>
-            <div class='formatted-address' ng-if='business.location != business.formattedLocation'>
-                Did you mean:
-                <a ng-click='useFormattedAddress()'>{{business.formarttedLocation}}</a>?
-            </div>
             <input type='hidden' ui-select2='select2Options' ng-model='business.location' required data-placeholder='Choose a location'>
 
             <label for='address' class='required'>Address *</label>

@@ -21,10 +21,6 @@ angular.module('state.add-business.page-1', [
 })
 
 .controller('addBusinessPage1Ctrl', function($scope, $state, locationDataService, geocodingService) {
-    $scope.nextPage = function() {
-        $state.go('add-business.page-2');
-    };
-
     $scope.select2Options = {
         ajax: {
             dataType: 'json',
@@ -54,19 +50,36 @@ angular.module('state.add-business.page-1', [
     };
 
     $scope.verifyBusinessAndLocation = function() {
+        verifyLocation();
+    };
+
+    function verifyLocation() {
         var location = $scope.business.location.id;
-        console.log(location);
-        geocodingService.geocodeAddress(location)
+        geocodingService.geocode(location)
             .success(function(response) {
-                console.log(response);
                 if (response.status == 'ZERO_RESULTS') {
                     console.log('tell user bad location!');
                 } else if (response.status == 'OK') {
-                    var location = response.results[0].formatted_address;
-                    //$scope.business.formattedAddress =
+                    $scope.business.formattedLocation = response.result.city;
+                    verifyAddress();
                 }
             });
-    };
+    }
+
+    function verifyAddress() {
+        var address = $scope.business.address;
+        geocodingService.geocode(address)
+            .success(function(response) {
+                if (response.status == 'ZERO_RESULTS') {
+                    console.log('tell user bad location!');
+                } else if (response.status == 'OK') {
+                    $scope.business.formattedAddress = response.result.formatted_address;
+                    $scope.business.coords = response.result.coords;
+                    $state.go('add-business.page-2');
+                }
+            });
+    }
+
 
     function formatLocations(location) {
         return { id: location.city, text: location.city };

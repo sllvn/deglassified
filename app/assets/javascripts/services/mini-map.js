@@ -6,10 +6,10 @@ angular.module('service.mini-map', [])
     var map,
         marker;
 
-    function showBusiness(coords, business) {
+    function showBusiness(business) {
         if (document.getElementById('minimap')) {
-            initMap(coords);
-            createNewMarker(coords, business);
+            initMap(business.coords);
+            createNewMarker(business);
         }
     }
 
@@ -20,8 +20,9 @@ angular.module('service.mini-map', [])
         map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
     }
 
-    function createNewMarker(coords, business) {
-        marker = L.marker([coords.lat, coords.lng], { draggable:true })
+    function createNewMarker(business) {
+        //clearMarker();
+        marker = L.marker([business.coords.lat, business.coords.lng], { draggable:true })
             .addTo(map);
         bindMarkerPopup(business);
         marker.on('dragend', handleMarkerDrag);
@@ -46,6 +47,12 @@ angular.module('service.mini-map', [])
         marker.bindPopup(content);
     }
 
+    function clearMarker() {
+        if (marker) {
+            map.removeLayer(marker);
+        }
+    }
+
     function handleMarkerDrag(event) {
         var coords = event.target.getLatLng();
         $rootScope.$broadcast('locationCoordsChange', coords);
@@ -59,7 +66,8 @@ angular.module('service.mini-map', [])
 
     return {
         initMap: initMap,
-        showBusiness: showBusiness
+        showBusiness: showBusiness,
+        createNewMarker: createNewMarker 
     };
 })
 
