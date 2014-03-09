@@ -21,8 +21,8 @@
             <label for='name' class='required'>Location *</label>
             <input type='hidden' ui-select2='select2Options' ng-model='business.location' required data-placeholder='Choose a location'>
 
-            <label for='address' class='required'>Address *</label>
-            <input type='text' ng-model='business.address' placeholder='12345 Fake Street' required>
+            <label for='address' class='required'>Full Address *</label>
+            <input type='text' ng-model='business.address' placeholder='1122 Madison St, Seattle, WA 98104' required>
             <button class='button medium success' type='submit' ng-disabled='addLocationForm.$invalid'>Find Business on Map</button>
             <p>* Required fields</p>
         </div>
