@@ -1,8 +1,8 @@
 class Geocoder
   def self.geocode(city)
     begin
-      response = open("https://maps.googleapis.com/maps/api/geocode/json?key=#{ENV['GOOGLE_GEOCODING_API_KEY']}&sensor=false&address=#{URI.escape(city)}")
-      geocoded = JSON.parse(response.string)
+      req = Faraday.get("https://maps.googleapis.com/maps/api/geocode/json?key=#{ENV['GOOGLE_GEOCODING_API_KEY']}&sensor=false&address=#{URI.escape(city)}")
+      geocoded = JSON.parse(req.body)
       result = geocoded['results'].first
       return { status: 'ZERO_RESULTS' } unless result
       {

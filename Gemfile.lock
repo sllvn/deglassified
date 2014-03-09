@@ -52,6 +52,8 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.0.2)
+    faraday (0.8.9)
+      multipart-post (~> 1.2.0)
     figaro (0.7.0)
       bundler (~> 1.0)
       rails (>= 3, < 5)
@@ -83,6 +85,7 @@ GEM
     minitest (4.7.5)
     modernizr-rails (2.7.1)
     multi_json (1.8.2)
+    multipart-post (1.2.0)
     ngmin-rails (0.4.0)
       rails (>= 3.1)
     orm_adapter (0.5.0)
@@ -187,6 +190,7 @@ DEPENDENCIES
   angularjs-rails (~> 1.2.13)
   coffee-rails (~> 4.0.0)
   devise
+  faraday
   figaro
   foundation-rails
   friendly_id (~> 5.0.0)

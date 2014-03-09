@@ -10,6 +10,7 @@ gem 'devise'
 gem 'simple_token_authentication'
 gem 'figaro'
 gem 'geokit-rails'
+gem 'faraday'
 
 # front-end gems
 gem 'haml'
