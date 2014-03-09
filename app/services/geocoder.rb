@@ -9,7 +9,7 @@ class Geocoder
         status: 'OK',
         result: {
           formatted_address: result['formatted_address'],
-          city: result['address_components'].find { |ac| ac['types'].find { |t| t == 'locality' } }['short_name'],
+          city: result['address_components'].find { |ac| ac['types'].find { |t| t == 'locality' } }['long_name'],
           state: result['address_components'].find { |ac| ac['types'].find { |t| t == 'administrative_area_level_1' } }['short_name'],
           coords: {
             lat: result['geometry']['location']['lat'].to_f,
