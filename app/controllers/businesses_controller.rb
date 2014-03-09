@@ -29,10 +29,12 @@ class BusinessesController < ApplicationController
     location = Location.find_by(city: params[:business][:location]) || Location.create_and_geocode(params[:business][:location])
     @business.location = location
 
-    if @business.save
+    if @business.location.present? and @business.save
       render json: @business.attributes.merge({ location: @business.location }), status: :created, business: @business
     else
-      error_response = { status: 'failure', errors: @business.errors.messages.map { |k,v| "#{k} #{v.join(' and ')}" } }
+      error_messages = @business.errors.messages.map { |k,v| "#{k} #{v.join(' and ')}" }
+      error_messages << 'There was a problem geocoding the location.' unless @business.location.present?
+      error_response = { status: 'failure', errors: error_messages }
       render json: error_response, status: :unprocessable_entity
     end
   end

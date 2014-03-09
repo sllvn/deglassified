@@ -1,12 +1,19 @@
 class Geocoder
   def self.geocode(city)
-    response = open("http://api.geocod.io/v1/geocode?api_key=#{ENV['GEOCODIO_API_KEY']}&q=#{URI.escape(city)}")
-    geocoded = JSON.parse(response.string)
-    raise GeocodingException.new("Error geocoding #{city}") unless geocoded['results'].length > 0
-    [
-      geocoded['results'].first['location']['lat'].to_f,
-      geocoded['results'].first['location']['lng'].to_f
-    ]
+    begin
+      response = open("http://api.geocod.io/v1/geocode?api_key=#{ENV['GEOCODIO_API_KEY']}&q=#{URI.escape(city)}")
+      geocoded = JSON.parse(response.string)
+      result = geocoded['results'].first
+      {
+        formatted_city: result['address_components']['city'],
+        formatted_state: result['address_components']['state'],
+        lat: result['location']['lat'].to_f,
+        lng: result['location']['lng'].to_f
+      }
+    rescue
+      nil
+      # TODO: log GeocodingException.new("Error geocoding #{city}")
+    end
   end
 end
 
