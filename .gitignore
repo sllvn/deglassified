@@ -15,7 +15,6 @@
 /log/*.log
 /tmp
 
-/public/assets/*
 .DS_Store
 .idea/
 # Ignore application configuration
