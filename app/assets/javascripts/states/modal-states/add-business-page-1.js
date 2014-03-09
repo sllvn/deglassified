@@ -30,7 +30,7 @@ angular.module('state.add-business.page-1', [
             url: '/api/locations/',
             data: function(term) {
                 return {
-                    q: term
+                    search: term
                 };
             },
             results: function(data) {
