@@ -12,15 +12,15 @@
 
             <div class='sign-in-error'>
                 <div ng-switch on="signInError">
-                    <div ng-switch-when='failed-login' class="animate-switch">
-                        <alert type='danger'>
+                    <div ng-switch-when='failed-login' class="animate-fade">
+                        <div class='alert-box alert'>
                             Your email / password combination is incorrect.  Please try again.
-                        </alert>
+                        </div>
                     </div>
-                    <div ng-switch-when='server-down' class="animate-switch">
-                        <alert type='danger'>
+                    <div ng-switch-when='server-down' class="animate-fade">
+                        <div class='alert-box alert'>
                             Cannot connect to server.  Please check your connection and try again.
-                        </alert>
+                        </div>
                     </div>
                 </div>
             </div>

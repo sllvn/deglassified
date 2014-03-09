@@ -19,7 +19,11 @@ body, html, .fill-height {
     top: 1.5rem !important;
     // Mapbox's zoom button is z-index 999, so need modal to be above it
     z-index: 1000 !important;
-    padding: 1rem !important;
+    padding: 1.5rem !important;
+
+    .close-reveal-modal {
+        top: 0.1rem !important;
+    }
 }
 
 #sidebar {

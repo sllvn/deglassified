@@ -21,12 +21,9 @@ angular.module('state.login', [
     }); 
 })
 
-.controller('loginCtrl', function($rootScope, $scope, $state, $http, $state, userAccountService) {
+.controller('loginCtrl', function($rootScope, $scope, $http, $state, userAccountService) {
     // Need to define these to access the models in the modal
     $scope.loginForm = {};
-    // Stub data
-    $scope.loginForm.email = 'someone@example.com';
-    $scope.loginForm.password = 'somepassword';
 
     $scope.signIn = function() {
         userAccountService.signIn($scope.loginForm.email, $scope.loginForm.password)
@@ -36,7 +33,12 @@ angular.module('state.login', [
                         $state.go('add-business.default');
                         break;
                     case 'server-down':
-                        $scope.signInError = 'server-down';
+                        if ($scope.signInError === 'server-down') {
+                            console.log('false');
+                            $scope.signInError = false;
+                        } else {
+                            $scope.signInError = 'server-down';
+                        }
                         break;
                     case 'failure':
                         $scope.signInError = 'failed-login';
@@ -44,10 +46,6 @@ angular.module('state.login', [
                 }
                 // Always clear password, regardless of response
                 $scope.loginForm.password = '';
-                // Set the alert box to disappear
-                setTimeout(function() {
-                    $scope.signInError = false;
-                }, 3000);
             });
     };
 

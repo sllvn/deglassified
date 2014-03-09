@@ -44,6 +44,7 @@ angular.module('service.user-account', [
             .success(function(response) {
                 // Replace old user data with empty object
                 user = {};
+                updateUserCookie();
                 deleteUserCookie();
                 deferred.resolve(response.auth);
             })

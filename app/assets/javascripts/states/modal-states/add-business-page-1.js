@@ -72,7 +72,6 @@ angular.module('state.add-business.page-1', [
     }
 
     function verifyAddress() {
-        console.log('address');
         var address = $scope.business.address;
         geocodingService.geocode(address)
             .success(function(response) {
