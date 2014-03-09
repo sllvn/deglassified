@@ -14,8 +14,15 @@ class Location < ActiveRecord::Base
 
   def self.create_and_geocode(name)
     location = Location.new
-    location.city = name
-    location.lat, location.lng = Geocoder.geocode(name)
+
+    geocoded = Geocoder.geocode(name)
+    return nil unless geocoded.present?
+
+    location.lat = geocoded.lat
+    location.lng = geocoded.lng
+    location.city = geocoded.city
+    location.state = geocoded.state
+
     location.save
     location
   end
