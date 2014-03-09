@@ -3,30 +3,32 @@
 angular.module('service.mini-map', [])
 
 .service('miniMapService', function($rootScope) {
-    var map,
+    var mapElement = 'minimap',
+        map,
         marker;
 
     function showBusiness(business) {
-        if (document.getElementById('minimap')) {
-            initMap(business.coords);
+        if (document.getElementById(mapElement)) {
+            initMap(business);
             createNewMarker(business);
         }
     }
 
-    function initMap(coords) {
-        var mapElement = 'minimap',
-            defaultView = [coords.lat, coords.lng],
+    function initMap(business) {
+        var defaultView = [business.coords.lat, business.coords.lng],
             defaultZoom = 15;
         map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
     }
 
     function createNewMarker(business) {
-        //clearMarker();
+        clearMarker();
         marker = L.marker([business.coords.lat, business.coords.lng], { draggable:true })
             .addTo(map);
         bindMarkerPopup(business);
         marker.on('dragend', handleMarkerDrag);
-        marker.openPopup();
+        //setTimeout(function(){
+            marker.openPopup();
+        //}, 1000);
     }
 
     function bindMarkerPopup(business) {

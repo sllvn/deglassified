@@ -31,11 +31,9 @@ angular.module('state.add-business.page-1', [
                 };
             },
             results: function(data) {
-                var locations = data.locations.map(function(location) {
-                    return { id: location.city, text: location.city };
-                });
+                var locations = data.locations.map(formatLocations);
                 return { results: locations }; 
-            },
+            }
         },
         createSearchChoice: function (term, data) {
             if ($(data).filter(function () {
@@ -48,6 +46,10 @@ angular.module('state.add-business.page-1', [
             }
         }
     };
+
+    function formatLocations(location) {
+        return { id: location.city, text: location.city };
+    }
 
     $scope.verifyBusinessAndLocation = function() {
         verifyLocation();
@@ -63,10 +65,14 @@ angular.module('state.add-business.page-1', [
                     $scope.business.formattedLocation = response.result.city;
                     verifyAddress();
                 }
+            })
+            .error(function(response) {
+                console.log(response); 
             });
     }
 
     function verifyAddress() {
+        console.log('address');
         var address = $scope.business.address;
         geocodingService.geocode(address)
             .success(function(response) {
@@ -77,13 +83,12 @@ angular.module('state.add-business.page-1', [
                     $scope.business.coords = response.result.coords;
                     $state.go('add-business.page-2');
                 }
+            })
+            .error(function(response) {
+                console.log(response); 
             });
     }
 
-
-    function formatLocations(location) {
-        return { id: location.city, text: location.city };
-    }
 })
 
 ;
