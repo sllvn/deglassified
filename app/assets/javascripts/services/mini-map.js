@@ -9,8 +9,11 @@ angular.module('service.mini-map', [])
 
     function showBusiness(business) {
         if (document.getElementById(mapElement)) {
-            initMap(business);
-            createNewMarker(business);
+            // I really do not know what race conditions are causing the need for this delay
+            setTimeout(function(){
+                initMap(business);
+                createNewMarker(business);
+            }, 1000);
         }
     }
 
@@ -26,9 +29,7 @@ angular.module('service.mini-map', [])
             .addTo(map);
         bindMarkerPopup(business);
         marker.on('dragend', handleMarkerDrag);
-        //setTimeout(function(){
-            marker.openPopup();
-        //}, 1000);
+        marker.openPopup();
     }
 
     function bindMarkerPopup(business) {
