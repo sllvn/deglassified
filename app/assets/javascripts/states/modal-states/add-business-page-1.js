@@ -1,7 +1,8 @@
 angular.module('state.add-business.page-1', [
     'ui.router',
     'ui.select2',
-    'service.location-data'
+    'service.location-data',
+    'service.geocoding'
 ]) 
 
 .config(function($stateProvider) {
@@ -19,7 +20,7 @@ angular.module('state.add-business.page-1', [
     }); 
 })
 
-.controller('addBusinessPage1Ctrl', function($scope, $state, locationDataService) {
+.controller('addBusinessPage1Ctrl', function($scope, $state, locationDataService, geocodingService) {
     $scope.nextPage = function() {
         $state.go('add-business.page-2');
     };
@@ -50,6 +51,21 @@ angular.module('state.add-business.page-1', [
                 };
             }
         }
+    };
+
+    $scope.verifyBusinessAndLocation = function() {
+        var location = $scope.business.location.id;
+        console.log(location);
+        geocodingService.geocodeAddress(location)
+            .success(function(response) {
+                console.log(response);
+                if (response.status == 'ZERO_RESULTS') {
+                    console.log('tell user bad location!');
+                } else if (response.status == 'OK') {
+                    var location = response.results[0].formatted_address;
+                    //$scope.business.formattedAddress =
+                }
+            });
     };
 
     function formatLocations(location) {

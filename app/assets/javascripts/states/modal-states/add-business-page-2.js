@@ -2,7 +2,8 @@ angular.module('state.add-business.page-2', [
     'ui.router',
     'ngCookies',
     'service.mini-map',
-    'service.main-modal'
+    'service.main-modal',
+    'service.geocoding'
 ]) 
 
 .config(function($stateProvider) {
@@ -20,7 +21,7 @@ angular.module('state.add-business.page-2', [
     }); 
 })
 
-.controller('addBusinessPage2Ctrl', function($scope, $http, $state, userAccountService, miniMapService, locationDataService, mainModalService) {
+.controller('addBusinessPage2Ctrl', function($scope, $http, $state, userAccountService, miniMapService, locationDataService, mainModalService, geocodingService) {
     //if (isBusinessDataMissing()) {
         //// Prompt a message asking to fill required fields
         //$state.go('add-business.page-1');
@@ -32,30 +33,19 @@ angular.module('state.add-business.page-2', [
         return !business.name || !business.address || !business.location;
     }
 
-    getGeoCoords($scope.business.address)
+    geocodingService.geocodeAddress($scope.business.address)
         .success(function(data) {
-            var business = data.results[0];
-            setBusinessDetails(business);
-            // Replace user-typed address with formatted address.
-            var coords = business.location;
+            var response = data.results[0];
+            console.log(response);
+            var coords = response.geometry.location;
+            setBusinessDetails(response.formatted_address, coords);
             miniMapService.showBusiness(coords, $scope.business);
             $scope.geocodeXHRfinished = true;
         });
 
-    function getGeoCoords(address) {
-        return $http({
-            method: 'GET',
-            url: 'http://api.geocod.io/v1/geocode',
-            params: {
-                api_key: '40c7637d034f707bd6f5600c536d5c5790f0073',
-                q: address
-            }
-        });
-    }
 
-    function setBusinessDetails(business) {
-        var coords = business.location;
-        $scope.business.formattedAddress = business.formatted_address;
+    function setBusinessDetails(formattedAddress, coords) {
+        $scope.business.formattedAddress = formattedAddress;
         $scope.business.lat = coords.lat;
         $scope.business.lng = coords.lng;
     }
