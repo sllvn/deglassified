@@ -5,6 +5,7 @@ Deglassified::Application.routes.draw do
     resources :locations, only: [:index, :show, :create, :update] do
       resources :businesses, only: [:index, :show, :create, :update]
     end
+    get 'geocode', controller: 'geocoder', action: 'index'
   end
 
   get '*path', controller: 'map', action: 'index'
