@@ -53,7 +53,6 @@ angular.module('state.login', [
         userAccountService.signOut()
             .then(function(response) {
                 if (response.status === 'success') {
-                    $rootScope.user.signedIn = false;
                     console.log('Signed out');
                 } else {
                     // TODO: Find an appropriate message to the user
@@ -75,6 +74,7 @@ angular.module('state.login', [
                         case 'success':
                             // Successful registration, clear all models in form
                             $scope.registration = {};
+                            $state.go('add-business.default');
                             break;
                         case 'server-down':
                             $scope.signInError = 'server-down';
