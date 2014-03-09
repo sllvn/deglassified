@@ -18,10 +18,10 @@ class Location < ActiveRecord::Base
     geocoded = Geocoder.geocode(name)
     return nil unless geocoded.present?
 
-    location.lat = geocoded.lat
-    location.lng = geocoded.lng
-    location.city = geocoded.city
-    location.state = geocoded.state
+    location.lat = geocoded[:result][:coords][:lat]
+    location.lng = geocoded[:result][:coords][:lng]
+    location.city = geocoded[:result][:city]
+    location.state = geocoded[:result][:state]
 
     location.save
     location
