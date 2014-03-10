@@ -12,14 +12,14 @@
 
             <label class='required'>Google Glass Restriction *</label>
             <input type='radio' ng-model='business.restriction' value='full-ban' name='full-ban'>
-            <label for='full-ban'>Full Ban</label>
+            <label for='full-ban'>Full ban</label>
             <input type='radio' ng-model='business.restriction' value='specific' name='specific'>
             <label for='specific'>Specific restriction</label>
             <div ng-if="business.restriction == 'specific'">
-                <textarea placeholder='Glass users must cover camera inside the store.' ng-model='business.notes'></textarea>
+                <textarea placeholder='Glass users must cover their camera inside the store.' ng-model='business.notes'></textarea>
             </div>
-
-            <p>* Required fields</p>
+            <hr>
+            <p class='small'>* Required fields</p>
         </div>
 
         <div class='large-6 columns'>

@@ -19,7 +19,7 @@
                 </tr>
 
                 <tr>
-                    <td>City:</td>
+                    <td>Location:</td>
                     <td>{{business.location.text}}</td>
                 </tr>
                 <tr ng-if='business.location.text != business.formattedLocation'>
@@ -27,6 +27,16 @@
                     <td class='formatted-suggestion'>Did you mean:
                         <a ng-click='useFormattedLocation()'>{{business.formattedLocation}}</a>?
                     </td>
+                </tr>
+
+                <tr>
+                    <td>Restriction:</td>
+                    <td ng-if="business.restriction == 'full-ban'">Full ban</td>
+                    <td ng-if="business.restriction == 'specific'">Specific restriction</td>
+                </tr>
+                <tr ng-if="business.restriction == 'specific' && business.notes">
+                    <td>Notes:</td>
+                    <td>{{business.notes}}</td>
                 </tr>
 
                 <tr ng-if='business.website'>

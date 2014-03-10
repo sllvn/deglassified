@@ -33,7 +33,7 @@ angular.module('state.add-business.page-2', [
     
     function isBusinessDataMissing() {
         var business = $scope.business;
-        return !business.name || !business.address || !business.location || !business.coords;
+        return !business.name || !business.address || !business.location || !business.coords || !business.restriction;
     }
 
     $scope.submitBusiness = function() {
