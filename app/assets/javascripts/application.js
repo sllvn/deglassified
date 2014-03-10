@@ -24,7 +24,7 @@ angular.module('deglassified', [
 
     // States
     'state.home',
-    'state.login',
+    'state.login-register',
     'state.add-business',
     'state.change-location',
     // Location has a wildcard route, so it must be loaded after all states with an explicit route

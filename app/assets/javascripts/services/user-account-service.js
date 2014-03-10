@@ -27,10 +27,13 @@ angular.module('service.user-account', [
             deferred.resolve(response.auth);
         })
         .error(function(response) {
-            if (!response) {
-                deferred.resolve('server-down');
-            } else {
+            if (response) {
                 deferred.resolve(response.auth);
+            } else {
+                deferred.resolve({ 
+                    status: 'failure',
+                    errors: ['Cannot connect to server.  Please check your connection and try again.']
+                });
             }
         });
 
@@ -43,15 +46,15 @@ angular.module('service.user-account', [
             method: 'DELETE',
             url: '/api/users/sign_out'
         })
-            .success(function(response) {
-                // Replace old user data with empty object
-                user = {};
-                deleteUserCookie();
-                deferred.resolve(response.auth);
-            })
-            .error(function(response) {
-                deferred.resolve('Sign out failed.');
-            });
+        .success(function(response) {
+            // Replace old user data with empty object
+            user = {};
+            deleteUserCookie();
+            deferred.resolve(response.auth);
+        })
+        .error(function(response) {
+            deferred.resolve('Sign out failed.');
+        });
 
         return deferred.promise;
     }
@@ -69,17 +72,22 @@ angular.module('service.user-account', [
                 }
             }
         })
-            .success(function(response) {
-                console.log(response);
-                if (response.auth.status === 'success') {
-                    signInUser(email, response);
-                }
+        .success(function(response) {
+            if (response.auth.status === 'success') {
+                signInUser(email, response);
+            }
+            deferred.resolve(response.auth);
+        })
+        .error(function(response) {
+            if (response) {
                 deferred.resolve(response.auth);
-            })
-            .error(function(response) {
-                // Unable to send request
-                deferred.resolve({ status: 'request-failed' });
-            });
+            } else {
+                deferred.resolve({ 
+                    status: 'failure',
+                    errors: ['Cannot connect to server.  Please check your connection and try again.']
+                });
+            }
+        });
 
         return deferred.promise;
     }

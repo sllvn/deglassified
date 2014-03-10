@@ -1,4 +1,4 @@
-angular.module('state.login', [
+angular.module('state.login-register', [
     'ui.router',
     'service.user-account',
     'service.main-modal'
@@ -28,16 +28,12 @@ angular.module('state.login', [
     $scope.signIn = function() {
         userAccountService.signIn($scope.loginForm.email, $scope.loginForm.password)
             .then(function(response) {
-                switch (response.status) {
-                    case 'success':
-                        $state.go('add-business.default');
-                        break;
-                    case 'server-down':
-                        loadErrorMsg('signInError', 'server-down');
-                        break;
-                    case 'failure':
-                        loadErrorMsg('signInError', 'failed-login');
-                        break;
+                if (response.status === 'success') {
+                    // Successful registration, clear fields in form
+                    $scope.loginForm = {};
+                    $state.go('add-business.default');
+                } else if (response.status === 'failure') {
+                    loadErrorMsg('loginErrors', response.errors);
                 }
                 // Always clear password, regardless of response
                 $scope.loginForm.password = '';
@@ -59,34 +55,29 @@ angular.module('state.login', [
     $scope.registration = {};
 
     $scope.register = function() {
-        userAccountService.register($scope.registration.email, $scope.registration.password, $scope.registration.verifyPassword)
+        userAccountService.register($scope.registration.email, $scope.registration.password, $scope.registration.passwordConfirmation)
             .then(function(response) {
-                switch (response.status) {
-                    case 'success':
-                        // Successful registration, clear all models in form
-                        $scope.registration = {};
-                        $state.go('add-business.default');
-                        break;
-                    case 'request-failed':
-                        loadErrorMsg('registrationError', 'request-failed');
-                        break;
-                    case 'failure':
-                        loadErrorMsg('registrationError', 'password-too-short');
-                        break;
+                if (response.status === 'success') {
+                    // Successful registration, clear fields in form
+                    $scope.registration = {};
+                    $state.go('add-business.default');
+                } else if (response.status === 'failure') {
+                    loadErrorMsg('registrationErrors', response.errors);
                 }
             });
         $scope.registration.password = '';
-        $scope.registration.verifyPassword = '';
+        $scope.registration.passwordConfirmation = '';
     };
 
-    function loadErrorMsg(errorModel, status) {
-        $scope[errorModel] = false;
-        setTimeout(function(scope) {
+    function loadErrorMsg(scopeModel, errors) {
+        // If there are any existing errors, clear them, so that the fade in animation will be trigger when re-adding new errors
+        $scope[scopeModel] = false;
+        setTimeout(function() {
             return function() {
-                scope[errorModel] = status;
-                scope.$digest();
+                $scope[scopeModel] = errors;
+                $scope.$digest();
             };
-        }($scope), 1);
+        }(), 1);
     }
 
 })
