@@ -28,7 +28,7 @@ class Api::RegistrationsController < Devise::RegistrationsController
   end
 
   def failed_registration(resource)
-    errors = resource.errors.messages.map { |k,v| v.map { |v2| "#{k} #{v2}" } }.flatten
+    errors = resource.errors.messages.map { |k,v| v.map { |v2| "#{k} #{v2}.".humanize } }.flatten
     { auth: { status: 'failure', errors: errors } }
   end
 end

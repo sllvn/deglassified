@@ -11,6 +11,6 @@ class Api::SessionsController < Devise::SessionsController
   end
 
   def failure
-    render json: { auth: { status: 'failure', errors: ["Login failed."] } }
+    render json: { auth: { status: 'failure', errors: ["Your email / password combination is incorrect. Please try again."] } }
   end
 end
