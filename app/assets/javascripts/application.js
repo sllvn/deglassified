@@ -6,6 +6,8 @@
 //= require angular-ui-router.min
 //= require angular-ui-select2
 //= require custom-foundation.min
+//= require spin.min
+//= require ladda.min
 //= require_tree .
 
 $(document).foundation();

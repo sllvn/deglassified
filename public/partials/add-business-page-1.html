@@ -34,7 +34,9 @@
 
             <label for='twitter'>Twitter</label>
             <input type='text' id='twitter' ng-model='business.twitter' placeholder='twitter.com/business'>
-            <button class='button medium success' type='submit' ng-disabled='addLocationForm.$invalid'>Find Business on Map</button>
+            <button class='button medium success ladda-button submit-button' data-style='expand-right' type='submit' ng-disabled='addLocationForm.$invalid'>
+                <span class='ladda-label'>Find Business on Map</span>
+            </button>
         </div>
     </form>
 </div>

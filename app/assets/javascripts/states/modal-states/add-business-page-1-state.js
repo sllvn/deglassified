@@ -21,6 +21,7 @@ angular.module('state.add-business.page-1', [
 })
 
 .controller('addBusinessPage1Ctrl', function($scope, $state, locationDataService, geocodingService) {
+    var progressButton = Ladda.create(document.querySelector('.submit-button'));
     $scope.select2Options = {
         ajax: {
             dataType: 'json',
@@ -52,6 +53,7 @@ angular.module('state.add-business.page-1', [
     }
 
     $scope.verifyBusinessAndLocation = function() {
+        progressButton.start();
         verifyLocation();
     };
 
@@ -63,11 +65,13 @@ angular.module('state.add-business.page-1', [
                     console.log('tell user bad location!');
                 } else if (response.status == 'OK') {
                     $scope.business.formattedLocation = response.result.city;
-                    verifyAddress();
                 }
             })
             .error(function(response) {
                 console.log(response); 
+            })
+            .then(function() {
+                verifyAddress();
             });
     }
 
@@ -85,6 +89,9 @@ angular.module('state.add-business.page-1', [
             })
             .error(function(response) {
                 console.log(response); 
+            })
+            .then(function() {
+                progressButton.stop();
             });
     }
 
