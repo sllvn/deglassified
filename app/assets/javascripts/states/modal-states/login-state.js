@@ -33,15 +33,10 @@ angular.module('state.login', [
                         $state.go('add-business.default');
                         break;
                     case 'server-down':
-                        if ($scope.signInError === 'server-down') {
-                            console.log('false');
-                            $scope.signInError = false;
-                        } else {
-                            $scope.signInError = 'server-down';
-                        }
+                        loadErrorMsg('signInError', 'server-down');
                         break;
                     case 'failure':
-                        $scope.signInError = 'failed-login';
+                        loadErrorMsg('signInError', 'failed-login');
                         break;
                 }
                 // Always clear password, regardless of response
@@ -64,30 +59,35 @@ angular.module('state.login', [
     $scope.registration = {};
 
     $scope.register = function() {
-        if ($scope.registration.password !== $scope.registration.verifyPassword) {
-            $scope.registrationError = 'mismatch-password';
-        } else {
-            userAccountService.register($scope.registration.email, $scope.registration.password)
-                .then(function(response) {
-                    console.log(response);
-                    switch (response.status) {
-                        case 'success':
-                            // Successful registration, clear all models in form
-                            $scope.registration = {};
-                            $state.go('add-business.default');
-                            break;
-                        case 'server-down':
-                            $scope.signInError = 'server-down';
-                            break;
-                        case 'failure':
-                            $scope.registrationError = 'failed-registration';
-                            break;
-                    }
-                });
-        }
+        userAccountService.register($scope.registration.email, $scope.registration.password, $scope.registration.verifyPassword)
+            .then(function(response) {
+                switch (response.status) {
+                    case 'success':
+                        // Successful registration, clear all models in form
+                        $scope.registration = {};
+                        $state.go('add-business.default');
+                        break;
+                    case 'request-failed':
+                        loadErrorMsg('registrationError', 'request-failed');
+                        break;
+                    case 'failure':
+                        loadErrorMsg('registrationError', 'password-too-short');
+                        break;
+                }
+            });
         $scope.registration.password = '';
         $scope.registration.verifyPassword = '';
     };
+
+    function loadErrorMsg(errorModel, status) {
+        $scope[errorModel] = false;
+        setTimeout(function(scope) {
+            return function() {
+                scope[errorModel] = status;
+                scope.$digest();
+            };
+        }($scope), 1);
+    }
 
 })
 

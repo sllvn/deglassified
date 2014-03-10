@@ -21,7 +21,9 @@ angular.module('service.user-account', [
             }
         })
         .success(function(response) {
-            signInUser(email, response);
+            if (response.auth.status === 'success') {
+                signInUser(email, response);
+            }
             deferred.resolve(response.auth);
         })
         .error(function(response) {
@@ -44,7 +46,6 @@ angular.module('service.user-account', [
             .success(function(response) {
                 // Replace old user data with empty object
                 user = {};
-                updateUserCookie();
                 deleteUserCookie();
                 deferred.resolve(response.auth);
             })
@@ -55,7 +56,7 @@ angular.module('service.user-account', [
         return deferred.promise;
     }
 
-    function register(email, password) {
+    function register(email, password, passwordConfirmation) {
         var deferred = $q.defer();
         $http({
             method: 'POST',
@@ -63,20 +64,21 @@ angular.module('service.user-account', [
             data: {
                 user: {
                     email: email,
-                    password: password
+                    password: password,
+                    password_confirmation: passwordConfirmation
                 }
             }
         })
             .success(function(response) {
-                signInUser(email, response);
+                console.log(response);
+                if (response.auth.status === 'success') {
+                    signInUser(email, response);
+                }
                 deferred.resolve(response.auth);
             })
             .error(function(response) {
-                if (!response) {
-                    deferred.resolve('server-down');
-                } else {
-                    deferred.resolve(response.auth);
-                }
+                // Unable to send request
+                deferred.resolve({ status: 'request-failed' });
             });
 
         return deferred.promise;
