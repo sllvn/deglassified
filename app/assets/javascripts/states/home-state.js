@@ -10,7 +10,7 @@ angular.module('state.home', ['ui.router'])
 
 .controller('homeCtrl', function($rootScope, $state) {
     $rootScope.pageTitle = 'Home';
-    var defaultLocation = 'san-francisco';
+    var defaultLocation = 'seattle';
     // Default redirect.  Should make this customize based upon user IP location
     $state.go('location', { location: defaultLocation });
 })

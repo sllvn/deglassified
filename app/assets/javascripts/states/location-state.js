@@ -19,7 +19,7 @@ angular.module('state.location', [
         .then(function(response) {
             if (response === 404) {
                 $state.go('404');
-            } else {
+            } else if (response.slug) {
                 loadLocation(response);
             }
         });
