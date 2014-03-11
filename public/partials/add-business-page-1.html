@@ -5,7 +5,7 @@
             <input type='text' id='name' ng-model='business.name' placeholder='Deglassified Inc.' required>
 
             <label for='name' class='required'>Location *</label>
-            <input type='hidden' ui-select2='select2Options' ng-model='business.location' required data-placeholder='Choose a location'>
+            <input id='location-select' type='hidden' ui-select2='select2Options' ng-model='business.location' required data-placeholder='Choose a location'>
 
             <label for='address' class='required'>Full Address *</label>
             <input type='text' ng-model='business.address' placeholder='1122 Madison St, Seattle, WA 98104' required>
