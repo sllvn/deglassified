@@ -22,6 +22,7 @@ angular.module('state.add-business.page-1', [
 
 .controller('addBusinessPage1Ctrl', function($scope, $state, locationDataService, geocodingService) {
     var progressButton = Ladda.create(document.querySelector('.submit-button'));
+
     $scope.select2Options = {
         ajax: {
             dataType: 'json',

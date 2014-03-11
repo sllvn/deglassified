@@ -32,7 +32,7 @@ angular.module('state.login-register', [
                     // Successful registration, clear fields in form
                     $scope.loginForm = {};
                     $state.go('add-business.default');
-                } else if (response.status === 'failure') {
+                } else if (response.status === 'mainModal') {
                     loadErrorMsg('loginErrors', response.errors);
                 }
                 // Always clear password, regardless of response
