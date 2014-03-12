@@ -20,9 +20,9 @@
 
                 <tr>
                     <td>Location:</td>
-                    <td>{{business.location.text}}</td>
+                    <td>{{business.location}}</td>
                 </tr>
-                <tr ng-if='business.location.text != business.formattedLocation'>
+                <tr ng-if='business.location != business.formattedLocation'>
                     <td></td>
                     <td class='formatted-suggestion'>Did you mean:
                         <a ng-click='useFormattedLocation()'>{{business.formattedLocation}}</a>?
