@@ -54,7 +54,9 @@ angular.module('state.add-business.page-1', [
     }
 
     $('#location-select').on('select2-selecting', function(choice) {
-        verifyLocation(choice.val);
+        // Do the manual binding here, so that we can just bind a string to business.location, instead of the default select2 object
+        $scope.business.location = choice.val;
+        verifyLocation($scope.business.location);
     });
 
     function verifyLocation(location) {
@@ -62,7 +64,7 @@ angular.module('state.add-business.page-1', [
             .success(function(response) {
                 if (response.status == 'ZERO_RESULTS') {
                     $scope.business.location = null;
-                    //$('#location-select').val('bad location');
+                    $scope.select2LocationModel = '';
                 } else if (response.status == 'OK') {
                     $scope.business.formattedLocation = response.result.city;
                 }
