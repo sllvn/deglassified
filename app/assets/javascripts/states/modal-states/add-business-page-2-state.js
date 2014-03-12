@@ -83,7 +83,7 @@ angular.module('state.add-business.page-2', [
     };
 
     $scope.useFormattedLocation = function() {
-        $scope.business.location.text = $scope.business.formattedLocation;
+        $scope.business.location = $scope.business.formattedLocation;
         miniMapService.createNewMarker($scope.business);
     };
 })
