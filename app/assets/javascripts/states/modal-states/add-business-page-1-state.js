@@ -53,15 +53,13 @@ angular.module('state.add-business.page-1', [
         return { id: location.city, text: location.city };
     }
 
-    $('#location-select').on('select2-selecting', function() {
-        verifyLocation();
+    $('#location-select').on('select2-selecting', function(choice) {
+        verifyLocation(choice.val);
     });
 
-    function verifyLocation() {
-        var location = $scope.business.location.id;
+    function verifyLocation(location) {
         geocodingService.geocode(location)
             .success(function(response) {
-                console.log(response);
                 if (response.status == 'ZERO_RESULTS') {
                     $scope.business.location = null;
                     $('#location-select').val('bad location');
