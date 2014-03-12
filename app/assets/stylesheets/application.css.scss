@@ -1,10 +1,11 @@
 /*
- *= require_self
+ = require_self
  *= require mapbox
  *= require foundation.min
  *= require angular-animations
  *= require foundation-icons
  *= require select2
+ *= require ladda-themeless.min
  *= require_tree .
  */
 
@@ -198,43 +199,50 @@ body, html, .fill-height {
     }    
 }
 
+.login-register-page {
+    .login-required {
+      @extend .alert-box;
+      @extend .info;
+
+      font-size: 1.2em;
+    }
+
+    .sign-in-form {
+      @extend .large-4;
+      @extend .columns;
+
+      padding: 0;
+
+      .forgot-password {
+        margin-left: 20px;
+      }
+    }
+
+    .sign-in-or {
+      @extend .large-1;
+      @extend .columns;
+      padding-top: 2em;
+    }
+
+    .create-account-form {
+      @extend .large-7;
+      @extend .columns;
+      padding: 0;
+    }
+
+    .error {
+        span {
+            display: block;
+        }
+    }
+}
+
 #map {
   @extend .large-8;
   @extend .columns;
   @extend .fill-height;
 }
 
-.login-required {
-  @extend .alert-box;
-  @extend .info;
-
-  font-size: 1.2em;
-}
-
-.sign-in-form {
-  @extend .large-4;
-  @extend .columns;
-
-  padding: 0;
-
-  .forgot-password {
-    margin-left: 20px;
-  }
-}
-
-.sign-in-or {
-  @extend .large-1;
-  @extend .columns;
-
-  padding-top: 2em;
-}
-
-.create-account-form {
-  @extend .large-7;
-  @extend .columns;
-
-  padding: 0;
-}
 
 .contact {
   padding-top: 3em;

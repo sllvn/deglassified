@@ -4,6 +4,25 @@
             <label for='name' class='required'>Name *</label>
             <input type='text' id='name' ng-model='business.name' placeholder='Deglassified Inc.' required>
 
+            <label for='name' class='required'>Location *</label>
+            <input id='location-select' type='hidden' ui-select2='select2Options' ng-model='business.location' required data-placeholder='Choose a location'>
+
+            <label for='address' class='required'>Full Address *</label>
+            <input type='text' ng-model='business.address' placeholder='1122 Madison St, Seattle, WA 98104' required>
+
+            <label class='required'>Google Glass Restriction *</label>
+            <input type='radio' ng-model='business.restriction' value='full-ban' name='full-ban'>
+            <label for='full-ban'>Full ban</label>
+            <input type='radio' ng-model='business.restriction' value='specific' name='specific'>
+            <label for='specific'>Specific restriction</label>
+            <div ng-if="business.restriction == 'specific'">
+                <textarea placeholder='Glass users must cover their camera inside the store.' ng-model='business.notes'></textarea>
+            </div>
+            <hr>
+            <p class='small'>* Required fields</p>
+        </div>
+
+        <div class='large-6 columns'>
             <label for='website'>Website</label>
             <input type='text' id='website' ng-model='business.website' placeholder='www.example.com'>
 
@@ -15,16 +34,9 @@
 
             <label for='twitter'>Twitter</label>
             <input type='text' id='twitter' ng-model='business.twitter' placeholder='twitter.com/business'>
-        </div>
-
-        <div class='large-6 columns'>
-            <label for='name' class='required'>Location *</label>
-            <input type='hidden' ui-select2='select2Options' ng-model='business.location' required data-placeholder='Choose a location'>
-
-            <label for='address' class='required'>Full Address *</label>
-            <input type='text' ng-model='business.address' placeholder='1122 Madison St, Seattle, WA 98104' required>
-            <button class='button medium success' type='submit' ng-disabled='addLocationForm.$invalid'>Find Business on Map</button>
-            <p>* Required fields</p>
+            <button class='button medium success ladda-button submit-button' data-style='expand-right' type='submit' ng-disabled='addLocationForm.$invalid'>
+                <span class='ladda-label'>Find Business on Map</span>
+            </button>
         </div>
     </form>
 </div>

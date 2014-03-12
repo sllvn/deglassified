@@ -31,11 +31,12 @@ angular.module('service.main-map', [ 'ui.router'])
 
     function addBusinessesToMapbox(businesses) {
         angular.forEach(businesses, function(business) {
-            addBusiness(business);
+            createMarkerForBusiness(business);
         });
+        setMarkerLayer();
     }
 
-    function addBusiness(business) {
+    function createMarkerForBusiness(business) {
         geoJSON.features.push({
             type: 'Feature',
             geometry: {
@@ -46,16 +47,20 @@ angular.module('service.main-map', [ 'ui.router'])
                 business: business
             }
         });
-        markerLayer.setGeoJSON(geoJSON);
-        markerLayer.addTo(map);
-        markerLayer.eachLayer(function(layer) {
-            setPopups(layer);
-        });
     }
 
-    function setPopups(layer) {
-        var business = layer.feature.properties.business; 
-        // Yeah, still trying to figure out a better way.  Ng-include will not work cleanly
+    function setMarkerLayer() {
+        markerLayer.setGeoJSON(geoJSON);
+        markerLayer.eachLayer(function(marker) {
+            setMarkerPopup(marker);
+            setMarkerListeners(marker);
+        });
+        markerLayer.addTo(map);
+    }
+
+    function setMarkerPopup(marker) {
+        var business = marker.feature.properties.business; 
+
         var content  = "<h4>" + business.name + "</h4>" +
             "<p>" + business.address + "</p>";
         if (business.links) {
@@ -71,16 +76,20 @@ angular.module('service.main-map', [ 'ui.router'])
             content += '</p>';
         }
 
-        layer.bindPopup(content);
+        marker.bindPopup(content);
+    }
 
-        layer.on('popupopen', function(business) {
+    function setMarkerListeners(marker) {
+        var business = marker.feature.properties.business; 
+
+        marker.on('popupopen', function(business) {
             return function() {
                 $state.go('location.business', { business: business.slug });
                 $rootScope.pageTitle = business.name;
             };
         }(business));
 
-        layer.on('popupclose', function() {
+        marker.on('popupclose', function() {
             // Does not 'reload' the state controller; Just changes the window location href
             $state.go('location', { location: $rootScope.currentLocation.slug });
             $rootScope.pageTitle = $rootScope.currentLocation.city;

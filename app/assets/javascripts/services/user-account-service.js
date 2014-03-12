@@ -21,14 +21,19 @@ angular.module('service.user-account', [
             }
         })
         .success(function(response) {
-            signInUser(email, response);
+            if (response.auth.status === 'success') {
+                signInUser(email, response);
+            }
             deferred.resolve(response.auth);
         })
         .error(function(response) {
-            if (!response) {
-                deferred.resolve('server-down');
-            } else {
+            if (response) {
                 deferred.resolve(response.auth);
+            } else {
+                deferred.resolve({ 
+                    status: 'failure',
+                    errors: ['Cannot connect to server.  Please check your connection and try again.']
+                });
             }
         });
 
@@ -41,21 +46,20 @@ angular.module('service.user-account', [
             method: 'DELETE',
             url: '/api/users/sign_out'
         })
-            .success(function(response) {
-                // Replace old user data with empty object
-                user = {};
-                updateUserCookie();
-                deleteUserCookie();
-                deferred.resolve(response.auth);
-            })
-            .error(function(response) {
-                deferred.resolve('Sign out failed.');
-            });
+        .success(function(response) {
+            // Replace old user data with empty object
+            user = {};
+            deleteUserCookie();
+            deferred.resolve(response.auth);
+        })
+        .error(function(response) {
+            deferred.resolve('Sign out failed.');
+        });
 
         return deferred.promise;
     }
 
-    function register(email, password) {
+    function register(email, password, passwordConfirmation) {
         var deferred = $q.defer();
         $http({
             method: 'POST',
@@ -63,21 +67,27 @@ angular.module('service.user-account', [
             data: {
                 user: {
                     email: email,
-                    password: password
+                    password: password,
+                    password_confirmation: passwordConfirmation
                 }
             }
         })
-            .success(function(response) {
+        .success(function(response) {
+            if (response.auth.status === 'success') {
                 signInUser(email, response);
+            }
+            deferred.resolve(response.auth);
+        })
+        .error(function(response) {
+            if (response) {
                 deferred.resolve(response.auth);
-            })
-            .error(function(response) {
-                if (!response) {
-                    deferred.resolve('server-down');
-                } else {
-                    deferred.resolve(response.auth);
-                }
-            });
+            } else {
+                deferred.resolve({ 
+                    status: 'failure',
+                    errors: ['Cannot connect to server.  Please check your connection and try again.']
+                });
+            }
+        });
 
         return deferred.promise;
     }

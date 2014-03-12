@@ -21,6 +21,8 @@ angular.module('state.add-business.page-1', [
 })
 
 .controller('addBusinessPage1Ctrl', function($scope, $state, locationDataService, geocodingService) {
+    var progressButton = Ladda.create(document.querySelector('.submit-button'));
+
     $scope.select2Options = {
         ajax: {
             dataType: 'json',
@@ -51,25 +53,31 @@ angular.module('state.add-business.page-1', [
         return { id: location.city, text: location.city };
     }
 
-    $scope.verifyBusinessAndLocation = function() {
+    $('#location-select').on('select2-selecting', function() {
         verifyLocation();
-    };
+    });
 
     function verifyLocation() {
         var location = $scope.business.location.id;
         geocodingService.geocode(location)
             .success(function(response) {
+                console.log(response);
                 if (response.status == 'ZERO_RESULTS') {
-                    console.log('tell user bad location!');
+                    $scope.business.location = null;
+                    $('#location-select').val('bad location');
                 } else if (response.status == 'OK') {
                     $scope.business.formattedLocation = response.result.city;
-                    verifyAddress();
                 }
             })
             .error(function(response) {
                 console.log(response); 
             });
     }
+
+    $scope.verifyBusinessAndLocation = function() {
+        progressButton.start();
+        verifyAddress();
+    };
 
     function verifyAddress() {
         var address = $scope.business.address;
@@ -85,6 +93,9 @@ angular.module('state.add-business.page-1', [
             })
             .error(function(response) {
                 console.log(response); 
+            })
+            .then(function() {
+                progressButton.stop();
             });
     }
 

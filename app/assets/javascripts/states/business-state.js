@@ -31,6 +31,7 @@ angular.module('state.business', ['ui.router', 'service.main-map'])
             mainMapService.openBusinessPopup(business.slug);
 //            $rootScope.pageTitle = business.name;
         } else {
+            $state.go('404');
 //            alert('404: Business not found!  Redirecting to: ' + $rootScope.currentLocation.city);
 //            $state.go('location', { location: $rootScope.currentLocation.slug });
         }

@@ -6,6 +6,8 @@
 //= require angular-ui-router.min
 //= require angular-ui-select2
 //= require custom-foundation.min
+//= require spin.min
+//= require ladda.min
 //= require_tree .
 
 $(document).foundation();
@@ -24,9 +26,10 @@ angular.module('deglassified', [
 
     // States
     'state.home',
-    'state.login',
+    'state.login-register',
     'state.add-business',
     'state.change-location',
+    'state.404',
     // Location has a wildcard route, so it must be loaded after all states with an explicit route
     'state.location'
 ])
