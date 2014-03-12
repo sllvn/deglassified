@@ -11,13 +11,12 @@
             <input type='text' ng-model='business.address' placeholder='1122 Madison St, Seattle, WA 98104' required>
 
             <label class='required'>Google Glass Restriction *</label>
-            <input type='radio' ng-model='business.restriction' value='full-ban' name='full-ban' required>
+            <input type='radio' ng-model='business.restriction' value='full-ban' id='full-ban' name='restriction' required>
             <label for='full-ban'>Full ban</label>
-            <input type='radio' ng-model='business.restriction' value='specific' name='specific' required>
+            <input type='radio' ng-model='business.restriction' value='specific' id='specific' name='restriction' required>
             <label for='specific'>Specific restriction</label>
-            <div ng-if="business.restriction == 'specific'">
-                <textarea placeholder='Glass users must cover their camera inside the store.' ng-model='business.notes'></textarea>
-            </div>
+
+            <textarea placeholder='Glass users must cover their camera inside the store.' ng-model='business.notes'></textarea>
             <hr>
             <p class='small'>* Required fields</p>
         </div>

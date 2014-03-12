@@ -34,7 +34,7 @@
                     <td ng-if="business.restriction == 'full-ban'">Full ban</td>
                     <td ng-if="business.restriction == 'specific'">Specific restriction</td>
                 </tr>
-                <tr ng-if="business.restriction == 'specific' && business.notes">
+                <tr ng-if="business.notes">
                     <td>Notes:</td>
                     <td>{{business.notes}}</td>
                 </tr>
