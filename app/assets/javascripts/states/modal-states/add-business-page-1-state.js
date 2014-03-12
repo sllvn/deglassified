@@ -62,7 +62,7 @@ angular.module('state.add-business.page-1', [
             .success(function(response) {
                 if (response.status == 'ZERO_RESULTS') {
                     $scope.business.location = null;
-                    $('#location-select').val('bad location');
+                    //$('#location-select').val('bad location');
                 } else if (response.status == 'OK') {
                     $scope.business.formattedLocation = response.result.city;
                 }
