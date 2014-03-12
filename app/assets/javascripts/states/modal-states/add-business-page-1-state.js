@@ -2,7 +2,8 @@ angular.module('state.add-business.page-1', [
     'ui.router',
     'ui.select2',
     'service.location-data',
-    'service.geocoding'
+    'service.geocoding',
+    'directive.error-box'
 ]) 
 
 .config(function($stateProvider) {
@@ -63,6 +64,7 @@ angular.module('state.add-business.page-1', [
         geocodingService.geocode(location)
             .success(function(response) {
                 if (response.status == 'ZERO_RESULTS') {
+                    $scope.locationErrors = location + ' could not be found. Please enter a new location.';
                     $scope.business.location = null;
                     $scope.select2LocationModel = '';
                 } else if (response.status == 'OK') {
@@ -84,6 +86,7 @@ angular.module('state.add-business.page-1', [
         geocodingService.geocode(address)
             .success(function(response) {
                 if (response.status == 'ZERO_RESULTS') {
+                    $scope.addressErrors = 'Bad address!';
                     console.log('tell user bad location!');
                 } else if (response.status == 'OK') {
                     $scope.business.formattedAddress = response.result.formatted_address;

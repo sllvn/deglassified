@@ -1,5 +1,6 @@
-<div ng-if="errors" class='error-box alert-box alert animate-fade'>
-    <span ng-repeat='error in errors'>
+<div ng-if="errors" class='error-box alert-box {{color}} {{border}} {{translucent}} {{classes}}'>
+    <span class='error-line' ng-repeat='error in errors'>
         {{error}}
     </span>
+    <span class='error-line' ng-transclude></span>
 </div>

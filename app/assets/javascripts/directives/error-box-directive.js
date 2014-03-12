@@ -4,16 +4,31 @@ angular.module('directive.error-box', [])
     return {
         templateUrl: '/partials/error-box-directive.html', 
         scope: true,
+        transclude: true,
         link: function(scope, element, attrs) {
+            scope.classes = 'animate-fade';
             scope.$watch(attrs.errorBox, function(errors) {
-                // If there are any existing errors, clear them, so that the fade in animation will be trigger when re-adding new errors
-                scope.errors = false; 
+                // If attrs.errorBox is a string, wrap it in an array
+                if (typeof errors === 'string') {
+                    errors = [errors];
+                }
+                // Clear the error model to retrigger animation for the ng-if
+                if (scope.errors) {
+                    scope.errors = null; 
+                }
                 setTimeout(function() {
                     return function() {
                         scope.errors = errors; 
                         scope.$digest();
                     };
-                }(), 1);
+                }(), 50);
+
+                if (attrs.timer) {
+                    setTimeout(function() {
+                        scope.errors = false;
+                        scope.$digest();
+                    }, +attrs.timer);
+                }
             });
         }    
     };
