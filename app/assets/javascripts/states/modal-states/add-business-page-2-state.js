@@ -39,7 +39,6 @@ angular.module('state.add-business.page-2', [
     $scope.submitBusiness = function() {
         var user = userAccountService.getUser();
         var business = $scope.business;
-        console.log(business);
         $http({
             method: 'POST',
             url: '/api/businesses',
