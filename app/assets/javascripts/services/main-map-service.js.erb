@@ -11,7 +11,7 @@ angular.module('service.main-map', [ 'ui.router'])
         mapElement = 'map',
         defaultView = [47.603569, -122.329453],
         defaultZoom = 12,
-        map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
+        map = L.mapbox.map(mapElement, '<%= Deglassified::Application.config.mapbox_map_id %>').setView(defaultView, defaultZoom);
 
         geoJSON = {
             type: 'FeatureCollection',

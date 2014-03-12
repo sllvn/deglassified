@@ -20,7 +20,7 @@ angular.module('service.mini-map', [])
     function initMap(business) {
         var defaultView = [business.coords.lat, business.coords.lng],
             defaultZoom = 15;
-        map = L.mapbox.map(mapElement, 'licyeus.gg3718oi').setView(defaultView, defaultZoom);
+        map = L.mapbox.map(mapElement, '<%= Deglassified::Application.config.mapbox_map_id %>').setView(defaultView, defaultZoom);
     }
 
     function createNewMarker(business) {

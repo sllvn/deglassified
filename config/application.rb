@@ -25,5 +25,7 @@ module Deglassified
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.assets.paths << Rails.root.join('vendor', 'assets', 'foundation-icons')
+
+    config.mapbox_map_id = Rails.env.production? ? ENV['MAPBOX_PROD_ID'] : ENV['MAPBOX_DEV_ID']
   end
 end
