@@ -53,18 +53,18 @@ angular.module('state.add-business.page-1', [
         return { id: location.city, text: location.city };
     }
 
-    $('#location-select').on('select2-selecting', function() {
-        verifyLocation();
+    $('#location-select').on('select2-selecting', function(choice) {
+        // Do the manual binding here, so that we can just bind a string to business.location, instead of the default select2 object
+        $scope.business.location = choice.val;
+        verifyLocation($scope.business.location);
     });
 
-    function verifyLocation() {
-        var location = $scope.business.location.id;
+    function verifyLocation(location) {
         geocodingService.geocode(location)
             .success(function(response) {
-                console.log(response);
                 if (response.status == 'ZERO_RESULTS') {
                     $scope.business.location = null;
-                    $('#location-select').val('bad location');
+                    //$('#location-select').val('bad location');
                 } else if (response.status == 'OK') {
                     $scope.business.formattedLocation = response.result.city;
                 }

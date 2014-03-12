@@ -1,6 +1,6 @@
 class BusinessSerializer < ActiveModel::Serializer
 
-  attributes :id, :name, :address, :coordinates, :links, :slug
+  attributes :id, :name, :address, :coordinates, :links, :slug, :restriction_type, :notes
 
   def coordinates
     {
