@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 4.0.3'
+gem 'atomic', '1.1.14' # hack around probs with xcode utils and atomic on andre's machine
 gem 'rails-api'
 gem 'pg'
 gem 'puma'
