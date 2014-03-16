@@ -42,6 +42,9 @@ class BusinessesController < ApplicationController
   def update
     @business = Business.friendly.find(params[:id])
 
+    location = Location.find_by(city: params[:business][:location]) || Location.create_and_geocode(params[:business][:location])
+    @business.location = location
+
     if @business.update(business_params)
       head :no_content
     else
