@@ -1,0 +1,12 @@
+{
+  "name": "deglassified",
+  "version": "0.0.0",
+  "homepage": "https://github.com/licyeus/deglassified",
+  "authors": [],
+  "license": "MIT",
+  "dependencies": {
+    "angular": "~1.2.14",
+    "angular-mocks": "~1.2.14",
+    "jquery": "~2.1.0"
+  }
+}

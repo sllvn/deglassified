@@ -11,7 +11,7 @@
                 <label for='password'>Password</label>
                 <input type='password' id='password' name='password' ng-model='loginForm.password'>
 
-                <div error-box='loginErrors' class='animate-fade' color='orange'></div>
+                <div error-box='loginErrors' color='red'></div>
 
                 <button class='button medium' type='submit'>Sign In</button>
                 <a class='forgot-password'>Forgot password?</a>
@@ -35,7 +35,7 @@
                 <label for='password-confirmation'>Verify Password</label>
                 <input type='password' id='password-confirmation' ng-model='registration.passwordConfirmation'>
 
-                <div error-box='registrationErrors' class='animate-fade' ></div>
+                <div error-box='registrationErrors'></div>
 
                 <button class='button medium success' type='submit'>Create Your Account</button>
             </fieldset>

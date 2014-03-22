@@ -2,7 +2,7 @@ angular.module('state.login-register', [
     'ui.router',
     'service.user-account',
     'service.main-modal',
-    'directive.error-box'
+    'angularErrorBox'
 ])
 
 .config(function($stateProvider) {

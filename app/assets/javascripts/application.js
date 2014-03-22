@@ -5,6 +5,7 @@
 //= require angular-cookies.min
 //= require angular-ui-router.min
 //= require angular-ui-select2
+//= require angular-error-box.min
 //= require custom-foundation.min
 //= require spin.min
 //= require ladda.min

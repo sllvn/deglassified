@@ -3,7 +3,7 @@ angular.module('state.add-business.page-1', [
     'ui.select2',
     'service.location-data',
     'service.geocoding',
-    'directive.error-box'
+    'angularErrorBox'
 ]) 
 
 .config(function($stateProvider) {
