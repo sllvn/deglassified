@@ -31,7 +31,10 @@ angular.module('state.location', [
         $rootScope.currentLocation = locationData;
         $scope.currentCity = locationData.city;
         $scope.businesses = locationData.businesses;
+        loadLocationInMapbox();
+    }
 
+    function loadLocationInMapbox() {
         mainMapService.loadLocation(locationData);
         $scope.mapboxMarkersLoaded = true;
         $scope.$broadcast('mapboxMarkersLoaded');
