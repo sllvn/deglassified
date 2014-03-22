@@ -9,7 +9,7 @@ module.exports = function(config) {
                     'vendor/assets/javascripts/**/jquery.js',
                     'vendor/assets/javascripts/*.js',
                     'app/assets/javascripts/*.js',
-                    'test/*.spec.js'
+                    'test/**/*.spec.js'
                 ],
 
         exclude: [

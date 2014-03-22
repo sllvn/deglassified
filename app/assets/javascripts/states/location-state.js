@@ -9,20 +9,22 @@ angular.module('state.location', [
     $stateProvider.state('location', {
         url: '/:location',
         templateUrl: '/partials/location-data.html',
-        controller: 'locationCtrl'
+        controller: 'locationCtrl',
+        resolve: {
+            locationData: function($stateParams, locationDataService) {
+                return locationDataService.getSingle($stateParams.location);
+            }
+        }
     });
 
 })
 
-.controller('locationCtrl', function($rootScope, $scope, $state, $stateParams, locationDataService, mainMapService) {
-    locationDataService.getSingle($stateParams.location)
-        .then(function(response) {
-            if (response === 404) {
-                $state.go('404');
-            } else if (response.slug) {
-                loadLocation(response);
-            }
-        });
+.controller('locationCtrl', function($rootScope, $scope, $state, mainMapService, locationData) {
+    if (locationData === 404) {
+        $state.go('404');
+    } else if (locationData.slug) {
+        loadLocation(locationData);
+    }
 
     function loadLocation(locationData) {
         $rootScope.pageTitle = locationData.city;
