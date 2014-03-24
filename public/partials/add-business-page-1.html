@@ -5,11 +5,11 @@
             <input type='text' id='name' ng-model='business.name' placeholder='Deglassified Inc.' required>
 
             <label for='name' class='required'>Location *</label>
-            <div error-box='locationErrors' ></div>
+            <div error-box='locationErrors' padding='tiny' margin-bottom='small' margin-top='none' timer='5000'></div>
             <input id='location-select' type='hidden' ui-select2='select2Options' ng-model='select2LocationModel' required data-placeholder='Choose a location'>
 
             <label for='address' class='required'>Full Address *</label>
-            <div error-box='addressErrors'></div>
+            <div error-box='addressErrors' padding='tiny' margin-bottom='small' margin-top='none' timer='5000'></div>
             <input type='text' ng-model='business.address' placeholder='1122 Madison St, Seattle, WA 98104' required>
 
             <label class='required'>Google Glass Restriction *</label>

@@ -45,6 +45,7 @@ angular.module('state.add-business.page-2', [
                 $scope.$parent.clearFormData();
                 // Update location cache for the new business
                 locationDataService.updateLocationCache(response.location.slug);
+                // Close the modal
                 mainModalService.closeModalWithoutRedirect();
                 // Go to the newly added business/location
                 $state.go('location.business',
@@ -58,8 +59,9 @@ angular.module('state.add-business.page-2', [
                 );
             })
             .error(function(err, status) {
-                console.log(err);
-                console.log(status);
+                $scope.submitErrors = [
+                    'Unable to connect to the server. Please check your connection and try again'
+                ].slice();
             });
     };
 
