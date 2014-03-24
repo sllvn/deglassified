@@ -11,7 +11,6 @@ angular.module('state.business', ['ui.router', 'service.main-map'])
                 $state.go('location', { location: $stateParams.location });
             }
         }
-
     });
 })
 

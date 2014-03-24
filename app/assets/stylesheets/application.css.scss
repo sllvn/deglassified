@@ -16,6 +16,9 @@ body, html, .fill-height {
 }
 
 
+/********************
+    Sidebar
+********************/
 #sidebar {
     @extend .large-4;
     @extend .columns;
@@ -291,4 +294,9 @@ Main Mapbox Map Styles
     @extend .large-8;
     @extend .columns;
     @extend .fill-height;
+    .leaflet-popup-content {
+	h4 {
+	    font-size: 24px;
+	}   
+    }
 }

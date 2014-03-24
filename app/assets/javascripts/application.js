@@ -1,7 +1,6 @@
 //= require jquery.min
 //= require select2
 //= require angular
-//= require angular-animate.min
 //= require angular-cookies.min
 //= require angular-ui-router.min
 //= require angular-ui-select2
@@ -16,7 +15,6 @@ $(document).foundation();
 angular.module('deglassified', [
     // Libs
     'ui.router',
-    'ngAnimate',
 
     // Services
     'service.location-data',
