@@ -1,5 +1,5 @@
 /*
- = require_self
+= require_self
  *= require mapbox
  *= require foundation.min
  *= require angular-error-box-foundationless.min
@@ -12,259 +12,283 @@
 @import "foundation_and_overrides";
 
 body, html, .fill-height {
-  height: 100%;
+    height: 100%;
 }
 
-// TODO: Find a way to not hardcode this
-.reveal-modal {
-    top: 1.5rem !important;
-    // Mapbox's zoom button is z-index 999, so need modal to be above it
-    z-index: 1000 !important;
-    padding: 1.5rem !important;
 
+#sidebar {
+    @extend .large-4;
+    @extend .columns;
+    @extend .fill-height;
+
+    overflow: auto;
+
+    .main-modal-button {
+        @extend .button;
+        @extend .radius;
+
+        width: 100%;
+
+        i {
+            font-size: 30px;
+            line-height: 30px;
+            float: left;
+        }
+
+        span {
+            display: block;
+            line-height: 30px;
+        }
+    }
+
+    #business-listing {
+        @extend .large-12;
+        @extend .columns;
+    }
+
+    #location-listing {
+        @extend .inline-list;
+    }
+
+
+    .contact {
+        padding-top: 3em;
+        display: block;
+        text-align: center;
+        a {
+            color: #222;
+            i {
+                font-size: 2em;
+                vertical-align: middle;
+            }
+            &:hover {
+                color: #008cba;
+            }
+        }
+    }
+
+    .legal {
+        margin-top: 1em;
+        text-align: center;
+        font-size: 0.8em;
+        color: #999;
+    }
+
+}
+
+
+/********************
+    Main Modal
+********************/
+#mainModal {
+    
+    // Adjust the modal padding to give more space for content
+    padding: 1.5rem !important;
+    top: 1.5rem !important;
+    // Adjust the padding for the 'x' close icon as well
     .close-reveal-modal {
         top: 0.1rem !important;
     }
-}
 
-#sidebar {
-  @extend .large-4;
-  @extend .columns;
-  @extend .fill-height;
+    // Mapbox's zoom button is z-index 999, so need modal to be above it
+    z-index: 1000 !important;
 
-  overflow: auto;
 
-  .main-modal-button {
-    @extend .button;
-    @extend .radius;
+    /*****************************
+        Login / Register Page
+     *****************************/
 
-    width: 100%;
+    .login-register-page {
+        .login-required {
+            @extend .alert-box;
+            @extend .info;
 
-    i {
-      font-size: 30px;
-      line-height: 30px;
-      float: left;
-    }
-
-    span {
-      display: block;
-      line-height: 30px;
-    }
-  }
-
-  #business-listing {
-    @extend .large-12;
-    @extend .columns;
-  }
-}
-
-#change-location {
-    table {
-        width: 50%;
-        border: 0px;
-        tr {
-            padding: 20px;
+            font-size: 1.2em;
         }
-    }
-}
 
-#add-business {
-    .signed-in-message {
-        @extend .large-10;
-        @extend .columns;
-        p {
-            margin-bottom: 0px;
-        }
-        .user-email {
-            font-style: italic;
-            font-weight: bold;
-        }
-    }
-    .sign-out-button {
-        @extend .large-2;
-        @extend .columns;
-        @extend .text-center;
-        button {
-            @extend .button;
-            @extend .tiny;
-            margin-bottom: 10px;
-        }
-    }
-    .sign-in-error {
+        .sign-in-form {
+            @extend .large-4;
+            @extend .columns;
 
-    }
-    .wizard-state {
-        @extend .small-12;
-        @extend .columns;
-        margin-bottom: 15px;
-        a {
-            color: lightgrey;
-            margin-left: 10px;
-            &.active {
-                color: black;
-            }
-            &:hover {
-                color: grey;
+            padding: 0;
+
+            .forgot-password {
+                margin-left: 20px;
             }
         }
-    }
-    .add-location-form {
-        .select2-container {
-            width: 100% !important;
-            margin-bottom: 1rem;
-            a {
-                border-radius: 0;
-            }
-            .select2-arrow {
-                border-radius: 0;
-            }
+
+        .sign-in-or {
+            @extend .large-1;
+            @extend .columns;
+            padding-top: 2em;
         }
-        .required {
-            font-weight: bold;
-        }
-        i {
-            font-size: 20px;
-        }
-        button {
-            width: 100%;
-        }
-    }
-    .small {
-      font-size: 0.9em;
-      color: #666;
-      margin-bottom:0;
-    }
-    .location-preview {
-        @extend .large-6;
-        @extend .columns;
-        h2 {
-            font-size: 16px;
+
+        .create-account-form {
+            @extend .large-7;
+            @extend .columns;
+            padding: 0;
         }
     }
 
-    .business-data {
-        @extend .large-6;
-        @extend .columns;
-        table {
-            width: 100%;
+    /*****************************
+        Add Business State
+     *****************************/
+    #add-business {
+
+        .signed-in-message {
+            @extend .large-10;
+            @extend .columns;
+            p {
+                margin-bottom: 0px;
+            }
+            .user-email {
+                font-style: italic;
+                font-weight: bold;
+            }
         }
-        .formatted-suggestion {
-            font-size: 0.8rem;
+        .sign-out-button {
+            @extend .large-2;
+            @extend .columns;
+            @extend .text-center;
+            button {
+                @extend .button;
+                @extend .tiny;
+                margin-bottom: 10px;
+            }
+        }
+        .wizard-state {
+            @extend .small-12;
+            @extend .columns;
             margin-bottom: 15px;
             a {
-                text-decoration: underline;
-                font-style: italic;
+                color: lightgrey;
+                margin-left: 10px;
+                &.active {
+                    color: black;
+                }
+                &:hover {
+                    color: grey;
+                }
             }
         }
-        .business {
-            font-weight: bold !important;
+
+        /*****************************
+            Add Business Page 1
+         *****************************/
+        .add-location-form {
+            .select2-container {
+                width: 100% !important;
+                margin-bottom: 1rem;
+                a {
+                    border-radius: 0;
+                }
+                .select2-arrow {
+                    border-radius: 0;
+                }
+            }
+            .required {
+                font-weight: bold;
+            }
+            i {
+                font-size: 20px;
+            }
+            button {
+                width: 100%;
+            }
         }
-        button {
-            width: 100%;
+        .small {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom:0;
         }
+        .location-preview {
+            @extend .large-6;
+            @extend .columns;
+            h2 {
+                font-size: 16px;
+            }
+        }
+
+        /*****************************
+            Add Business Page 2
+         *****************************/
+        .business-data {
+            @extend .large-6;
+            @extend .columns;
+            table {
+                width: 100%;
+            }
+            .formatted-suggestion {
+                font-size: 0.8rem;
+                margin-bottom: 15px;
+                a {
+                    text-decoration: underline;
+                    font-style: italic;
+                }
+            }
+            .business {
+                font-weight: bold !important;
+            }
+            button {
+                width: 100%;
+            }
+        }
+        .coord-column {
+            @extend .large-6;
+            @extend .columns;
+            padding: 0;
+            input, .prefix {
+                height: 1.5rem;
+                line-height: 1.5rem;
+            }
+            input {
+                @extend .small-7;
+                @extend .columns;
+                padding-left: 10px !important;
+            }
+            .prefix {
+                @extend .small-5;
+                @extend .columns;
+            }
+        }
+
+        #minimap {
+            @extend .small-12;
+            @extend .columns;
+            height: 400px !important;
+        }
+
+        #map-buttons {
+            @extend .small-12;
+            @extend .columns;
+            padding: 0;
+            button {
+                /*@extend .small-5;*/
+                /*@extend .columns;*/
+            }
+        }    
     }
-    .coord-column {
-        @extend .large-6;
-        @extend .columns;
-        padding: 0;
-        input, .prefix {
-            height: 1.5rem;
-            line-height: 1.5rem;
-        }
-        input {
-            @extend .small-7;
-            @extend .columns;
-            padding-left: 10px !important;
-        }
-        .prefix {
-            @extend .small-5;
-            @extend .columns;
+
+    /*****************************
+        Change Location Modal State
+     *****************************/
+    #change-location {
+        table {
+            width: 50%;
+            border: 0px;
+            tr {
+                padding: 20px;
+            }
         }
     }
 
-    #minimap {
-        @extend .small-12;
-        @extend .columns;
-        height: 400px !important;
-    }
-
-    #map-buttons {
-        @extend .small-12;
-        @extend .columns;
-        padding: 0;
-        button {
-            /*@extend .small-5;*/
-            /*@extend .columns;*/
-        }
-    }    
 }
 
-.login-register-page {
-    .login-required {
-      @extend .alert-box;
-      @extend .info;
-
-      font-size: 1.2em;
-    }
-
-    .sign-in-form {
-      @extend .large-4;
-      @extend .columns;
-
-      padding: 0;
-
-      .forgot-password {
-        margin-left: 20px;
-      }
-    }
-
-    .sign-in-or {
-      @extend .large-1;
-      @extend .columns;
-      padding-top: 2em;
-    }
-
-    .create-account-form {
-      @extend .large-7;
-      @extend .columns;
-      padding: 0;
-    }
-
-}
-
+/*****************************
+Main Mapbox Map Styles
+ *****************************/
 #map {
-  @extend .large-8;
-  @extend .columns;
-  @extend .fill-height;
-}
-
-
-.contact {
-  padding-top: 3em;
-  display: block;
-  text-align: center;
-
-  a {
-    color: #222;
-
-    i {
-      font-size: 2em;
-      vertical-align: middle;
-    }
-
-    &:hover {
-      color: #008cba;
-    }
-  }
-}
-
-.legal {
-  margin-top: 1em;
-  text-align: center;
-  font-size: 0.8em;
-  color: #999;
-}
-
-#location-listing {
-  @extend .inline-list;
+    @extend .large-8;
+    @extend .columns;
+    @extend .fill-height;
 }

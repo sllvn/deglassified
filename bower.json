@@ -7,6 +7,10 @@
   "dependencies": {
     "angular": "~1.2.14",
     "angular-mocks": "~1.2.14",
-    "jquery": "~2.1.0"
+    "jquery": "~2.1.0",
+    "angular-resource": "~1.2.15"
+  },
+  "resolutions": {
+    "angular": "1.2.15"
   }
 }

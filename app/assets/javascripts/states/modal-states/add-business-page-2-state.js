@@ -3,7 +3,8 @@ angular.module('state.add-business.page-2', [
     'ngCookies',
     'service.mini-map',
     'service.main-modal',
-    'service.geocoding'
+    'service.geocoding',
+    'service.business-data'
 ]) 
 
 .config(function($stateProvider) {
@@ -21,7 +22,7 @@ angular.module('state.add-business.page-2', [
     }); 
 })
 
-.controller('addBusinessPage2Ctrl', function($scope, $http, $state, userAccountService, miniMapService, locationDataService, mainModalService, geocodingService) {
+.controller('addBusinessPage2Ctrl', function($scope, $http, $state, miniMapService, locationDataService, mainModalService, geocodingService, businessDataService) {
     if (isBusinessDataMissing()) {
         // Prompt a message asking to fill required fields
         $state.go('add-business.page-1');
@@ -33,47 +34,33 @@ angular.module('state.add-business.page-2', [
     
     function isBusinessDataMissing() {
         var business = $scope.business;
-        return !business.name || !business.address || !business.location || !business.coords || !business.restriction;
+        return !business.name || !business.address || !business.location ||
+            !business.coords || !business.restriction;
     }
 
     $scope.submitBusiness = function() {
-        var user = userAccountService.getUser();
-        var business = $scope.business;
-        $http({
-            method: 'POST',
-            url: '/api/businesses',
-            params: {
-                user_email: user.email,
-                user_token: user.sessionToken
-            },
-            data: {
-                business: {
-                    name: business.name,
-                    lat: business.coords.lat,
-                    lng: business.coords.lng,
-                    address: business.address,
-                    location: business.location,
-                    restriction_type: business.restriction,
-                    notes: business.notes,
-                    website: business.website,
-                    yelp: business.yelp,
-                    facebook: business.facebook,
-                    twitter: business.twitter
-                }
-            }
-        })
-        .success(function(res) {
-            // Business is submitted, so clear saved business details and cookie
-            $scope.$parent.clearFormData();
-            // Update location cache for the new business
-            locationDataService.updateLocationCache(res.location.slug);
-            mainModalService.closeModalWithoutRedirect();
-            $state.go('location.business', { location: res.location.slug, business: res.slug }, { reload: true });
-        })
-        .error(function(err, status) {
-            console.log(err);
-            console.log(status);
-        });
+        businessDataService.submit($scope.business)
+            .success(function(response) {
+                // Business is submitted, so clear saved business details and cookie
+                $scope.$parent.clearFormData();
+                // Update location cache for the new business
+                locationDataService.updateLocationCache(response.location.slug);
+                mainModalService.closeModalWithoutRedirect();
+                // Go to the newly added business/location
+                $state.go('location.business',
+                    {
+                        location: response.location.slug,
+                        business: response.slug
+                    },
+                    {
+                        reload: true
+                    }
+                );
+            })
+            .error(function(err, status) {
+                console.log(err);
+                console.log(status);
+            });
     };
 
     $scope.useFormattedAddress = function() {
@@ -86,4 +73,5 @@ angular.module('state.add-business.page-2', [
         miniMapService.createNewMarker($scope.business);
     };
 })
+
 ;

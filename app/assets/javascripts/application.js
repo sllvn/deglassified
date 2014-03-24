@@ -1,4 +1,4 @@
-//= require jquery
+//= require jquery.min
 //= require select2
 //= require angular
 //= require angular-animate.min
