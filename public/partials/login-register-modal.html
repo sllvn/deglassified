@@ -11,13 +11,7 @@
                 <label for='password'>Password</label>
                 <input type='password' id='password' name='password' ng-model='loginForm.password'>
 
-                <div class='error'>
-                    <div ng-if="loginErrors" class='alert-box alert animate-fade'>
-                        <span ng-repeat='error in loginErrors'>
-                            {{error}}
-                        </span>
-                    </div>
-                </div>
+                <div error-box='loginErrors' color='red'></div>
 
                 <button class='button medium' type='submit'>Sign In</button>
                 <a class='forgot-password'>Forgot password?</a>
@@ -41,13 +35,7 @@
                 <label for='password-confirmation'>Verify Password</label>
                 <input type='password' id='password-confirmation' ng-model='registration.passwordConfirmation'>
 
-                <div class='error'>
-                    <div ng-if="registrationErrors" class='alert-box alert animate-fade'>
-                        <span ng-repeat='error in registrationErrors'>
-                            {{error}}
-                        </span>
-                    </div>
-                </div>
+                <div error-box='registrationErrors'></div>
 
                 <button class='button medium success' type='submit'>Create Your Account</button>
             </fieldset>

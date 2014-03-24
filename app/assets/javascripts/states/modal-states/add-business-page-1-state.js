@@ -2,7 +2,8 @@ angular.module('state.add-business.page-1', [
     'ui.router',
     'ui.select2',
     'service.location-data',
-    'service.geocoding'
+    'service.geocoding',
+    'angularErrorBox'
 ]) 
 
 .config(function($stateProvider) {
@@ -63,6 +64,7 @@ angular.module('state.add-business.page-1', [
         geocodingService.geocode(location)
             .success(function(response) {
                 if (response.status == 'ZERO_RESULTS') {
+                    $scope.locationErrors = ['"' + location + '"' + ' could not be found. Please enter a new location.'].slice();
                     $scope.business.location = null;
                     $scope.select2LocationModel = '';
                 } else if (response.status == 'OK') {
@@ -70,7 +72,7 @@ angular.module('state.add-business.page-1', [
                 }
             })
             .error(function(response) {
-                console.log(response); 
+                $scope.locationErrors = ['Unable to connect to the server. Please check your connection and try again'].slice();
             });
     }
 
@@ -84,7 +86,7 @@ angular.module('state.add-business.page-1', [
         geocodingService.geocode(address)
             .success(function(response) {
                 if (response.status == 'ZERO_RESULTS') {
-                    console.log('tell user bad location!');
+                    $scope.addressErrors = ['"' + address + '"' + ' could not be found. Please enter a new address.'].slice();
                 } else if (response.status == 'OK') {
                     $scope.business.formattedAddress = response.result.formatted_address;
                     $scope.business.coords = response.result.coords;
@@ -92,7 +94,7 @@ angular.module('state.add-business.page-1', [
                 }
             })
             .error(function(response) {
-                console.log(response); 
+                $scope.addressErrors = ['Unable to connect to the server. Please check your connection and try again'].slice();
             })
             .then(function() {
                 progressButton.stop();

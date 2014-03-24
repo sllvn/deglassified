@@ -1,10 +1,10 @@
-//= require jquery
+//= require jquery.min
 //= require select2
 //= require angular
-//= require angular-animate.min
 //= require angular-cookies.min
 //= require angular-ui-router.min
 //= require angular-ui-select2
+//= require angular-error-box.min
 //= require custom-foundation.min
 //= require spin.min
 //= require ladda.min
@@ -15,7 +15,6 @@ $(document).foundation();
 angular.module('deglassified', [
     // Libs
     'ui.router',
-    'ngAnimate',
 
     // Services
     'service.location-data',

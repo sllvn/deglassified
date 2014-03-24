@@ -14,13 +14,13 @@ angular.module('state.location', [
 
 })
 
-.controller('locationCtrl', function($rootScope, $scope, $state, $stateParams, locationDataService, mainMapService) {
+.controller('locationCtrl', function($rootScope, $scope, $state, $stateParams, mainMapService, locationDataService) {
     locationDataService.getSingle($stateParams.location)
-        .then(function(response) {
-            if (response === 404) {
+        .then(function(locationData) {
+            if (locationData === 404) {
                 $state.go('404');
-            } else if (response.slug) {
-                loadLocation(response);
+            } else if (locationData.slug) {
+                loadLocation(locationData);
             }
         });
 
@@ -29,7 +29,10 @@ angular.module('state.location', [
         $rootScope.currentLocation = locationData;
         $scope.currentCity = locationData.city;
         $scope.businesses = locationData.businesses;
+        loadLocationInMapbox(locationData);
+    }
 
+    function loadLocationInMapbox(locationData) {
         mainMapService.loadLocation(locationData);
         $scope.mapboxMarkersLoaded = true;
         $scope.$broadcast('mapboxMarkersLoaded');

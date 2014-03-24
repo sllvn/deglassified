@@ -1,7 +1,8 @@
 angular.module('state.login-register', [
     'ui.router',
     'service.user-account',
-    'service.main-modal'
+    'service.main-modal',
+    'angularErrorBox'
 ])
 
 .config(function($stateProvider) {
@@ -33,7 +34,7 @@ angular.module('state.login-register', [
                     $scope.loginForm = {};
                     $state.go('add-business.default');
                 } else if (response.status === 'failure') {
-                    loadErrorMsg('loginErrors', response.errors);
+                    $scope.loginErrors = response.errors;
                 }
                 // Always clear password, regardless of response
                 $scope.loginForm.password = '';
@@ -62,23 +63,12 @@ angular.module('state.login-register', [
                     $scope.registration = {};
                     $state.go('add-business.default');
                 } else if (response.status === 'failure') {
-                    loadErrorMsg('registrationErrors', response.errors);
+                    $scope.registrationErrors = response.errors;
                 }
             });
         $scope.registration.password = '';
         $scope.registration.passwordConfirmation = '';
     };
-
-    function loadErrorMsg(scopeModel, errors) {
-        // If there are any existing errors, clear them, so that the fade in animation will be trigger when re-adding new errors
-        $scope[scopeModel] = false;
-        setTimeout(function() {
-            return function() {
-                $scope[scopeModel] = errors;
-                $scope.$digest();
-            };
-        }(), 1);
-    }
 
 })
 
