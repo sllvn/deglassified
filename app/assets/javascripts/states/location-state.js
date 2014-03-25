@@ -9,12 +9,11 @@ angular.module('state.location', [
     $stateProvider.state('location', {
         url: '/:location',
         templateUrl: '/partials/location-data.html',
-        controller: 'locationCtrl'
+        controller: 'locationStateCtrl'
     });
-
 })
 
-.controller('locationCtrl', function($rootScope, $scope, $state, $stateParams, mainMapService, locationDataService) {
+.controller('locationStateCtrl', function($rootScope, $scope, $state, $stateParams, mainMapService, locationDataService) {
     locationDataService.getSingle($stateParams.location)
         .then(function(locationData) {
             if (locationData === 404) {
