@@ -14,7 +14,7 @@ angular.module('state.business', ['ui.router', 'service.main-map'])
     });
 })
 
-.controller('businessCtrl', function($rootScope, $scope, $state, $stateParams, mainMapService) {
+.controller('businessStateCtrl', function($rootScope, $scope, $state, $stateParams, mainMapService) {
     if ($scope.mapboxMarkersLoaded) {
         loadBusiness();
     } else {

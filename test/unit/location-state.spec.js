@@ -2,6 +2,7 @@ describe('Location State Controller', function() {
     var scope, 
         state,
         deferred,
+        mockLocation,
         locationDataServiceMock,
         mainMapServiceMock,
         createController;
@@ -11,6 +12,12 @@ describe('Location State Controller', function() {
         var q = $injector.get('$q');
         state = $injector.get('$state');
         scope = $injector.get('$rootScope').$new();
+
+        mockLocation = {
+            slug: 'mock-city',
+            city: 'mock city',
+            businesses: ['mock1', 'mock2']
+        };
 
         locationDataServiceMock = {
             getSingle: function() {
@@ -47,27 +54,20 @@ describe('Location State Controller', function() {
         expect(state.go).toHaveBeenCalledWith('404');
     });
 
-    it('should update scope data if location data call returns a valid location', function() {
-        createController();
-        var mockLocation = {
-            slug: 'mock-city',
-            city: 'mock city',
-            businesses: ['mock1', 'mock2']
-        };
-        scope.$apply(deferred.resolve(mockLocation));
-        expect(scope.pageTitle).toBe(mockLocation.city);
-        expect(scope.currentCity).toBe(mockLocation.city);
-        expect(scope.businesses).toBe(mockLocation.businesses);
+    describe('once valid location data is loaded', function() {
+        it('should update scope data', function() {
+            createController();
+            scope.$apply(deferred.resolve(mockLocation));
+            expect(scope.pageTitle).toBe(mockLocation.city);
+            expect(scope.currentCity).toBe(mockLocation.city);
+            expect(scope.businesses).toBe(mockLocation.businesses);
+        });
+
+        it('should call mainMapService.loadLocation()', function() {
+            createController();
+            scope.$apply(deferred.resolve(mockLocation));
+            expect(mainMapServiceMock.loadLocation).toHaveBeenCalledWith(mockLocation);
+        });
     });
 
-    it('should call mainMapService.loadLocation() if the location data is valid', function() {
-        createController();
-        var mockLocation = {
-            slug: 'mock-city',
-            city: 'mock city',
-            businesses: ['mock1', 'mock2']
-        };
-        scope.$apply(deferred.resolve(mockLocation));
-        expect(mainMapServiceMock.loadLocation).toHaveBeenCalledWith(mockLocation);
-    });
 });
