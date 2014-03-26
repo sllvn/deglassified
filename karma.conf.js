@@ -7,9 +7,9 @@ module.exports = function(config) {
                     'bower_components/angular-mocks/angular-mocks.js',
                     // Always load jquery before the other vendor libs
                     'vendor/assets/javascripts/**/jquery.min.js',
-                    //'vendor/assets/javascripts/angular-ui-router.min.js',
                     'vendor/assets/javascripts/*.js',
                     'app/assets/javascripts/**/*.js',
+                    'app/assets/javascripts/**/*.js.erb',
                     'test/**/*.spec.js'
                 ],
 
