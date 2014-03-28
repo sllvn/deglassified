@@ -3,7 +3,7 @@ angular.module('state.business', ['ui.router', 'service.main-map'])
 .config(function($stateProvider) {
     $stateProvider.state('location.business', {
         url: '/:business',
-        controller: 'businessCtrl',
+        controller: 'businessStateCtrl',
         onEnter: function($stateParams, $state) {
             // If the business param is empty (ie. '/seattle/') redirect to the 
             // location, WITHOUT a trailing slash (ie. '/seattle').  

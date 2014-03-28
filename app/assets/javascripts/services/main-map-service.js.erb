@@ -37,16 +37,29 @@ angular.module('service.main-map', [ 'ui.router'])
     }
 
     function createMarkerForBusiness(business) {
-        geoJSON.features.push({
+        var marker = {
             type: 'Feature',
             geometry: {
                 type: 'Point',
                 coordinates: [business.coordinates.lng, business.coordinates.lat]
             },
             properties: {
-                business: business
+                title: business.name,
+                business: business,
+                'marker-color': '#3887BE'
             }
-        });
+        };
+
+        // Set the color for the marker depending on the restriction type
+        if (business.restriction_type === 'full') {
+            // Red
+            marker.properties['marker-color'] = '#FF1919';
+        } else {
+            // Orange
+            marker.properties['marker-color'] = '#FF6600';
+        }
+
+        geoJSON.features.push(marker);
     }
 
     function setMarkerLayer() {
