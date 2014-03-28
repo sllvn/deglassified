@@ -288,15 +288,27 @@ body, html, .fill-height {
 }
 
 /*****************************
-Main Mapbox Map Styles
+    Mapbox Map Styles
  *****************************/
 #map {
     @extend .large-8;
     @extend .columns;
     @extend .fill-height;
-    .leaflet-popup-content {
-	h4 {
-	    font-size: 24px;
-	}   
+}
+
+.leaflet-popup-content {
+    h4 {
+        font-size: 24px !important;
+    }   
+    hr {
+        margin: 0 0 0.2rem 0;
+    }
+    .full-ban {
+        font-weight: bold;
+        color: #FF3300;
+    }
+    .specific-restriction {
+        font-weight: bold;
+        color: #FF6600;
     }
 }

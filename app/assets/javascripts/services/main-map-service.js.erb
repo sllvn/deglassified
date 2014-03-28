@@ -45,8 +45,7 @@ angular.module('service.main-map', [ 'ui.router'])
             },
             properties: {
                 title: business.name,
-                business: business,
-                'marker-color': '#3887BE'
+                business: business
             }
         };
 
@@ -54,7 +53,7 @@ angular.module('service.main-map', [ 'ui.router'])
         if (business.restriction_type === 'full') {
             // Red
             marker.properties['marker-color'] = '#FF1919';
-        } else {
+        } else if (business.restriction_type === 'specific') {
             // Orange
             marker.properties['marker-color'] = '#FF6600';
         }
@@ -75,7 +74,21 @@ angular.module('service.main-map', [ 'ui.router'])
         var business = marker.feature.properties.business; 
 
         var content  = "<h4>" + business.name + "</h4>" +
+            "<hr>" +
             "<p>" + business.address + "</p>";
+
+        if (business.restriction_type === 'full') {
+            content += "<p class='full-ban'>" +
+                "<i class='fi-prohibited'></i> full ban</p>";
+        } else if (business.restriction_type === 'specific') {
+            content += "<p class='specific-restriction'>" +
+                "<i class='fi-prohibited'></i> specific restriction</p>";
+        }
+
+        if (business.notes) {
+            content += "<p><i class='fi-clipboard-pencil'></i> " + business.notes + "</p>";
+        }
+
         if (business.links) {
             content += '<p>';
             if (business.links.website)
