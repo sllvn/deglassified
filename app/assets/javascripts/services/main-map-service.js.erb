@@ -3,6 +3,8 @@
 angular.module('service.main-map', [ 'ui.router'])
 
 .service('mainMapService', function($rootScope, $state) {
+    var redColorHex = '#E90000',
+        orangeColorHex = '#FF6600';
     var map,
         geoJSON,
         markerLayer;
@@ -10,8 +12,12 @@ angular.module('service.main-map', [ 'ui.router'])
     function initMap() {
         mapElement = 'map',
         defaultView = [47.603569, -122.329453],
-        defaultZoom = 12,
+       defaultZoom = 12,
         map = L.mapbox.map(mapElement, '<%= Deglassified::Application.config.mapbox_map_id %>').setView(defaultView, defaultZoom);
+
+        // Get the innerHTML of the hidden #restrict-legend container, and use as the
+        // legend's HTML
+        map.legendControl.addLegend(document.getElementById('restriction-legend').innerHTML);
 
         geoJSON = {
             type: 'FeatureCollection',
@@ -52,7 +58,7 @@ angular.module('service.main-map', [ 'ui.router'])
         // Set the color for the marker depending on the restriction type
         if (business.restriction_type === 'full') {
             // Red
-            marker.properties['marker-color'] = '#FF1919';
+            marker.properties['marker-color'] = '#E90000';
         } else if (business.restriction_type === 'specific') {
             // Orange
             marker.properties['marker-color'] = '#FF6600';

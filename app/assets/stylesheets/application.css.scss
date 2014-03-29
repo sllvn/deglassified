@@ -298,17 +298,47 @@ body, html, .fill-height {
 
 .leaflet-popup-content {
     h4 {
-        font-size: 24px !important;
+        font-size: 20px !important;
+        font-weight: bold;
     }   
     hr {
         margin: 0 0 0.2rem 0;
     }
     .full-ban {
         font-weight: bold;
-        color: #FF3300;
+        color: #E90000;
     }
     .specific-restriction {
         font-weight: bold;
         color: #FF6600;
+    }
+}
+
+// This container is only used for the .innerHTML property, when added the legend to
+// map.legendControl
+#restriction-legend {
+    display: none;
+}
+
+// Styling for the actually used legend for restriction marker colors
+.map-legend {
+    ul {
+        font-size: 12px;
+        margin: 0;
+        list-style: none; 
+        li {
+            span.red, span.orange {
+                float: left;
+                margin-right: 5px;
+                width: 30px;
+                height: 16px;
+            }
+            span.red {
+                background-color: red;
+            } 
+            span.orange {
+                background-color: orange;
+            } 
+        } 
     }
 }
