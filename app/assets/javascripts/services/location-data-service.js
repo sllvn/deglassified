@@ -2,6 +2,7 @@ angular.module('service.location-data', [])
 
 // TODO: Find a way to run this without having to inject service in a controller
 .service('locationDataService', function($rootScope, $q, $http) {
+    var apiUrl = '/api/locations/';
     var cachedLocations = {};
 
     function getSingle(locationSlug) {
@@ -11,11 +12,11 @@ angular.module('service.location-data', [])
         if (!cachedLocations[locationSlug]) {
             $http({
                 method: 'GET',
-                url: '/api/locations/' + locationSlug
+                url: apiUrl + locationSlug
             })
             .success(function(data) {
                 var location = data.location;
-                cachedLocations[location.slug] = location;
+                cachedLocations[locationSlug] = location;
                 deferred.resolve(location);
             })
             .error(function(data, status) {
@@ -34,7 +35,7 @@ angular.module('service.location-data', [])
 
         $http({
             method: 'GET',
-            url: '/api/locations/'
+            url: apiUrl
         })
         .success(function(data) {
             deferred.resolve(data.locations);

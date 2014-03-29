@@ -1,23 +1,15 @@
 //= require mapbox.js
 
-angular.module('service.main-map', [ 'ui.router'])
+angular.module('factory.main-map', [ 'ui.router'])
 
-.service('mainMapService', function($rootScope, $state) {
-    var redColorHex = '#E90000',
-        orangeColorHex = '#FF6600';
+.factory('mapboxFactory', function($rootScope, $state) {
     var map,
         geoJSON,
         markerLayer;
 
-    function initMap() {
-        mapElement = 'map',
+    function initMap(mapElement, zoom) {
         defaultView = [47.603569, -122.329453],
-       defaultZoom = 12,
-        map = L.mapbox.map(mapElement, '<%= Deglassified::Application.config.mapbox_map_id %>').setView(defaultView, defaultZoom);
-
-        // Get the innerHTML of the hidden #restrict-legend container, and use as the
-        // legend's HTML
-        map.legendControl.addLegend(document.getElementById('restriction-legend').innerHTML);
+        map = L.mapbox.map(mapElement, '<%= Deglassified::Application.config.mapbox_map_id %>').setView(defaultView, zoom);
 
         geoJSON = {
             type: 'FeatureCollection',
@@ -58,7 +50,7 @@ angular.module('service.main-map', [ 'ui.router'])
         // Set the color for the marker depending on the restriction type
         if (business.restriction_type === 'full') {
             // Red
-            marker.properties['marker-color'] = '#E90000';
+            marker.properties['marker-color'] = '#FF1919';
         } else if (business.restriction_type === 'specific') {
             // Orange
             marker.properties['marker-color'] = '#FF6600';
@@ -155,12 +147,14 @@ angular.module('service.main-map', [ 'ui.router'])
         map.panTo([coords.lat, coords.lng]);
     }
 
-    return {
-        initMap: initMap,
-        clearMarkers: clearMarkers,
-        loadLocation: loadLocation,
-        addBusinessesToMapbox: addBusinessesToMapbox,
-        openBusinessPopup: openBusinessPopup
+    return function(mapElement, zoom) {
+        initMap(mapElement, zoom);
+        return {
+            clearMarkers: clearMarkers,
+            loadLocation: loadLocation,
+            addBusinessesToMapbox: addBusinessesToMapbox,
+            openBusinessPopup: openBusinessPopup
+        }
     };
 
 })

@@ -32,29 +32,29 @@
 
                 <tr>
                     <td>Restriction:</td>
-                    <td ng-if="business.restriction == 'full-ban'">Full ban</td>
-                    <td ng-if="business.restriction == 'specific'">Specific restriction</td>
+                    <td ng-if="business.restriction_type == 'full'">Full ban</td>
+                    <td ng-if="business.restriction_type == 'specific'">Specific restriction</td>
                 </tr>
                 <tr ng-if="business.notes">
                     <td>Notes:</td>
                     <td>{{business.notes}}</td>
                 </tr>
 
-                <tr ng-if='business.website'>
+                <tr ng-if='business.links.website'>
                     <td>Website:</td>
-                    <td><a href='http://{{business.website}}'>{{business.website}}</a></td>
+                    <td><a href='http://{{business.links.website}}'>{{business.links.website}}</a></td>
                 </tr>
-                <tr ng-if='business.yelp'>
+                <tr ng-if='business.links.yelp'>
                     <td>Yelp:</td>
-                    <td><a href='http://{{business.yelp}}'>{{business.yelp}}</a></td>
+                    <td><a href='http://{{business.links.yelp}}'>{{business.links.yelp}}</a></td>
                 </tr>
-                <tr ng-if='business.facebook'>
+                <tr ng-if='business.links.facebook'>
                     <td>Facebook:</td>
-                    <td><a href='http://{{business.facebook}}'>{{business.facebook}}</a></td>
+                    <td><a href='http://{{business.links.facebook}}'>{{business.links.facebook}}</a></td>
                 </tr>
-                <tr ng-if='business.twitter'>
+                <tr ng-if='business.links.twitter'>
                     <td>Twitter:</td>
-                    <td><a href='http://{{business.twitter}}'>{{business.twitter}}</a></td>
+                    <td><a href='http://{{business.links.twitter}}'>{{business.links.twitter}}</a></td>
                 </tr>
             </tbody>
         </table>
