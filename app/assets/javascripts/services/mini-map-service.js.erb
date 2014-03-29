@@ -42,10 +42,10 @@ angular.module('service.mini-map', [])
             "<hr>" +
             "<p>" + business.address + "</p>";
 
-        if (business.restriction === 'full') {
+        if (business.restriction_type === 'full') {
             content += "<p class='full-ban'>" +
                 "<i class='fi-prohibited'></i> full ban</p>";
-        } else if (business.restriction === 'specific') {
+        } else if (business.restriction_type === 'specific') {
             content += "<p class='specific-restriction'>" +
                 "<i class='fi-prohibited'></i> specific restriction</p>";
         }

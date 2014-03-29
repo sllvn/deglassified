@@ -22,6 +22,10 @@ angular.module('state.add-business.page-1', [
 })
 
 .controller('addBusinessPage1Ctrl', function($scope, $state, locationDataService, geocodingService) {
+    // If links object does not already exist
+    if (!$scope.business.links) {
+        $scope.business.links = {};
+    }
     var progressButton = Ladda.create(document.querySelector('.submit-button'));
 
     $scope.select2Options = {

@@ -13,9 +13,9 @@
             <input type='text' ng-model='business.address' placeholder='1122 Madison St, Seattle, WA 98104' required>
 
             <label class='required'>Google Glass Restriction *</label>
-            <input type='radio' ng-model='business.restriction' value='full-ban' id='full-ban' name='restriction' required>
+            <input type='radio' ng-model='business.restriction_type' value='full' id='full-ban' name='restriction' required>
             <label for='full-ban'>Full ban</label>
-            <input type='radio' ng-model='business.restriction' value='specific' id='specific' name='restriction' required>
+            <input type='radio' ng-model='business.restriction_type' value='specific' id='specific' name='restriction' required>
             <label for='specific'>Specific restriction</label>
 
             <textarea placeholder='Glass users must cover their camera inside the store.' ng-model='business.notes'></textarea>
@@ -25,16 +25,16 @@
 
         <div class='large-6 columns'>
             <label for='website'>Website</label>
-            <input type='text' id='website' ng-model='business.website' placeholder='www.example.com'>
+            <input type='text' id='website' ng-model='business.links.website' placeholder='www.example.com'>
 
             <label for='yelp'>Yelp</label>
-            <input type='text' id='yelp' ng-model='business.yelp' placeholder='yelp.com/biz/example-business'>
+            <input type='text' id='yelp' ng-model='business.links.yelp' placeholder='yelp.com/biz/example-business'>
 
             <label for='facebook'>Facebook</label>
-            <input type='text' id='facebook' ng-model='business.facebook' placeholder='facebook.com/business-page'>
+            <input type='text' id='facebook' ng-model='business.links.facebook' placeholder='facebook.com/business-page'>
 
             <label for='twitter'>Twitter</label>
-            <input type='text' id='twitter' ng-model='business.twitter' placeholder='twitter.com/business'>
+            <input type='text' id='twitter' ng-model='business.links.twitter' placeholder='twitter.com/business'>
             <button class='button medium success ladda-button submit-button' data-style='expand-right' type='submit' ng-disabled='addLocationForm.$invalid'>
                 <span class='ladda-label'>Find Business on Map</span>
             </button>
