@@ -25,7 +25,7 @@ class BusinessesController < ApplicationController
       return
     end
 
-    @business = Business.new(business_params)
+    @business = Business.new(business_params.merge(business_params[:links]).except(:links))
     location = Location.find_by(city: params[:business][:location]) || Location.create_and_geocode(params[:business][:location])
     @business.location = location
 
@@ -45,7 +45,7 @@ class BusinessesController < ApplicationController
     location = Location.find_by(city: params[:business][:location]) || Location.create_and_geocode(params[:business][:location])
     @business.location = location
 
-    if @business.update(business_params)
+    if @business.update(business_params.merge(business_params[:links]).except(:links))
       head :no_content
     else
       render json: @business.errors, status: :unprocessable_entity
@@ -55,6 +55,6 @@ class BusinessesController < ApplicationController
   private
 
   def business_params
-    params.require(:business).permit(:name, :address, :lat, :lng, :website, :facebook, :twitter, :yelp, :restriction_type, :notes)
+    params.require(:business).permit(:name, :address, :lat, :lng, :restriction_type, :notes, links: [:website, :facebook, :twitter, :yelp])
   end
 end
