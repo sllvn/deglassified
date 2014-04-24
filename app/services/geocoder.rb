@@ -1,19 +1,29 @@
 class Geocoder
   def self.geocode(city)
     begin
-      req = Faraday.get("https://maps.googleapis.com/maps/api/geocode/json?key=#{ENV['GOOGLE_GEOCODING_API_KEY']}&sensor=false&address=#{URI.escape(city)}")
+      req = Faraday.get("http://www.mapquestapi.com/geocoding/v1/address?key=#{ENV['MAPQUEST_GEOCODING_API_KEY']}&location=#{URI.escape(city)}")
       geocoded = JSON.parse(req.body)
-      result = geocoded['results'].first
+      result = geocoded['results'].first['locations'].first
       return { status: 'ZERO_RESULTS' } unless result
+
+      city_key = result.find { |k,v| v == 'City' }.first.gsub('Type', '')
+      city = result[city_key] || ''
+      state_key = result.find { |k,v| v == 'State' }.first.gsub('Type', '')
+      state = result[state_key] || ''
+      country_key = result.find { |k,v| v == 'Country' }.first.gsub('Type', '')
+      country = result[country_key] || ''
+
+      formatted_address = "#{result['street']}, #{city}, #{state} #{result['postalCode']}, #{country}"
+
       {
         status: 'OK',
         result: {
-          formatted_address: result['formatted_address'],
-          city: result['address_components'].find { |ac| ac['types'].find { |t| t == 'locality' } }['long_name'],
-          state: result['address_components'].find { |ac| ac['types'].find { |t| t == 'administrative_area_level_1' } }['short_name'],
+          formatted_address: formatted_address,
+          city: city,
+          state: state,
           coords: {
-            lat: result['geometry']['location']['lat'].to_f,
-            lng: result['geometry']['location']['lng'].to_f
+            lat: result['displayLatLng']['lat'].to_f,
+            lng: result['displayLatLng']['lng'].to_f
           }
         }
       }
